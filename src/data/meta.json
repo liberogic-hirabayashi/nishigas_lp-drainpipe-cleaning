@@ -1,0 +1,15 @@
+{
+  "default": {
+    "locale": "ja_JP",
+    "themecolor": "",
+    "sitename": "sitename",
+    "title": "default_title",
+    "description": "default_description",
+    "keywords": "",
+    "ogType": "article",
+    "ogImage": "ogimage.png"
+  },
+  "top": {
+    "ogType": "website"
+  }
+}

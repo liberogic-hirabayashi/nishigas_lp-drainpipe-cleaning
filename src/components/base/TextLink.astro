@@ -1,0 +1,73 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'a'> {
+  icon?: 'arrow' | 'blank' | 'pdf' | 'none';
+}
+
+const { href, target, icon = target === '_blank' ? 'blank' : 'none', class: className, ...rest } = Astro.props;
+
+const rel = target === '_blank' ? 'noopener' : undefined;
+const isPdf = icon === 'pdf' || (typeof href === 'string' && href.endsWith('.pdf'));
+---
+
+<a {href} {target} {rel} class:list={['TextLink', className]} data-icon={icon} {...rest}
+  ><slot />{
+    (isPdf || target === '_blank') && (
+      <span class="sr-only">
+        {isPdf && target === '_blank'
+          ? '（PDF形式・新しいタブで開く）'
+          : isPdf
+            ? '（PDF形式）'
+            : '（新しいタブで開く）'}
+      </span>
+    )
+  }<slot name="icon-right" /></a
+>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .TextLink {
+      line-height: 1.5;
+      color: var(--color-link);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-decoration-color: currentcolor;
+      text-underline-offset: 0.2em;
+      @include hover {
+        text-decoration: none;
+      }
+      &:not([data-icon='none']) {
+        &::after {
+          --_size: 1em;
+          position: relative;
+          top: -2px;
+          display: inline-block;
+          flex-shrink: 0;
+          width: var(--_size);
+          height: var(--_size);
+          margin-inline: 2px;
+          vertical-align: middle;
+          content: '';
+          background: currentcolor;
+        }
+        &[data-icon='arrow'] {
+          &::after {
+            mask: var(--icon-arrow-right) center / contain;
+          }
+        }
+        &[data-icon='blank'] {
+          &::after {
+            mask: var(--icon-blank) center / contain;
+          }
+        }
+        &[data-icon='pdf'] {
+          &::after {
+            mask: var(--icon-pdf) center / contain;
+          }
+        }
+      }
+    }
+  }
+</style>

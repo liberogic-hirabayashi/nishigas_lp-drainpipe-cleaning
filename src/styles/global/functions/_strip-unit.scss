@@ -1,0 +1,11 @@
+@use 'sass:math';
+// @overview - 単位付きの値から単位を取り除く
+// strip-unit(32px) => 32
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return math.div($number, ($number * 0 + 1));
+  }
+
+  @return $number;
+}

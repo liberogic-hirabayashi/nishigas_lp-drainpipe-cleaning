@@ -1,0 +1,81 @@
+---
+import { LOCALES, DEFAULT_LOCALE } from '@/lib/i18n';
+import metadata from '@/data/meta.json';
+const locale = Astro.currentLocale ?? DEFAULT_LOCALE;
+
+const { title, description, url, ogimage, metakey, noindex } = Astro.props;
+
+const _metadata = metadata as Record<string, Record<string, any>>;
+const _default = _metadata['default'];
+const meta = metakey == '' ? _default : _metadata[metakey];
+
+for (let key in _default) {
+  if (typeof meta[key] === 'undefined') {
+    meta[key] = _default[key];
+  }
+}
+
+const ogImageURL = new URL('/assets/img/' + meta.ogImage, Astro.site);
+
+const canonicalURL = url ? url : new URL(Astro.url.pathname, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<meta name="format-detection" content="telephone=no" />
+<title>{title || meta.title}</title>
+{noindex ? <meta name="robots" content="noindex" /> : []}
+<meta name="description" content={description || meta.description} />
+{meta.keywords ? <meta name="keywords" content={meta.keywords} /> : []}
+{meta.themecolor ? <meta name="theme-color" content={meta.themecolor} /> : []}
+
+{/* og */}
+<meta property="og:site_name" content={meta.sitename} />
+<meta property="og:locale" content={LOCALES[locale].oglocale || meta.locale} />
+<meta property="og:type" content={meta.ogType} />
+<meta property="og:title" content={title || meta.title} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogimage || ogImageURL} />
+<meta property="og:description" content={description || meta.description} />
+<meta name="twitter:card" content="summary_large_image" />
+
+{/* favicon */}
+
+{/* webfont */}
+
+<link rel="canonical" href={canonicalURL} />
+
+<script>
+  // ビューポートの設定値を定数として保持
+  const VIEWPORT = {
+    default: 'width=device-width, initial-scale=1',
+    fixed: 'width=375',
+  };
+
+  // メインの処理を関数として定義
+  const updateViewport = () => {
+    // 375px未満はviewport固定
+    const viewport = document.querySelector<HTMLMetaElement>('meta[name=viewport]');
+    if (viewport) {
+      const newContent = window.outerWidth >= 375 ? VIEWPORT.default : VIEWPORT.fixed;
+      if (viewport.content !== newContent) {
+        viewport.content = newContent;
+      }
+    }
+  };
+
+  // ResizeObserverの設定
+  const observer = new ResizeObserver(() => {
+    requestAnimationFrame(updateViewport);
+  });
+
+  // 監視開始
+  observer.observe(document.documentElement);
+
+  // 初期実行
+  updateViewport();
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', updateViewport);
+</script>

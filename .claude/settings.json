@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; case \"$f\" in *.js|*.ts|*.astro) npx eslint --fix \"$f\" 2>/dev/null;; esac; case \"$f\" in *.scss|*.css|*.astro) npx stylelint --fix \"$f\" 2>/dev/null;; esac; case \"$f\" in *.js|*.ts|*.astro|*.scss|*.css|*.json) npx prettier --write \"$f\" 2>/dev/null;; esac; true; }"
+          }
+        ]
+      }
+    ]
+  }
+}

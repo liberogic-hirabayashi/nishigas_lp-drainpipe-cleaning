@@ -1,0 +1,235 @@
+@use '../global' as *;
+
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Noto Sans JP Thin'), local('NotoSansJP-Thin'), local('Noto Sans JP');
+}
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Noto Sans JP Light'), local('NotoSansJP-Light'), local('Noto Sans JP');
+}
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans JP Regular'), local('NotoSansJP-Regular'), local('Noto Sans JP');
+}
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Noto Sans JP Medium'), local('NotoSansJP-Medium'), local('Noto Sans JP');
+}
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Sans JP Bold'), local('NotoSansJP-Bold'), local('Noto Sans JP');
+}
+@font-face {
+  font-family: 'Local Noto Sans JP';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Noto Sans JP Black'), local('NotoSansJP-Black'), local('Noto Sans JP');
+}
+
+@layer base {
+  :root {
+    scrollbar-gutter: stable;
+    &:has(:modal) {
+      overflow: hidden;
+    }
+    // role=dialog のモーダル展開時に背景固定(ハンバーガーのoverlay時など)
+    &:has([role='dialog'][data-active='true']) {
+      overflow: hidden;
+    }
+  }
+
+  html {
+    &:has(.GlobalHeader[data-sticky='true']) {
+      scroll-padding-top: var(--header-height);
+    }
+    &:has(dialog[modal-mode][open]) {
+      overflow: hidden;
+    }
+  }
+  body {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: var(--font);
+    font-size: var(--size-clamp);
+    line-height: 1.75;
+    color: var(--color-text);
+    letter-spacing: 0.024em;
+    line-break: strict;
+    overflow-wrap: anywhere;
+    background: var(--color-bg-body);
+    transition: background 0.4s;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  main {
+    flex: 1;
+  }
+  dialog:not([open], [popover]),
+  [popover]:not(:popover-open) {
+    display: none !important;
+  }
+
+  *,
+  ::before,
+  ::after {
+    --clamp-min: var(--text-base-min);
+    --clamp-max: var(--text-base-max);
+    --clamp-slope: calc(
+      (var(--clamp-max, var(--clamp-base)) - var(--clamp-min, var(--clamp-base))) / var(--clamp-viewport-range)
+    );
+    --clamp-intersection: calc(
+      (var(--clamp-max, var(--clamp-base)) - var(--clamp-viewport-max) * var(--clamp-slope)) / var(--clamp-base)
+    );
+    --size-clamp: clamp(
+      calc(var(--clamp-min, var(--clamp-base)) / var(--clamp-base) * 1rem),
+      calc(var(--clamp-intersection) * 1rem + 100 * var(--clamp-slope) * 1vw),
+      calc(var(--clamp-max, var(--clamp-base)) / var(--clamp-base) * 1rem)
+    );
+  }
+
+  p:not([class]) + p:not([class]) {
+    margin-top: 1lh;
+  }
+
+  em {
+    font-style: normal;
+  }
+
+  hr {
+    border-color: var(--color-border);
+  }
+
+  /* Anchors
+  ---------------------------------------- */
+  a {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    &:visited {
+      text-decoration: underline;
+    }
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: none;
+      }
+      &:active {
+        text-decoration: none;
+      }
+    }
+  }
+  a[href^='http'],
+  a[href^='mailto:'] {
+    word-break: break-all;
+  }
+  @media (pointer: fine) {
+    a[href^='tel:'] {
+      color: inherit;
+      text-decoration: none;
+      pointer-events: none;
+    }
+  }
+  // :where(:any-link) {
+  //   text-decoration-color: color-mix(in srgb, currentcolor, transparent 40%);
+  //   text-underline-offset: 0.25em;
+  // }
+
+  // :whereで詳細度を0にし、後段の状態ルール（[disabled] / [aria-busy='true'] 等のcursor）が効くようにする
+  :where(button, [type='button'], [type='reset'], [type='submit']) {
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+
+  /* Accessibility
+  ---------------------------------------- */
+
+  /**
+   * フォーカスインジケーターの見た目を変更
+   * :whereでリスト内の詳細度を均して低く保ち、後段の :focus:not(:focus-visible) の打ち消しが効くようにする
+   */
+  :where(a[href], button, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 1px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 4px var(--color-focus-bg);
+  }
+  :where(input:not([type='hidden']), textarea, select):focus-visible {
+    outline: 2px solid var(--color-focus);
+    border-radius: 2px;
+    box-shadow: 0 0 0 3px var(--color-focus-bg);
+  }
+
+  /**
+   * キーボードでアクセスできない要素のフォーカスインジケーターを無効化する。
+   */
+  [tabindex='-1']:focus {
+    outline: none !important;
+  }
+
+  /**
+   * `aria-busy="true"`が指定された要素ではカーソルを読み込みの時のものにする。
+   */
+  [aria-busy='true'] {
+    cursor: progress;
+  }
+
+  /*
+   * `disabled`された要素ではカーソルで要求された操作が受け付けられないことを示す。
+   */
+  [aria-disabled='true'],
+  [disabled] {
+    cursor: not-allowed;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  :focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  /**
+   * inert属性が付与されている要素は操作対象外にする。
+   * モーダル実装時に必ずinertのPolyfillを導入する。
+   */
+  [inert] {
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+
+  [inert],
+  [inert] * {
+    user-select: none !important;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after,
+    ::backdrop {
+      scroll-behavior: auto !important;
+      background-attachment: scroll !important;
+      transition-delay: 0s !important;
+      transition-duration: 1ms !important;
+      animation-duration: 1ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}

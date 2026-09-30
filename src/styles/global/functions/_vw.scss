@@ -1,0 +1,15 @@
+@use 'sass:math';
+
+// @overview - vwでサイズ指定
+// vw(16) => --artboad-sizeが1440の場合、1440pxの時に16pxになる大きさで可変になる
+// vw(16, 375) => --artboad-sizeが375pxの時に16pxになる大きさで可変になる
+//
+// @example scss - Usage
+//
+// .example {
+//   font-size: vw(16);
+// }
+
+@function vw($size, $viewport:var(--artboad-size)) {
+  @return calc(100 / $viewport * $size * 1vw);
+}

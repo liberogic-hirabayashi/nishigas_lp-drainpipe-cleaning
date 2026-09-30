@@ -1,0 +1,129 @@
+---
+import type { SpacingSize } from '@/config/spacing';
+import type { HTMLAttributes } from 'astro/types';
+
+export type ListType = 'disc' | 'decimal' | 'paren' | 'circle';
+
+export interface Props extends HTMLAttributes<'ul'> {
+  tag?: 'ul' | 'ol';
+  gap?: SpacingSize;
+  type?: ListType;
+}
+
+const { tag = 'ul', gap = '0', type, class: className, ...rest } = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag class:list={['List', className]} data-type={type} data-gap={gap} {...rest}>
+  <slot />
+</Tag>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    // 塗り円マーカー（disc / circle 共通）。テキスト行の光学中央に配置する
+    @mixin dot($size) {
+      list-style-type: '';
+      :global(> li) {
+        position: relative;
+        padding-left: 1.25em;
+        &::before {
+          --_size: #{$size};
+          position: absolute;
+          top: calc(0.5lh - var(--_size) / 2);
+          left: calc(0.45em - var(--_size) / 2);
+          width: var(--_size);
+          height: var(--_size);
+          content: '';
+          background: currentcolor;
+          border-radius: 50%;
+        }
+      }
+    }
+    @mixin disc {
+      @include dot(calc(4 / 16 * 1em));
+    }
+    @mixin decimal {
+      padding-left: 1.25em;
+      list-style-type: decimal;
+    }
+    @mixin paren($cnt: num) {
+      counter-reset: $cnt;
+      :global(> li) {
+        position: relative;
+        padding-left: 2em;
+        counter-increment: $cnt;
+        &:nth-child(n + 10) {
+          padding-left: 2.75em;
+        }
+        &::before {
+          position: absolute;
+          left: -0.5em;
+          display: marker;
+          content: '（' counter($cnt) '）';
+        }
+      }
+    }
+    @mixin circle {
+      @include dot(calc(12 / 16 * 1em));
+    }
+    .List {
+      &[data-type='disc'],
+      :global([data-type='disc']) {
+        padding-left: 0;
+        list-style: none;
+        @include disc;
+      }
+      &[data-type='decimal'],
+      :global([data-type='decimal']) {
+        @include decimal;
+      }
+      &[data-type='paren'],
+      :global([data-type='paren']) {
+        padding-left: 0;
+        list-style: none;
+        @include paren;
+      }
+      &[data-type='circle'],
+      :global([data-type='circle']) {
+        padding-left: 0;
+        list-style: none;
+        @include circle;
+      }
+      &[data-type='disc'],
+      &[data-type='decimal'],
+      &[data-type='paren'],
+      &[data-type='circle'] {
+        :global([data-type='disc']) {
+          @include disc;
+        }
+        :global([data-type='decimal']) {
+          @include decimal;
+        }
+        :global([data-type='paren']) {
+          padding-left: 0;
+          list-style: none;
+          :global(> li) {
+            @include paren(num2);
+          }
+        }
+        :global([data-type='circle']) {
+          @include circle;
+        }
+      }
+      :global(> li + li) {
+        margin-top: var(--_gap);
+      }
+      @each $name in $t-spacing-names {
+        &[data-gap='#{$name}'] {
+          @if $name == '0' {
+            --_gap: 0;
+          } @else {
+            --_gap: var(--spacing-#{$name});
+          }
+        }
+      }
+    }
+  }
+</style>

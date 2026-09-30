@@ -1,0 +1,243 @@
+---
+import Icon from '@/components/base/Icon.astro';
+import IconButton from '@/components/base/IconButton.astro';
+
+export interface Props {
+  id: string;
+  label: string;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+  dismiss?: 'timeout' | 'button';
+  timeout?: number;
+  triggerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'inline';
+  icon?: string;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  position = 'top',
+  dismiss = 'timeout',
+  timeout = 4000,
+  triggerSize = 'sm',
+  icon = 'circle-question-mark',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const anchorName = `--tooltip-anchor-${id}`;
+---
+
+<span class:list={['Tooltip', className]} data-position={position} {...rest}>
+  <slot name="trigger">
+    <IconButton
+      type="button"
+      variant="text"
+      size={triggerSize}
+      aria-label={label}
+      popovertarget={id}
+      popovertargetaction="toggle"
+      style={`anchor-name:${anchorName}`}
+    >
+      <Icon name={icon} aria-hidden />
+    </IconButton>
+  </slot>
+  <span
+    id={id}
+    class="panel"
+    popover="auto"
+    role={dismiss === 'timeout' ? 'tooltip' : 'group'}
+    aria-label={dismiss === 'button' ? label : undefined}
+    data-timeout={dismiss === 'timeout' ? timeout : undefined}
+    style={`position-anchor:${anchorName}`}
+  >
+    <slot />
+    {
+      dismiss === 'button' && (
+        <IconButton
+          type="button"
+          variant="text"
+          size="xs"
+          aria-label="閉じる"
+          popovertarget={id}
+          popovertargetaction="hide"
+          class="close"
+        >
+          <Icon name="x" aria-hidden />
+        </IconButton>
+      )
+    }
+  </span>
+</span>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Tooltip {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      :global([data-size='inline']) {
+        position: static;
+        margin-inline: var(--spacing-3xs);
+      }
+      .panel {
+        position: fixed;
+        inset: auto;
+        width: max-content;
+        max-width: 20rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+        margin: 0;
+        font-size: var(--text-sm);
+        font-weight: normal;
+        line-height: 1.5;
+        color: var(--color-white);
+        text-align: start;
+        background: var(--color-bg-tooltip);
+        border: none;
+        border-radius: var(--rounded-sm);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        transition:
+          opacity var(--default-duration) var(--default-easing),
+          overlay var(--default-duration) var(--default-easing) allow-discrete,
+          display var(--default-duration) var(--default-easing) allow-discrete;
+        &:popover-open {
+          opacity: 1;
+          @starting-style {
+            opacity: 0;
+          }
+        }
+        :global(a) {
+          color: currentcolor;
+        }
+        &::backdrop {
+          background: transparent;
+        }
+        .close {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          color: inherit;
+        }
+      }
+      // CSS Anchor Positioning対応ブラウザ: position-areaで配置し、はみ出す場合は自動で反転
+      @supports (anchor-name: --a) {
+        &[data-position='top'] .panel {
+          margin-block-end: var(--spacing-2xs);
+          position-area: top;
+          position-try-fallbacks: flip-block;
+        }
+        &[data-position='bottom'] .panel {
+          margin-block-start: var(--spacing-2xs);
+          position-area: bottom;
+          position-try-fallbacks: flip-block;
+        }
+        &[data-position='left'] .panel {
+          margin-inline-end: var(--spacing-2xs);
+          position-area: left;
+          position-try-fallbacks: flip-inline;
+        }
+        &[data-position='right'] .panel {
+          margin-inline-start: var(--spacing-2xs);
+          position-area: right;
+          position-try-fallbacks: flip-inline;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  function initTooltips() {
+    const supportsAnchor = CSS.supports('anchor-name', '--a');
+    const GAP = 8;
+    const VIEWPORT_PADDING = 8;
+
+    document.querySelectorAll<HTMLElement>('.Tooltip').forEach((tooltip) => {
+      const panel = tooltip.querySelector<HTMLElement>('[popover]');
+      const trigger = tooltip.querySelector<HTMLElement>('[popovertarget]');
+      if (!panel || !trigger) return;
+
+      const position = tooltip.dataset.position ?? 'top';
+      let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+      const place = () => {
+        if (supportsAnchor) return;
+        const t = trigger.getBoundingClientRect();
+        const p = panel.getBoundingClientRect();
+        let top = 0;
+        let left = 0;
+        switch (position) {
+          case 'bottom':
+            top = t.bottom + GAP;
+            left = t.left + t.width / 2 - p.width / 2;
+            break;
+          case 'left':
+            top = t.top + t.height / 2 - p.height / 2;
+            left = t.left - p.width - GAP;
+            break;
+          case 'right':
+            top = t.top + t.height / 2 - p.height / 2;
+            left = t.right + GAP;
+            break;
+          default:
+            top = t.top - p.height - GAP;
+            left = t.left + t.width / 2 - p.width / 2;
+        }
+        left = Math.min(Math.max(VIEWPORT_PADDING, left), window.innerWidth - p.width - VIEWPORT_PADDING);
+        top = Math.min(Math.max(VIEWPORT_PADDING, top), window.innerHeight - p.height - VIEWPORT_PADDING);
+        panel.style.top = `${top}px`;
+        panel.style.left = `${left}px`;
+      };
+
+      const clearHideTimer = () => {
+        if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+      };
+
+      const startHideTimer = () => {
+        const ms = Number(panel.dataset.timeout);
+        if (!ms) return;
+        clearHideTimer();
+        hideTimer = setTimeout(() => panel.hidePopover(), ms);
+      };
+
+      panel.addEventListener('beforetoggle', (e) => {
+        if ((e as ToggleEvent).newState === 'open') {
+          place();
+          startHideTimer();
+        } else {
+          clearHideTimer();
+        }
+      });
+
+      // 読んでいる間（ホバー・フォーカス中）は自動クローズを止める
+      panel.addEventListener('mouseenter', clearHideTimer);
+      panel.addEventListener('mouseleave', startHideTimer);
+      panel.addEventListener('focusin', clearHideTimer);
+      panel.addEventListener('focusout', startHideTimer);
+
+      if (!supportsAnchor) {
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (panel.matches(':popover-open')) place();
+          },
+          true
+        );
+        window.addEventListener('resize', () => {
+          if (panel.matches(':popover-open')) place();
+        });
+      }
+    });
+  }
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initTooltips);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initTooltips);
+</script>

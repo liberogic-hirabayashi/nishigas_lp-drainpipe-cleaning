@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'nav'> {
+  class?: string;
+}
+
+// 1ページに複数のナビゲーションを置く場合はaria-labelで区別する。省略時は「メインメニュー」
+const { class: className, 'aria-label': ariaLabel = 'メインメニュー', ...rest } = Astro.props;
+---
+
+<nav class:list={['NavigationMenu', className]} aria-label={ariaLabel} {...rest}>
+  <ul>
+    <slot />
+  </ul>
+</nav>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .NavigationMenu {
+      > ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+      }
+    }
+  }
+</style>

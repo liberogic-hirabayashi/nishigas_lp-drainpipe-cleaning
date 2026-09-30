@@ -1,0 +1,106 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'input'> {
+  text?: string;
+}
+
+const { text, class: className, ...rest } = Astro.props;
+// ラベルはtextかslotのどちらでも渡せる（リンク等を含むラベルはslotで）。どちらも無ければspan自体を出さない
+const hasLabel = text !== undefined || Astro.slots.has('default');
+---
+
+<label class:list={['Checkbox', className]}>
+  <input type="checkbox" {...rest} />
+  {
+    hasLabel && (
+      <span>
+        <slot>{text}</slot>
+      </span>
+    )
+  }
+</label>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @use 'sass:math';
+  @layer components {
+    .Checkbox {
+      display: inline-flex;
+      gap: 8px;
+      cursor: pointer;
+      &:has(:disabled) {
+        color: var(--color-disabled);
+        cursor: not-allowed;
+      }
+      &:has(:focus-visible) {
+        outline: auto var(--color-focus);
+        outline-offset: 4px;
+      }
+      [type='checkbox'] {
+        --_size: 20px;
+        position: relative;
+        top: calc((1lh - var(--_size)) / 2);
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: var(--_size);
+        height: var(--_size);
+        container-type: inline-size;
+        appearance: none;
+        outline: none;
+        background: var(--color-white);
+        border: 1px solid var(--color-border-input);
+        border-radius: var(--rounded-sm);
+        &:focus-visible {
+          box-shadow: none;
+        }
+        &::before {
+          --_icon-size: 80cqi;
+          display: block;
+          width: var(--_icon-size);
+          aspect-ratio: 1;
+          content: '';
+          background: var(--color-white);
+          opacity: 0;
+          mask: var(--icon-checkbox) center / var(--_icon-size) var(--_icon-size) no-repeat;
+          scale: 0;
+          transition:
+            opacity var(--default-duration),
+            scale var(--default-duration);
+        }
+        &:checked {
+          background: var(--color-primary);
+          border-color: var(--color-primary);
+          &::before {
+            opacity: 1;
+            scale: 1;
+          }
+        }
+        // エラー(aria-invalid): 枠は選択状態に関わらず常にエラー色。
+        // 選択済みでもエラーになりうる（例: チェックボックス群の選択上限超過＝選んだものが当事者）。
+        // いつ aria-invalid を外すかは検証ロジック側の責務。地の淡赤は未選択のときだけ（選択時は塗りを尊重）。
+        // disabled は除外し、後段の :disabled を優先させる。
+        &[aria-invalid='true']:not(:disabled) {
+          border-color: var(--color-attention);
+        }
+        &[aria-invalid='true']:not(:checked, :disabled) {
+          background: var(--color-bg-attention);
+        }
+        // 選択済み＋エラー: primary ではなく attention で塗り、全体をエラー色で示す（白チェックは維持）
+        &[aria-invalid='true']:checked:not(:disabled) {
+          background: var(--color-attention);
+        }
+        &:disabled {
+          cursor: not-allowed;
+          background: var(--color-bg-disabled);
+          border-color: var(--color-bg-disabled);
+          &::before {
+            background: var(--color-disabled);
+          }
+        }
+      }
+    }
+  }
+</style>

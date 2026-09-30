@@ -1,0 +1,161 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageOutputFormat } from 'astro';
+import type { HTMLAttributes } from 'astro/types';
+import { breakpointsMax } from '@/config/breakpoints';
+
+interface Props extends HTMLAttributes<'picture'> {
+  src: ImageMetadata;
+  spSrc: ImageMetadata;
+  alt: string;
+  width?: number;
+  spWidth?: number;
+  height?: number;
+  spHeight?: number;
+  aspectRatio?: string;
+  format?: ImageOutputFormat;
+  quality?: number;
+  densities?: number[];
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  /** SP用画像の適用条件(media属性)。デフォルトは md 未満(767px以下) */
+  mediaQuery?: string;
+}
+
+async function generatePictureImage({
+  src,
+  spSrc,
+  width,
+  spWidth,
+  height,
+  spHeight,
+  format,
+  quality,
+  densities,
+}: Omit<Props, 'alt' | 'loading' | 'fetchpriority' | 'class' | 'aspectRatio'>) {
+  // デスクトップ用画像の生成
+  const imgSrc = await getImage({
+    src,
+    width: width,
+    height: height,
+    format,
+    quality,
+  });
+
+  // SP用画像の生成
+  const imgSpSrc = await getImage({
+    src: spSrc,
+    width: spWidth,
+    height: spHeight,
+    format,
+    quality,
+  });
+
+  let imgSrcSet = imgSrc.src;
+  let imgSpSrcSet = imgSpSrc.src;
+
+  // densitiesが指定されている場合、高解像度版も生成
+  if (densities && densities.length > 0) {
+    const srcSetItems = [imgSrc.src];
+    const spSrcSetItems = [imgSpSrc.src];
+
+    // デスクトップ用の高解像度画像
+    for (const density of densities) {
+      const highResSrc = await getImage({
+        src,
+        width: width ? Math.round(width * density) : undefined,
+        height: height ? Math.round(height * density) : undefined,
+        format,
+        quality,
+      });
+      srcSetItems.push(`${highResSrc.src} ${density}x`);
+    }
+
+    // SP用の高解像度画像
+    for (const density of densities) {
+      const highResSpSrc = await getImage({
+        src: spSrc,
+        width: spWidth ? Math.round(spWidth * density) : undefined,
+        height: spHeight ? Math.round(spHeight * density) : undefined,
+        format,
+        quality,
+      });
+      spSrcSetItems.push(`${highResSpSrc.src} ${density}x`);
+    }
+
+    imgSrcSet = srcSetItems.join(', ');
+    imgSpSrcSet = spSrcSetItems.join(', ');
+  }
+
+  return {
+    imgSrc: imgSrc.src,
+    imgSrcSet,
+    imgSpSrcSet,
+  };
+}
+
+const {
+  src,
+  width,
+  height,
+  spSrc,
+  spWidth,
+  spHeight,
+  alt,
+  aspectRatio,
+  format,
+  quality,
+  densities,
+  loading,
+  fetchpriority,
+  mediaQuery = `(max-width: ${breakpointsMax.md}px)`,
+  class: className,
+  ...rest
+} = Astro.props;
+
+// height 未指定なら ImageMetadata のアスペクト比から自動計算(CLS 防止)
+const computedWidth = width ?? src.width;
+const computedHeight = height ?? (width ? Math.round((src.height / src.width) * width) : src.height);
+const computedSpWidth = spWidth ?? spSrc.width;
+const computedSpHeight = spHeight ?? (spWidth ? Math.round((spSrc.height / spSrc.width) * spWidth) : spSrc.height);
+
+const { imgSrc, imgSrcSet, imgSpSrcSet } = await generatePictureImage({
+  src,
+  width,
+  height,
+  spSrc,
+  spWidth,
+  spHeight,
+  format,
+  quality,
+  densities,
+});
+---
+
+<picture class:list={['PictureImage', className]} {...rest}>
+  <source srcset={imgSpSrcSet} width={computedSpWidth} height={computedSpHeight} media={mediaQuery} />
+  <img
+    src={imgSrc}
+    srcset={imgSrcSet}
+    alt={alt}
+    width={computedWidth}
+    height={computedHeight}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    style={aspectRatio ? `aspect-ratio: ${aspectRatio}` : undefined}
+    decoding="async"
+  />
+</picture>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .PictureImage {
+      img:not([width]) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+</style>

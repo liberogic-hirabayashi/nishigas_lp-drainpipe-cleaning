@@ -1,0 +1,27 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations, DEFAULT_LOCALE } from '@/lib/i18n';
+const locale = Astro.currentLocale ?? DEFAULT_LOCALE;
+const t = useTranslations(locale);
+---
+
+{/* タグごと出し分け */}
+{
+  locale === 'ja' ? (
+    <p>タグごと出し分けja</p>
+  ) : locale === 'en' ? (
+    <p>タグごと出し分けen</p>
+  ) : locale === 'cn' ? (
+    <p>タグごと出し分けcn</p>
+  ) : null
+}
+
+{/* テキスト出し分け */}
+<p>{t({ ja: 'テキスト出し分けja', en: 'テキスト出し分けen', cn: 'テキスト出し分けcn' })}</p>
+
+{/* リンク出し分け */}
+<div>
+  <a href={getRelativeLocaleUrl(locale, '/')}>
+    {t({ ja: 'リンク出し分けja', en: 'リンク出し分けen', cn: 'リンク出し分けcn' })}
+  </a>
+</div>

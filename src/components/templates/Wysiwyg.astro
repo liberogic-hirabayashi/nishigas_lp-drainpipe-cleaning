@@ -1,0 +1,7 @@
+---
+const { ...rest } = Astro.props;
+---
+
+<article class="prose" {...rest}>
+  <slot />
+</article>

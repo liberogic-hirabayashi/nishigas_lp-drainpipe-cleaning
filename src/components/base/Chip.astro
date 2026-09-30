@@ -1,0 +1,93 @@
+---
+import Icon from '@/components/base/Icon.astro';
+
+export interface Props {
+  variant?: 'fill' | 'outline';
+  size?: 'sm' | 'md';
+  removable?: boolean; // 削除ボタンの表示フラグ
+  href?: string; // リンクとして使いたい場合（removable時は無視される）
+  button?: boolean; // ボタンとして使いたい場合（removable時は無視される）
+  class?: string;
+}
+
+const { variant = 'fill', size = 'md', removable = false, href, button, class: className, ...rest } = Astro.props;
+
+// タグの判定ロジック
+const isLink = !!href && !removable;
+const isButton = !!button && !removable && !isLink;
+
+// リンクやボタンに削除ボタンがある場合は、強制的にdivにする
+const Tag = isLink ? 'a' : isButton ? 'button' : 'div';
+---
+
+<Tag
+  class:list={['Chip', className]}
+  href={Tag === 'a' ? href : undefined}
+  type={Tag === 'button' ? 'button' : undefined}
+  data-variant={variant}
+  data-size={size}
+  data-removable={removable}
+  {...rest}
+>
+  <slot name="icon-left" />
+  <span class="label"><slot /></span>
+  {
+    removable && (
+      <button type="button" class="remove-button" aria-label="削除">
+        <Icon name="x" aria-hidden />
+      </button>
+    )
+  }
+</Tag>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Chip {
+      display: inline-flex;
+      gap: 0.5em;
+      align-items: center;
+      line-height: 1;
+      color: var(--color-text);
+      text-decoration: none;
+      border-radius: var(--rounded-full);
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+      &:is(a, button) {
+        &[data-variant='fill'] {
+          @include hover {
+            background-color: rgb(from var(--color-secondary) r g b / 80%);
+          }
+        }
+        &[data-variant='outline'] {
+          @include hover {
+            border-color: var(--color-primary);
+          }
+        }
+      }
+      &[data-size='sm'] {
+        padding: 0.4em 0.8em;
+        font-size: var(--text-xs);
+      }
+      &[data-size='md'] {
+        padding: 0.5em 1em;
+        font-size: var(--text-sm);
+      }
+      &[data-variant='fill'] {
+        background-color: var(--color-secondary);
+        border: 1px solid transparent;
+      }
+      &[data-variant='outline'] {
+        background-color: transparent;
+        border: 1px solid var(--color-border);
+      }
+      .remove-button {
+        svg {
+          width: 1em;
+          height: auto;
+        }
+      }
+    }
+  }
+</style>

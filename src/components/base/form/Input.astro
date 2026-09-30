@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'input'> {}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<input class:list={['Input', className]} {...rest} />
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @use 'sass:math';
+  @layer components {
+    .Input {
+      padding: 0.5rem 1rem;
+      font-size: rem(16);
+      color: var(--color-text);
+      background-color: #fff;
+      border: 1px solid var(--color-border-input);
+      border-radius: var(--rounded-sm);
+      &[aria-invalid='true'] {
+        background: var(--color-bg-attention);
+        border-color: var(--color-attention);
+      }
+      &[readonly] {
+        background: var(--color-bg-readonly);
+      }
+      &:disabled {
+        color: var(--color-disabled);
+        background: var(--color-bg-disabled);
+        border-color: var(--color-bg-disabled);
+        &::placeholder {
+          color: var(--color-disabled);
+        }
+      }
+      &::placeholder {
+        color: var(--color-placeholder);
+      }
+    }
+  }
+</style>

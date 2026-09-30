@@ -1,0 +1,364 @@
+---
+export interface Props {
+  href?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  type?: 'button' | 'reset' | 'submit';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'outline-danger' | 'text';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  icon?: 'arrow' | 'blank' | 'pdf' | 'none';
+  space?: 'fit' | 'keep';
+  /** 実行中状態。true で aria-busy="true" と disabled を付与し、アイコンがスピナーに変わる */
+  loading?: boolean;
+  /** loading 時のスピナー表示位置。未指定なら左アイコンがあれば左・なければ右へ自動配置 */
+  loadingPosition?: 'left' | 'right';
+  modal?: string;
+  disabled?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  target,
+  type,
+  variant = 'primary',
+  size = 'md',
+  icon = target === '_blank' ? 'blank' : 'arrow',
+  space = 'fit',
+  loading,
+  loadingPosition,
+  modal,
+  disabled,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const rel = target === '_blank' ? 'noopener' : undefined;
+const isDisabled = disabled || loading;
+
+// slot-right が使われている場合の ::after 非表示は CSS 側で処理（:has(> svg:last-child)）
+// .pdf の後に ?query や #hash が付いていても判定できるようにする
+const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.test(href));
+---
+
+{
+  href ? (
+    <a
+      {href}
+      {target}
+      {rel}
+      class:list={['Button', className]}
+      data-icon={icon}
+      data-size={size}
+      data-variant={variant}
+      data-space={space}
+      data-loading-position={loadingPosition}
+      aria-busy={loading ? 'true' : undefined}
+      {...(isDisabled ? { 'aria-disabled': 'true', tabindex: '-1' } : {})}
+      {...rest}
+    >
+      <slot name="icon-left" />
+      <span>
+        <slot />
+        {(isPdf || target === '_blank') && (
+          <span class="sr-only">
+            {isPdf && target === '_blank'
+              ? '（PDF形式・新しいタブで開く）'
+              : isPdf
+                ? '（PDF形式）'
+                : '（新しいタブで開く）'}
+          </span>
+        )}
+      </span>
+      <slot name="icon-right" />
+    </a>
+  ) : (
+    <button
+      {type}
+      class:list={['Button', className]}
+      data-icon={icon}
+      data-size={size}
+      data-variant={variant}
+      data-space={space}
+      data-loading-position={loadingPosition}
+      data-modal-open={modal}
+      aria-haspopup={modal ? 'dialog' : undefined}
+      aria-busy={loading ? 'true' : undefined}
+      disabled={isDisabled}
+      {...rest}
+    >
+      <slot name="icon-left" />
+      <span>
+        <slot />
+      </span>
+      <slot name="icon-right" />
+    </button>
+  )
+}
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Button {
+      --_icon-size: 1em;
+      --_fit-space: calc(var(--_icon-size) / 2);
+      --_pad-x: var(--spacing-sm);
+      --_pad-y: 8px;
+      --_gap: var(--spacing-xs);
+      --_bg-color: white;
+      --_color: var(--color-link);
+      --_border-color: transparent;
+      display: inline-grid;
+      grid-template-columns: 1fr;
+      gap: var(--_gap);
+      align-items: center;
+      justify-content: center;
+      padding: var(--_pad-y) var(--_pad-x);
+      font-weight: bold;
+      line-height: 1.5;
+      vertical-align: top;
+      color: var(--_color);
+      text-align: center;
+      text-decoration: none;
+      background: var(--_bg-color);
+      border-radius: var(--rounded-sm);
+      transition: background var(--default-duration);
+      &::after {
+        display: block;
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        content: '';
+        background: currentcolor;
+        mask: var(--icon-arrow-right) center / contain;
+      }
+      &[data-icon='blank'] {
+        &::after {
+          mask: var(--icon-blank) center / contain;
+        }
+      }
+      &[data-icon='pdf'] {
+        &::after {
+          mask: var(--icon-pdf) center / contain;
+        }
+      }
+      &[data-icon='none'] {
+        &::after {
+          display: none;
+        }
+      }
+      // slot-right が使われている場合は ::after を非表示（slot 内容が代わりに右列を埋める）
+      &:has(> svg:last-child) {
+        &::after {
+          display: none;
+        }
+      }
+      // 列の組み立て（fit: アイコンのない側は padding + --_fit-space 分だけ確保）
+      &[data-space='fit'] {
+        // アイコンなし → 両側に fit-space を追加
+        &[data-icon='none']:not(:has(> svg)) {
+          padding-inline: calc(var(--_pad-x) + var(--_fit-space));
+        }
+        // 右列のみ（自動アイコン or slot-right、slot-left なし）
+        &:not(:has(> svg:first-child)) {
+          &:not([data-icon='none']),
+          &:has(> svg:last-child) {
+            grid-template-columns: 1fr var(--_icon-size);
+            padding-inline-start: calc(var(--_pad-x) + var(--_fit-space));
+          }
+        }
+        // 左列のみ（slot-left あり、右なし）
+        &:has(> svg:first-child) {
+          &[data-icon='none']:not(:has(> svg:last-child)) {
+            grid-template-columns: var(--_icon-size) 1fr;
+            padding-inline-end: calc(var(--_pad-x) + var(--_fit-space));
+          }
+          // 左右両方あり
+          &:not([data-icon='none']),
+          &:has(> svg:last-child) {
+            grid-template-columns: var(--_icon-size) 1fr var(--_icon-size);
+          }
+        }
+      }
+      // keep: アイコンのない側もアイコン幅のスペースとして維持（3列固定）
+      &[data-space='keep'] {
+        grid-template-columns: var(--_icon-size) 1fr var(--_icon-size);
+        &:not(:has(> svg:first-child)) {
+          &::before {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            content: '';
+          }
+        }
+      }
+      // 実行中状態: aria-busy="true" でアイコンがスピナーに変わる（loading prop で aria-busy と disabled を付与）。
+      // 配置は loadingPosition prop（data-loading-position）で選べる。未指定なら左 slot アイコンがあれば左を、
+      // なければ右（自動アイコン / slot-right）を自動で置き換える。
+      // JS で切り替える場合は aria-busy と disabled をセットで付け外しする。
+      &[aria-busy='true'] {
+        cursor: progress;
+        // loadingPosition=left で左スロットアイコンが無い場合、左列を確保する。
+        // 無いとスピナー(::before)が増えたぶん text がアイコン幅の細い列へ押し込まれ、縦積みで崩れる。
+        &[data-space='fit'][data-loading-position='left']:not(:has(> svg:first-child)) {
+          grid-template-columns: var(--_icon-size) 1fr;
+          padding-inline-start: var(--_pad-x);
+          // 右にも自動アイコン / slot-right がある場合は3列
+          &:not([data-icon='none']),
+          &:has(> svg:last-child) {
+            grid-template-columns: var(--_icon-size) 1fr var(--_icon-size);
+          }
+        }
+        // 右にスピナーが出るのに右アイコン列が無い（icon=none & slot-right 無し）場合、右列を確保する。
+        // loadingPosition=right 明示だけでなく、未指定＆左アイコン無し（＝自動で右）も対象。
+        // 無いとスピナー(::after)がぶら下がって次行へ回り込む。
+        &[data-space='fit'][data-icon='none']:not(
+            :has(> svg:first-child),
+            :has(> svg:last-child),
+            [data-loading-position='left']
+          ) {
+          grid-template-columns: 1fr var(--_icon-size);
+          padding-inline-end: var(--_pad-x);
+        }
+        // 左にスピナー: 明示指定 or（指定なし & 左アイコンあり）
+        &[data-loading-position='left'],
+        &:not([data-loading-position='right']):has(> svg:first-child) {
+          &::before {
+            display: block;
+            width: var(--_icon-size);
+            height: var(--_icon-size);
+            content: '';
+            border: 2px solid currentcolor;
+            border-inline-start-color: transparent;
+            border-radius: 50%;
+            animation: button-spin 0.8s linear infinite;
+          }
+          > :global(svg:first-child) {
+            display: none;
+          }
+        }
+        // 右にスピナー: 明示指定 or（指定なし & 左アイコンなし）
+        &[data-loading-position='right'],
+        &:not([data-loading-position='left'], :has(> svg:first-child)) {
+          &::after {
+            display: block;
+            background: none;
+            border: 2px solid currentcolor;
+            border-inline-start-color: transparent;
+            border-radius: 50%;
+            mask: none;
+            animation: button-spin 0.8s linear infinite;
+          }
+          > :global(svg:last-child) {
+            display: none;
+          }
+        }
+        // 実行中は disabled の見た目より busy を優先する。
+        // 薄くしない（busy は「処理中」の主役状態。薄めると壊れて見え、白文字のコントラストも落ちる）。
+        // cursor も not-allowed でなく処理中(progress)を出す。
+        &:disabled,
+        &[aria-disabled='true'] {
+          cursor: progress;
+          opacity: 1;
+        }
+      }
+      :global(svg) {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+      }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+      }
+      &[aria-disabled='true'] {
+        pointer-events: none;
+        opacity: 0.3;
+      }
+      &[data-size='xs'] {
+        --_pad-x: var(--spacing-xs);
+        --_pad-y: 2px;
+        --_gap: var(--spacing-2xs);
+        min-height: 24px;
+        font-size: var(--text-xs);
+        border-radius: var(--rounded-sm);
+      }
+      &[data-size='sm'] {
+        --_pad-x: var(--spacing-xs);
+        --_pad-y: 4px;
+        --_gap: var(--spacing-2xs);
+        min-height: 32px;
+        font-size: var(--text-sm);
+      }
+      &[data-size='md'] {
+        min-height: 44px;
+      }
+      &[data-size='lg'] {
+        min-height: 56px;
+        font-size: var(--text-lg);
+      }
+      @include hover {
+        text-decoration: none;
+      }
+      &[data-variant='primary'] {
+        --_bg-color: var(--color-primary);
+        --_color: #fff;
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_bg-color: rgb(from var(--color-primary) r g b / 80%);
+          }
+        }
+      }
+      &[data-variant='secondary'] {
+        --_bg-color: var(--color-secondary);
+        --_color: var(--color-text);
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_bg-color: rgb(from var(--color-secondary) r g b / 60%);
+          }
+        }
+      }
+      &[data-variant='outline'] {
+        --_color: var(--color-primary);
+        --_border-color: var(--color-primary);
+        box-shadow: inset 0 0 0 1px var(--_border-color);
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_bg-color: var(--color-primary);
+            --_color: #fff;
+          }
+        }
+      }
+      &[data-variant='danger'] {
+        --_bg-color: var(--color-attention);
+        --_color: #fff;
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_bg-color: rgb(from var(--color-attention) r g b / 85%);
+          }
+        }
+      }
+      &[data-variant='outline-danger'] {
+        --_color: var(--color-attention);
+        --_border-color: var(--color-attention);
+        box-shadow: inset 0 0 0 1px var(--_border-color);
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_bg-color: var(--color-attention);
+            --_color: #fff;
+          }
+        }
+      }
+      &[data-variant='text'] {
+        --_color: var(--color-text);
+        @include hover {
+          &:not(:disabled, .-disabled) {
+            --_color: var(--color-primary);
+          }
+        }
+      }
+    }
+    @keyframes button-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+</style>

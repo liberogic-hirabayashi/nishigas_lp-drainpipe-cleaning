@@ -1,0 +1,86 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  label: string;
+  /**
+   * はみ出してスクロールする状態のとき、スクロール領域を基準コンテナの幅いっぱいに広げる
+   * - true: 直近のSectionが基準（Sectionが自動でコンテナになる）
+   * - 'outer': Sectionをコンテナにせず、祖先に宣言済みの container-type: inline-size を基準にする
+   *   （Sectionが全幅でない枠付きレイアウトで、外側の境界までブリードしたい場合）
+   */
+  breakout?: boolean | 'outer';
+  class?: string;
+}
+
+const { label, breakout = false, class: className, ...rest } = Astro.props;
+---
+
+{/* スクロール領域のフォーカス可能化はaxe-core（scrollable-region-focusable）が要求する正当なtabindex */}
+{/* eslint-disable astro/jsx-a11y/no-noninteractive-tabindex */}
+<div
+  class:list={['TableScroll', className]}
+  data-breakout={breakout}
+  role="region"
+  aria-label={label}
+  tabindex="0"
+  {...rest}
+>
+  <slot />
+</div>
+{/* eslint-enable astro/jsx-a11y/no-noninteractive-tabindex */}
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .TableScroll {
+      // スクロールコンテナに縦方向が切り落とされるため、1px余白を取っておく
+      padding-block: 1px;
+      overflow-x: auto;
+      > :global(table) {
+        min-inline-size: max-content;
+      }
+      &:is([data-breakout='true'], [data-breakout='outer'])[data-scrollable] {
+        padding-inline: calc(50cqi - 50%);
+        margin-inline: calc(50% - 50cqi);
+        // 全幅時はフォーカスリングを例外的に内側に描く
+        &:focus-visible {
+          outline-offset: -2px;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  // 収まっている時は無意味なタブ位置と不要なランドマークになるだけなので、JSで属性ごと外す
+  function initTableScrolls() {
+    document.querySelectorAll<HTMLElement>('.TableScroll').forEach((container) => {
+      const label = container.getAttribute('aria-label') ?? '';
+      const apply = () => {
+        const scrollable = container.scrollWidth - container.clientWidth > 0;
+        if (scrollable) {
+          container.setAttribute('data-scrollable', '');
+          container.setAttribute('role', 'region');
+          container.setAttribute('aria-label', label);
+          container.setAttribute('tabindex', '0');
+        } else {
+          container.removeAttribute('data-scrollable');
+          container.removeAttribute('role');
+          container.removeAttribute('aria-label');
+          container.removeAttribute('tabindex');
+        }
+      };
+      const observer = new ResizeObserver(apply);
+      observer.observe(container);
+      if (container.firstElementChild) observer.observe(container.firstElementChild);
+    });
+  }
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initTableScrolls);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initTableScrolls);
+</script>

@@ -1,0 +1,15 @@
+@use 'sass:string';
+// @overview - SVGの色指定に変換
+// svg-color('#000000'); => %23000000
+// svg-color(#{$color-primary});
+// svg-color(#{map.get($theme-colors, primary)});
+
+@function svg-color($string, $search: '#', $replace: '%23') {
+  $index: string.index($string, $search);
+
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace + svg-color(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+
+  @return $string;
+}

@@ -1,0 +1,37 @@
+---
+import Heading from '@/components/base/Heading.astro';
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  label: string; // 英語ラベル（例: Mission）
+  title: string; // カード見出し
+}
+
+const { label, title, class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['ValueCard', className]} {...rest}>
+  <p class="label">{label}</p>
+  <Heading tag="h3" lv="h4">{title}</Heading>
+  <slot />
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .ValueCard {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2xs);
+      padding: var(--spacing-lg);
+      background: var(--color-bg-body);
+      border-radius: var(--rounded-md);
+
+      .label {
+        font-size: var(--text-sm);
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+    }
+  }
+</style>

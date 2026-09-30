@@ -1,0 +1,151 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  activation?: 'auto' | 'manual';
+}
+
+const { activation = 'auto', class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['Tab', className]} {...rest}>
+  <div class="tabList js-tabList" role="tablist" data-activation={activation}>
+    <slot />
+  </div>
+  <div class="tabPanels">
+    <slot name="tabPanels" />
+  </div>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Tab {
+      .tabList {
+        display: flex;
+      }
+      // .tabPanels {
+      // }
+    }
+  }
+</style>
+
+<script>
+  /**
+   * タブを「選択状態」にしてパネルを表示する
+   */
+  const activateTab = (targetButton: HTMLElement) => {
+    const tabList = targetButton.closest('.js-tabList');
+    if (!tabList) return;
+    const currentSelected = tabList.querySelector('.js-tabButton[aria-selected="true"]');
+    if (currentSelected && currentSelected !== targetButton) {
+      currentSelected.setAttribute('aria-selected', 'false');
+      const oldPanelId = currentSelected.getAttribute('aria-controls');
+      if (oldPanelId) {
+        const oldPanel = document.getElementById(oldPanelId);
+        if (oldPanel) oldPanel.hidden = true;
+      }
+    }
+    targetButton.setAttribute('aria-selected', 'true');
+    const newPanelId = targetButton.getAttribute('aria-controls');
+    if (newPanelId) {
+      const newPanel = document.getElementById(newPanelId);
+      if (newPanel) newPanel.hidden = false;
+    }
+  };
+
+  /**
+   * フォーカスのみを移動する
+   */
+  const moveFocus = (currentButton: HTMLElement, nextButton: HTMLElement) => {
+    currentButton.setAttribute('tabindex', '-1');
+    nextButton.setAttribute('tabindex', '0');
+    nextButton.focus();
+  };
+
+  /**
+   * キーボード操作ハンドラ
+   */
+  const handleKeydown = (e: KeyboardEvent, buttons: HTMLElement[], index: number) => {
+    const key = e.key;
+    const currentButton = buttons[index];
+    const tabList = currentButton.closest<HTMLElement>('.js-tabList');
+    if (!tabList) return;
+
+    const isManual = tabList.dataset.activation === 'manual';
+
+    let nextIndex: number | null = null;
+
+    if (key === 'ArrowLeft') {
+      nextIndex = index - 1 < 0 ? buttons.length - 1 : index - 1;
+    } else if (key === 'ArrowRight') {
+      nextIndex = index + 1 >= buttons.length ? 0 : index + 1;
+    } else if (key === 'Home') {
+      nextIndex = 0;
+    } else if (key === 'End') {
+      nextIndex = buttons.length - 1;
+    }
+
+    if (nextIndex !== null) {
+      e.preventDefault();
+      const nextButton = buttons[nextIndex];
+      moveFocus(currentButton, nextButton);
+
+      if (!isManual) {
+        activateTab(nextButton);
+      }
+    }
+  };
+
+  const switchTabByHash = () => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const panel = document.getElementById(hash);
+    if (panel?.classList.contains('js-tabPanel')) {
+      const button = document.querySelector<HTMLElement>(`.js-tabButton[aria-controls="${hash}"]`);
+      if (button) {
+        const tabList = button.closest('.js-tabList');
+        if (!tabList) return;
+        const buttons = tabList.querySelectorAll<HTMLElement>('.js-tabButton');
+        buttons.forEach((b) => b.setAttribute('tabindex', '-1'));
+        button.setAttribute('tabindex', '0');
+        activateTab(button);
+        button.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    }
+  };
+
+  const initializeTabs = () => {
+    const tabLists = document.querySelectorAll<HTMLElement>('.js-tabList');
+
+    tabLists.forEach((tabList) => {
+      const buttons = Array.from(tabList.querySelectorAll<HTMLElement>('.js-tabButton'));
+
+      buttons.forEach((button, index) => {
+        button.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          buttons.forEach((b) => b.setAttribute('tabindex', '-1'));
+          target.setAttribute('tabindex', '0');
+          activateTab(target);
+        });
+
+        button.addEventListener('keydown', (e) => {
+          handleKeydown(e, buttons, index);
+        });
+
+        const isSelected = button.getAttribute('aria-selected') === 'true';
+        button.setAttribute('tabindex', isSelected ? '0' : '-1');
+      });
+    });
+
+    switchTabByHash();
+    window.addEventListener('hashchange', switchTabByHash);
+  };
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initializeTabs);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initializeTabs);
+</script>

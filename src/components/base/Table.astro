@@ -1,0 +1,65 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'table'> {
+  /**
+   * セルの見た目
+   * - border: 全セル囲み（既定）
+   * - line: 囲みなし・行下線のみ
+   */
+  variant?: 'border' | 'line';
+  /** table-layout: fixed で列幅を均等にする */
+  fixed?: boolean;
+  /** セルの縦位置。middle（既定）/ top */
+  vertical?: 'middle' | 'top';
+  class?: string;
+}
+
+const { variant = 'border', fixed = false, vertical = 'middle', class: className, ...rest } = Astro.props;
+---
+
+<table class:list={['Table', className]} data-variant={variant} data-fixed={fixed} data-vertical={vertical} {...rest}>
+  <slot />
+</table>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Table {
+      width: 100%;
+      :global(caption) {
+        margin-block-end: var(--spacing-3xs);
+        font-weight: bold;
+        text-align: start;
+      }
+      :global(th),
+      :global(td) {
+        padding: var(--spacing-2xs) var(--spacing-sm);
+        text-align: start;
+      }
+      :global(thead th) {
+        background: var(--color-bg-section);
+      }
+      &[data-fixed='true'] {
+        table-layout: fixed;
+      }
+      &[data-vertical='top'] {
+        :global(th),
+        :global(td) {
+          vertical-align: top;
+        }
+      }
+      &[data-variant='line'] {
+        :global(tr) {
+          border-block-end: 1px solid var(--color-border);
+        }
+      }
+      &[data-variant='border'] {
+        :global(th),
+        :global(td) {
+          border: 1px solid var(--color-border);
+        }
+      }
+    }
+  }
+</style>

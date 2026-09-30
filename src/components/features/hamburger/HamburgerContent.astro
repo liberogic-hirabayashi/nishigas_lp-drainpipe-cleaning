@@ -1,0 +1,58 @@
+---
+export interface Props {
+  id: string;
+  overlay?: boolean;
+  /** パネル上端の基準値（既定 'var(--header-height)'）。ヘッダーがsticky/fixedでない場合は
+   *  'anchor(--foo bottom)' を渡さないとスクロールに追従しない */
+  top?: string;
+  class?: string;
+}
+
+const { id, overlay = true, top = 'var(--header-height)', class: className } = Astro.props;
+---
+
+<div
+  role={overlay ? 'dialog' : undefined}
+  aria-modal={overlay ? 'true' : undefined}
+  aria-label={overlay ? 'メニュー' : undefined}
+  tabindex={overlay ? '-1' : undefined}
+  class:list={['HamburgerContent', className]}
+  id={id}
+  data-active="false"
+  style={`--_top: ${top}`}
+>
+  <nav aria-label="メインメニュー">
+    <slot />
+  </nav>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .HamburgerContent {
+      position: absolute;
+      top: var(--_top);
+      right: 0;
+      left: 0;
+      gap: var(--spacing-3xs) var(--spacing-lg);
+      width: 100%;
+      padding: var(--spacing-md);
+      background: var(--color-white);
+      box-shadow: var(--shadow-lg);
+      transition:
+        visibility 0s linear var(--default-duration),
+        opacity var(--default-duration);
+      &[data-active='false'] {
+        visibility: hidden;
+        opacity: 0;
+      }
+      &[data-active='true'] {
+        visibility: visible;
+        opacity: 1;
+        transition:
+          visibility 0s linear 0s,
+          opacity var(--default-duration);
+      }
+    }
+  }
+</style>

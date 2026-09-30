@@ -1,0 +1,53 @@
+---
+interface Props extends astroHTML.JSX.SVGAttributes {
+  name: string;
+}
+
+const { name, ...props } = Astro.props;
+
+const icons = import.meta.glob<string>('/src/icons/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+const filename = `/src/icons/${name}.svg`;
+const rawSvg = icons[filename];
+
+if (!rawSvg) {
+  throw new Error(`Icon "${name}" not found.`);
+}
+
+// 1. ファイルから viewBox を探す
+const viewBoxMatch = rawSvg.match(/viewBox="([^"]+)"/);
+let viewBox = viewBoxMatch ? viewBoxMatch[1] : null;
+
+// 2. viewBox がない場合、width と height から生成を試みる
+if (!viewBox) {
+  const w = rawSvg.match(/width="([^"]+)"/)?.[1];
+  const h = rawSvg.match(/height="([^"]+)"/)?.[1];
+  if (w && h) {
+    viewBox = `0 0 ${w.replace('px', '')} ${h.replace('px', '')}`;
+  } else {
+    viewBox = '0 0 24 24';
+  }
+}
+
+// 元の<svg>ルートの描画系属性（fill / stroke系）を引き継ぐ
+// 塗りアイコン（Bootstrap Icons等）と線アイコン（Lucide等）の両対応
+const rootAttrs: Record<string, string> = { fill: 'currentColor' };
+const svgTag = rawSvg.match(/<svg[^>]*>/)?.[0] ?? '';
+for (const [, attr, value] of svgTag.matchAll(/\b(fill|stroke(?:-[a-z]+)?)="([^"]*)"/g)) {
+  if (attr === 'fill' || attr === 'stroke') {
+    // 固有色は currentColor に正規化して文字色に追従させる
+    rootAttrs[attr] = value === 'none' ? 'none' : 'currentColor';
+  } else {
+    rootAttrs[attr] = value;
+  }
+}
+
+// SVGの中身（pathタグなど）だけを取り出す
+const innerSVG = rawSvg.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '');
+---
+
+<svg class="Icon" viewBox={viewBox} width="1em" height="1em" {...rootAttrs} {...props} set:html={innerSVG} />

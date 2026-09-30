@@ -1,0 +1,260 @@
+---
+import Button from '@/components/base/Button.astro';
+import Icon from '@/components/base/Icon.astro';
+import IconButton from '@/components/base/IconButton.astro';
+import type { HTMLAttributes } from 'astro/types';
+
+interface BaseProps extends HTMLAttributes<'dialog'> {
+  id: string;
+  /**
+   * 閉じる挙動の制御
+   * - any: 背景クリック、Esc、閉じるボタンで閉じる（デフォルト）
+   * - closerequest: Esc、閉じるボタンで閉じる（背景クリックは無効）
+   * - none: 閉じるボタン以外では閉じない
+   */
+  closedby?: 'any' | 'closerequest' | 'none';
+}
+
+// titleがあればlabelは任意
+interface PropsWithTitle extends BaseProps {
+  title: string;
+  label?: string;
+}
+
+// labelがあればtitleは任意
+interface PropsWithLabel extends BaseProps {
+  label: string;
+  title?: string;
+}
+
+// どちらか一方を満たす必要がある Union Type
+export type Props = PropsWithTitle | PropsWithLabel;
+
+const { id, title, label, closedby = 'any', class: className, ...rest } = Astro.props;
+
+// titleなら aria-labelledby、labelなら aria-label を使う
+const titleId = `${id}-title`;
+const ariaLabelledby = title ? titleId : undefined;
+const ariaLabel = !title ? label : undefined;
+---
+
+<dialog
+  id={id}
+  class:list={['Modal', className]}
+  aria-modal="true"
+  aria-labelledby={ariaLabelledby}
+  aria-label={ariaLabel}
+  data-closedby={closedby}
+  {...rest}
+>
+  <div class="head">
+    {
+      title && (
+        <h2 id={titleId} class="modal-title">
+          {title}
+        </h2>
+      )
+    }
+    {
+      /* dialog 内の autofocus はモーダル表示時の初期フォーカス先を指定するHTML標準の仕組み（ページ読込時のフォーカス奪取ではない） */
+    }
+    {/* eslint-disable-next-line astro/jsx-a11y/no-autofocus */}
+    <IconButton type="button" variant="secondary" size="sm" aria-label="閉じる" data-modal-close autofocus>
+      <Icon name="x" aria-hidden />
+    </IconButton>
+  </div>
+  <div class="content">
+    <slot />
+  </div>
+  <div class="foot">
+    <Button icon="none" variant="secondary" data-modal-close>閉じる</Button>
+  </div>
+</dialog>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Modal {
+      --_duration: 0.3s;
+      --_easing: ease-in-out;
+      inset: 0;
+      flex-direction: column;
+      width: var(--contents-narrow);
+      max-width: 960px;
+      padding: var(--spacing-xl);
+      margin: auto;
+      overscroll-behavior-block: contain;
+      pointer-events: none;
+      outline: none;
+      background-color: var(--color-white);
+      border: unset;
+      border-radius: var(--rounded-md);
+      // firefoxで::backdropが効かないためbox-shadowで背面の色を指定
+      box-shadow: 0 0 0 100vmax var(--backdrop);
+      opacity: 0;
+      scale: 0.95;
+      transition:
+        opacity var(--_duration) var(--_easing),
+        scale var(--_duration) var(--_easing);
+      &::backdrop {
+        background-color: transparent;
+        opacity: 0;
+        backdrop-filter: blur(4px);
+        transition: opacity var(--_duration) var(--_easing);
+      }
+      &[open] {
+        display: flex;
+      }
+      &[data-active] {
+        pointer-events: auto;
+        opacity: 1;
+        // scale: 1; だと dialog が position: fixed な子孫（1Password 等の拡張が注入する UI）の containing block になり座標がずれるため、identity として補間される none を使う
+        scale: none;
+        &::backdrop {
+          opacity: 1;
+        }
+      }
+      .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 24px;
+        .modal-title {
+          font-size: var(--text-lg);
+          font-weight: bold;
+        }
+        > :global(.IconButton) {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+        }
+      }
+      .foot {
+        display: flex;
+        justify-content: center;
+        padding-top: var(--spacing-lg);
+      }
+    }
+  }
+</style>
+
+<script>
+  const openDialog = (id: string) => {
+    const dialog = document.getElementById(id) as HTMLDialogElement;
+    if (!dialog) return;
+
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+
+    requestAnimationFrame(() => {
+      dialog.setAttribute('data-active', '');
+    });
+  };
+
+  const closeDialog = (dialog: HTMLDialogElement) => {
+    if (!dialog.hasAttribute('data-active')) {
+      return;
+    }
+
+    dialog.removeAttribute('data-active');
+
+    dialog.addEventListener(
+      'transitionend',
+      () => {
+        dialog.close();
+      },
+      { once: true }
+    );
+  };
+
+  // イベントハンドラー
+  const handleClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    const openBtn = target.closest('[data-modal-open]');
+    if (openBtn) {
+      const id = openBtn.getAttribute('data-modal-open');
+      if (id) {
+        e.preventDefault();
+        openDialog(id);
+      }
+      return;
+    }
+
+    const closeBtn = target.closest('[data-modal-close]');
+    if (closeBtn) {
+      const dialog = closeBtn.closest('dialog.Modal') as HTMLDialogElement;
+      if (dialog && dialog.open) {
+        e.preventDefault();
+        closeDialog(dialog);
+      }
+      return;
+    }
+
+    // 背景クリック
+    if (target instanceof HTMLDialogElement && target.classList.contains('Modal') && target.open) {
+      const closedBy = target.getAttribute('data-closedby') || 'any';
+      if (closedBy === 'closerequest' || closedBy === 'none') return;
+
+      const rect = target.getBoundingClientRect();
+      const isBackdropClick =
+        e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom;
+
+      if (isBackdropClick) {
+        closeDialog(target);
+      }
+    }
+  };
+
+  // キーボード (ESC)
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      const target = e.target as HTMLElement;
+      const dialog = target.closest('dialog.Modal') || document.querySelector('dialog.Modal[open]');
+
+      if (dialog instanceof HTMLDialogElement && dialog.open) {
+        const closedBy = dialog.getAttribute('data-closedby') || 'any';
+        if (closedBy === 'none') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return;
+        }
+      }
+    }
+  };
+
+  // Cancel
+  const handleCancel = (e: Event) => {
+    const dialog = e.target as HTMLDialogElement;
+    if (dialog.tagName !== 'DIALOG' || !dialog.classList.contains('Modal')) return;
+
+    const closedBy = dialog.getAttribute('data-closedby') || 'any';
+    if (closedBy === 'none') {
+      e.preventDefault();
+      return;
+    }
+
+    e.preventDefault();
+    closeDialog(dialog);
+  };
+
+  const init = () => {
+    // 重複登録防止のため、removeしてからaddする
+    window.removeEventListener('click', handleClick, { capture: true });
+    window.removeEventListener('keydown', handleKeydown, { capture: true });
+    window.removeEventListener('cancel', handleCancel, { capture: true });
+
+    window.addEventListener('click', handleClick, { capture: true });
+    window.addEventListener('keydown', handleKeydown, { capture: true });
+    window.addEventListener('cancel', handleCancel, { capture: true });
+  };
+
+  // --- 4. 実行トリガー ---
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', init);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', init);
+</script>

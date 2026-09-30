@@ -1,0 +1,108 @@
+@use '../global' as *;
+
+@layer base {
+  /* JSが有効なとき */
+  @media (scripting: enabled) {
+    [data-inview-animation='fade-in'] {
+      --_duration: 0.6s;
+      transition:
+        opacity var(--_duration) var(--default-easing),
+        translate var(--_duration) var(--default-easing);
+      &:not([data-inview='true']) {
+        opacity: 0;
+        translate: 0 20px;
+      }
+    }
+    [data-inview-animation='clip-right'] {
+      --_property: clip-path;
+      --_duration: 1s;
+      --_easing: var(--ease-in-out-quint);
+      --_delay: 0s;
+      --_end-path: inset(0 0 0 0);
+      transition: var(--_property) var(--_duration) var(--_easing) var(--_delay);
+
+      &:not([data-inview='true']) {
+        clip-path: inset(0 100% 0 0);
+      }
+      &[data-inview='true'] {
+        clip-path: var(--_end-path);
+      }
+    }
+    [data-inview-animation='clip-left'] {
+      --_property: clip-path;
+      --_duration: 1s;
+      --_easing: var(--ease-in-out-quint);
+      --_delay: 0s;
+      --_end-path: inset(0 0 0 0);
+      transition: var(--_property) var(--_duration) var(--_easing) var(--_delay);
+      &:not([data-inview='true']) {
+        clip-path: inset(0 0 0 100%);
+      }
+      &[data-inview='true'] {
+        clip-path: var(--_end-path);
+      }
+    }
+    [data-inview-animation='clip-top'] {
+      --_property: clip-path;
+      --_duration: 1s;
+      --_easing: var(--ease-in-out-quint);
+      --_delay: 0s;
+      --_end-path: inset(0 0 0 0);
+      transition: var(--_property) var(--_duration) var(--_easing) var(--_delay);
+      &:not([data-inview='true']) {
+        clip-path: inset(100% 0 0 0);
+      }
+      &[data-inview='true'] {
+        clip-path: var(--_end-path);
+      }
+    }
+    [data-inview-animation='clip-bottom'] {
+      --_property: clip-path;
+      --_duration: 1s;
+      --_easing: var(--ease-in-out-quint);
+      --_delay: 0s;
+      --_end-path: inset(0 0 0 0);
+      transition: var(--_property) var(--_duration) var(--_easing) var(--_delay);
+      &:not([data-inview='true']) {
+        clip-path: inset(0 0 100% 0);
+      }
+      &[data-inview='true'] {
+        clip-path: var(--_end-path);
+      }
+    }
+    [data-inview-animation='clip-overlay'] {
+      --_property: clip-path;
+      --_duration: 1s;
+      --_easing: var(--ease-in-out-quart);
+      --_delay: 0s;
+      --_start-path: inset(0 100% 0 0);
+      --_end-path: inset(0 0 0 0);
+      --_overlay-color: #000;
+      --_overlay-duration: 1s;
+      --_overlay-delay: calc(var(--_overlay-duration) / 2);
+      position: relative;
+      transition: var(--_property) var(--_duration) var(--_easing) var(--_delay);
+      &::after {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        content: '';
+        background-color: var(--_overlay-color);
+        rotate: 180deg;
+        transition: var(--_property) var(--_overlay-duration) var(--_easing) var(--_overlay-delay);
+      }
+      &:not([data-inview='true']) {
+        clip-path: var(--_start-path);
+      }
+      &[data-inview='true'] {
+        clip-path: var(--_end-path);
+      }
+      &:not([data-inview='true'])::after {
+        clip-path: var(--_end-path);
+      }
+      &[data-inview='true']::after {
+        clip-path: var(--_start-path);
+      }
+    }
+  }
+}

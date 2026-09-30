@@ -1,0 +1,13 @@
+@use 'sass:string';
+// @overview - 文字列を置換する
+// str-replace('検索対象', '置換したいワード', '置換するワード');
+
+@function str-replace($string, $search, $replace: '') {
+  $index: string.index($string, $search);
+
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace + string.replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+
+  @return $string;
+}

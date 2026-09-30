@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+const url = '';
+const title = 'TOP_title';
+const description = 'TOP_description';
+const ogimage = '';
+const current = 'top';
+---
+
+<Layout title={title} description={description} url={url} ogimage={ogimage} metakey="top" current={current}>
+  {/* ページ個別の script は <Fragment slot="head"> で囲んでここに書く（</Layout> の後に書くと </html> の外に出る） */}
+
+  コンテンツ
+</Layout>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+</style>

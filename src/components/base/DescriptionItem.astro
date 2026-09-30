@@ -1,0 +1,56 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  dt: string;
+  // responsive: PC横並び2列 / SP縦積み（既定） / row: 常に横並び / column: 常に縦積み
+  layout?: 'responsive' | 'row' | 'column';
+}
+
+const { dt, layout = 'responsive', class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['DescriptionItem', className]} data-layout={layout} {...rest}>
+  <dt>{dt}</dt>
+  <dd><slot /></dd>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .DescriptionItem {
+      display: grid;
+      align-items: start;
+      padding-block: var(--spacing-md);
+      border-block-start: 1px solid var(--color-border);
+      &:last-child {
+        border-block-end: 1px solid var(--color-border);
+      }
+      &[data-layout='row'] {
+        grid-template-columns: 10em 1fr;
+        gap: var(--spacing-md);
+      }
+      &[data-layout='column'] {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3xs);
+      }
+      &[data-layout='responsive'] {
+        grid-template-columns: 10em 1fr;
+        gap: var(--spacing-md);
+      }
+      @include mq-down(sm) {
+        padding-block: var(--spacing-sm);
+        &[data-layout='responsive'] {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-3xs);
+        }
+        &[data-layout='row'] {
+          grid-template-columns: 7em 1fr;
+        }
+      }
+      dt {
+        font-weight: bold;
+      }
+    }
+  }
+</style>

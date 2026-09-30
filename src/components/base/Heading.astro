@@ -1,0 +1,117 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+export type HeadingLevel = 'display' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+export interface Props extends HTMLAttributes<HeadingTag> {
+  tag: HeadingTag;
+  lv?: HeadingLevel;
+  href?: string;
+}
+
+const { tag, lv, href, class: className, ...rest } = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag class:list={[lv, className]} {...rest}
+  >{
+    href ? (
+      <a href={href}>
+        <slot />
+      </a>
+    ) : (
+      <slot />
+    )
+  }</Tag
+>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .display {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-5xl);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h1 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-4xl);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h2 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-3xl);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h3 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-2xl);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h4 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-xl);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h5 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-lg);
+      font-weight: bold;
+      line-height: 1.4;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .h6 {
+      margin-block: var(--leading-trim) calc(var(--leading-trim) + 1em);
+      font-size: var(--text-base);
+      font-weight: bold;
+      > a {
+        color: inherit;
+        @include hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+</style>

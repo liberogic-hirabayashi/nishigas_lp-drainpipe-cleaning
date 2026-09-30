@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'span'> {
+  tag?: 'span' | 'div';
+  mark?: string;
+  justify?: 'start' | 'center' | 'end';
+}
+
+const { tag = 'span', mark, justify = 'start', class: className, ...rest } = Astro.props;
+const Tag = tag;
+const ContentTag = tag === 'span' ? 'span' : 'div';
+---
+
+<Tag class:list={['Annotation', className]} data-justify={justify} {...rest}>
+  {mark && <span class="mark">{mark}</span>}
+  <ContentTag><slot /></ContentTag>
+</Tag>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Annotation {
+      display: flex;
+      margin-bottom: 0;
+      font-size: var(--text-sm);
+      &[data-justify='start'] {
+        justify-content: flex-start;
+      }
+      &[data-justify='center'] {
+        justify-content: center;
+      }
+      &[data-justify='end'] {
+        justify-content: flex-end;
+      }
+      > .mark {
+        flex-shrink: 0;
+        margin-right: 4px;
+      }
+    }
+  }
+</style>

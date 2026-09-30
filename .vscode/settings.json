@@ -1,0 +1,47 @@
+{
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[css]": {
+    // "editor.formatOnSave": false
+  },
+  "[scss]": {
+    // "editor.formatOnSave": false
+  },
+  "[javascript]": {
+    // "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    // "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "[html]": {
+    "editor.formatOnSave": false
+  },
+  "[astro]": {
+    // "editor.formatOnSave": false
+  },
+  "prettier.documentSelectors": ["**/*.astro"],
+  "stylelint.validate": ["css", "scss", "astro"],
+  "css.validate": false,
+  "scss.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "astro"],
+  "emmet.includeLanguages": {
+    "astro": "html"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "dist/": true
+  }
+}

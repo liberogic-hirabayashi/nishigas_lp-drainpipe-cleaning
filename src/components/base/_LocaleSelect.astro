@@ -1,0 +1,68 @@
+---
+import { getLocalePaths, LOCALES } from '@/lib/i18n';
+import Button from '@/components/base/Button.astro';
+import FormSelect from '@/components/base/form/Select.astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['LocaleSelect', className]} {...rest}>
+  <label for="languageSelect">表示言語</label>
+  <FormSelect id="languageSelect" data-language-select>
+    {
+      getLocalePaths(Astro.url).map(({ path, lang }) => (
+        <option
+          label={LOCALES[lang].label}
+          value={path}
+          data-lang={lang}
+          selected={lang === Astro.currentLocale}
+          dir={LOCALES[lang].dir || null}
+        />
+      ))
+    }
+  </FormSelect>
+  <Button size="sm" aria-label="表示言語を変更" icon="none" data-language-submit>変更</Button>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .LocaleSelect {
+      display: flex;
+      gap: var(--spacing-xs);
+      align-items: center;
+      // label {
+      // }
+      :global(.FormSelect) {
+        height: 38px;
+        padding: 0 2.5rem 0 1rem;
+        letter-spacing: 0.05em;
+      }
+      :global(.Button) {
+        grid-template-columns: 1fr;
+        min-width: 0;
+        height: 38px;
+        &::before {
+          display: none !important;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  const selectEl = document.querySelector<HTMLSelectElement>('[data-language-select]');
+  const buttonEl = document.querySelector<HTMLButtonElement>('[data-language-submit]');
+
+  buttonEl?.addEventListener('click', () => {
+    if (!selectEl) return;
+
+    const selected = selectEl.selectedOptions[0];
+    localStorage.selectedLang = selected.dataset.lang || '';
+    window.location.href = selected.value;
+  });
+</script>

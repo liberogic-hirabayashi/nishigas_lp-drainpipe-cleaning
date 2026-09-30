@@ -1,0 +1,59 @@
+@use '../global' as *;
+
+@layer base {
+  // contents hide
+  .hide-down-sm {
+    @include mq-down(sm) {
+      display: none !important;
+    }
+  }
+  .hide-down-md {
+    @include mq-down(md) {
+      display: none !important;
+    }
+  }
+  .hide-down-lg {
+    @include mq-down(lg) {
+      display: none !important;
+    }
+  }
+  .hide-down-xl {
+    @include mq-down(xl) {
+      display: none !important;
+    }
+  }
+  .hide-down-2xl {
+    @include mq-down(2xl) {
+      display: none !important;
+    }
+  }
+  .hide-up-sm {
+    @include mq-up(sm) {
+      display: none !important;
+    }
+  }
+  .hide-up-md {
+    @include mq-up(md) {
+      display: none !important;
+    }
+  }
+  .hide-up-lg {
+    @include mq-up(lg) {
+      display: none !important;
+    }
+  }
+  .hide-up-xl {
+    @include mq-up(xl) {
+      display: none !important;
+    }
+  }
+  .hide-up-2xl {
+    @include mq-up(2xl) {
+      display: none !important;
+    }
+  }
+
+  .nobr {
+    display: inline-block;
+  }
+}

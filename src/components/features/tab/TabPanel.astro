@@ -1,0 +1,13 @@
+---
+export interface Props {
+  active?: boolean;
+  labelledby: string;
+  id: string;
+}
+
+const { active, labelledby, id } = Astro.props;
+---
+
+<div id={id} class="TabPanel js-tabPanel" role="tabpanel" aria-labelledby={labelledby} tabindex="0" hidden={!active}>
+  <slot />
+</div>

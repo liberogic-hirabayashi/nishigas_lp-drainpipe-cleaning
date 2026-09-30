@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* スキャン対象を src/ 配下全体に拡張 */
+@source '../**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}';
+
+/* ダークモード対応(class方式) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ブレイクポイントを max-width ベースに上書き(モバイル特化)
+ * ⚠️ src/config/breakpoints.ts、src/styles/global/_tokens.scss と値を揃える */
+@custom-variant xs (@media (max-width: 239px));
+@custom-variant sm (@media (max-width: 575px));
+@custom-variant md (@media (max-width: 767px));
+@custom-variant lg (@media (max-width: 991px));
+@custom-variant xl (@media (max-width: 1199px));
+@custom-variant 2xl (@media (max-width: 1399px));
+
+/* Tailwindデフォルトの font-size トークンを無効化(fluid font sizes を @utility 側で完全制御するため) */
+@theme {
+  --text-*: initial;
+}
+
+/* 既存のCSS変数をTailwindのトークンとして参照(inline=新規CSS変数を生成しない) */
+@theme inline {
+  --color-text: var(--color-text);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-attention: var(--color-attention);
+  --color-border: var(--color-border);
+  --color-link: var(--color-link);
+  --color-muted: var(--color-muted);
+  --color-disabled: var(--color-disabled);
+
+  --spacing-3xs: var(--spacing-3xs);
+  --spacing-2xs: var(--spacing-2xs);
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-2xl: var(--spacing-2xl);
+  --spacing-3xl: var(--spacing-3xl);
+  --spacing-4xl: var(--spacing-4xl);
+  --spacing-5xl: var(--spacing-5xl);
+}
+
+/* fluid font sizes: cssVariables.scss の --text-* (clamp計算済み) を参照 */
+@utility text-xs {
+  font-size: var(--text-xs);
+}
+@utility text-sm {
+  font-size: var(--text-sm);
+}
+@utility text-base {
+  font-size: var(--text-base);
+}
+@utility text-lg {
+  font-size: var(--text-lg);
+  line-height: 1.4;
+}
+@utility text-xl {
+  font-size: var(--text-xl);
+  line-height: 1.4;
+}
+@utility text-2xl {
+  font-size: var(--text-2xl);
+  line-height: 1.4;
+}
+@utility text-3xl {
+  font-size: var(--text-3xl);
+  line-height: 1.4;
+}
+@utility text-4xl {
+  font-size: var(--text-4xl);
+  line-height: 1.4;
+}
+@utility text-5xl {
+  font-size: var(--text-5xl);
+  line-height: 1.4;
+}
+
+/* leading-trim ユーティリティ */
+@utility leading-trim {
+  margin-block: var(--leading-trim);
+}
+@utility leading-trim-top {
+  margin-block-start: var(--leading-trim);
+}

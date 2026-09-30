@@ -1,0 +1,50 @@
+---
+import '@/styles/tailwind.css';
+import '@/styles/globals.scss';
+
+// ViewTransition使用時
+// import { ClientRouter } from 'astro:transitions';
+
+import { LOCALES, DEFAULT_LOCALE } from '@/lib/i18n';
+import GlobalFooter from '@/components/templates/GlobalFooter.astro';
+import GlobalHeader from '@/components/templates/GlobalHeader.astro';
+import MainContent from '@/components/templates/MainContent.astro';
+import MetaHead from '@/components/templates/MetaHead.astro';
+
+import SkipLink from '@/components/base/SkipLink.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  url?: string;
+  ogimage?: string;
+  metakey?: string;
+  noindex?: boolean;
+  current?: string;
+}
+
+const { title, description, url = '', ogimage, metakey = 'default', noindex, current } = Astro.props;
+const locale = Astro.currentLocale ?? DEFAULT_LOCALE;
+---
+
+<!doctype html>
+<html lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}>
+  <head>
+    <MetaHead title={title} description={description} url={url} ogimage={ogimage} metakey={metakey} noindex={noindex} />
+    {/* <ClientRouter /> */}
+    <script>
+      import '@/scripts/entry.ts';
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink href="#main" />
+    <GlobalHeader current={current} />
+    <slot name="mainBefore" />
+    <MainContent>
+      <slot />
+    </MainContent>
+    <slot name="mainAfter" />
+    <GlobalFooter />
+  </body>
+</html>

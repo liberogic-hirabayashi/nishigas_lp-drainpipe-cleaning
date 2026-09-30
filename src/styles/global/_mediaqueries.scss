@@ -1,0 +1,185 @@
+@use 'tokens' as t;
+@use 'sass:map';
+@use 'sass:list';
+
+// usage
+// #max-width (desktop first)
+// @include mq-down(xs) { // SP 200%ズーム調整用
+//   content: 'mq-down(sm) (max-width: 239px)';
+// }
+// @include mq-down(sm) {
+//   content: 'mq-down(sm) (max-width: 575px)';
+// }
+// @include mq-down(md) {
+//   content: 'mq-down(md) (max-width: 767px)';
+// }
+// @include mq-down(lg) {
+//   content: 'mq-down(lg) (max-width: 991px)';
+// }
+// @include mq-down(xl) {
+//   content: 'mq-down(xl) (max-width: 1199px)';
+// }
+// @include mq-down(2xl) {
+//   content: 'mq-down(2xl) (max-width: 1399px)';
+// }
+
+// #min-width (mobile firtst)
+// @include mq-up(sm) {
+//   content: 'mq-up(sm) (min-width: 576px)';
+// }
+// @include mq-up(md) {
+//   content: 'mq-up(md) (min-width: 768px)';
+// }
+// @include mq-up(lg) {
+//   content: 'mq-up(lg) (min-width: 992px)';
+// }
+// @include mq-up(xl) {
+//   content: 'mq-up(xl) (min-width: 1200px)';
+// }
+// @include mq-up(2xl) {
+//   content: 'mq-up(2xl) (min-width: 1400px)';
+// }
+
+// #single breakpoints
+// @include mq-only(xs) {
+//   content: 'mq-only(xs) (min-width: 240px) and (max-width: 575px)';
+// }
+// @include mq-only(sm) {
+//   content: 'mq-only(sm) (min-width: 576px) and (max-width: 767px)';
+// }
+// @include mq-only(md) {
+//   content: 'mq-only(md) (min-width: 768px) and (max-width: 991px)';
+// }
+// @include mq-only(lg) {
+//   content: 'mq-only(lg) (min-width: 992px) and (max-width: 1199px)';
+// }
+// @include mq-only(xl) {
+//   content: 'mq-only(xl) (min-width: 1200px) and (max-width: 1399px)';
+// }
+// @include mq-only(2xl) {
+//   content: 'mq-only(2xl) (min-width: 1400px)';
+// }
+// #between breakpoints
+// @include mq-between(sm,lg) {
+//   content: 'mq-between(sm,lg) (min-width: 576px) and (max-width: 991px)';
+// }
+
+// #orientation
+// @include mq-down(sm) {
+//   @include orientation(landscape) {
+//     content: 'mq-down(sm) and orientation(landscape) (max-width: 767px) and (orientation: portrait)';
+//   }
+//   @include orientation(portrait) {
+//     content: 'mq-down(sm) and orientation(portrait) (max-width: 767px) and (orientation: landscape)';
+//   }
+// }
+
+@function breakpoint-next($name, $breakpoints: t.$breakpoints-px, $breakpoint-names: map.keys($breakpoints)) {
+  $n: list.index($breakpoint-names, $name);
+  @if not $n {
+    @error 'breakpoint `#{$name}` not found in `#{$breakpoints}`';
+  }
+  @if $n < list.length($breakpoint-names) {
+    @return list.nth($breakpoint-names, $n + 1);
+  }
+  @return null;
+}
+
+@function breakpoint-min($name, $breakpoints: t.$breakpoints-px) {
+  $min: map.get($breakpoints, $name);
+  @if $min != 0 {
+    @return $min;
+  }
+  @return null;
+}
+
+@function breakpoint-max($name, $breakpoints: t.$breakpoints-px) {
+  $max: map.get($breakpoints, $name);
+  @if $max and $max > 0 {
+    @return $max - 1;
+  }
+  @return null;
+}
+
+@function breakpoint-infix($name, $breakpoints: t.$breakpoints-px) {
+  @if not breakpoint-min($name, $breakpoints) {
+    @return '';
+  }
+  @return '-#{$name}';
+}
+
+@mixin mq-up($name, $breakpoints: t.$breakpoints-px) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media screen and (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin mq-down($name, $breakpoints: t.$breakpoints-px) {
+  $max: breakpoint-max($name, $breakpoints);
+  @if $max {
+    @media screen and (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin mq-between($lower, $upper, $breakpoints: t.$breakpoints-px) {
+  $min: breakpoint-min($lower, $breakpoints);
+  $max: breakpoint-max($upper, $breakpoints);
+
+  @if $min != null and $max != null {
+    @media screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include mq-up($lower, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include mq-down($upper, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+@mixin mq-only($name, $breakpoints: t.$breakpoints-px) {
+  $min: breakpoint-min($name, $breakpoints);
+  $next: breakpoint-next($name, $breakpoints);
+  $max: breakpoint-max($next, $breakpoints);
+
+  @if $min != null and $max != null {
+    @media screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include mq-up($name, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include mq-down($next, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+@mixin orientation($direction) {
+  $orientation-landscape: '(orientation:landscape)';
+  $orientation-portrait: '(orientation:portrait)';
+  @if $direction == landscape {
+    @media #{$orientation-landscape} {
+      @content;
+    }
+  }
+  @if $direction == portrait {
+    @media #{$orientation-portrait} {
+      @content;
+    }
+  }
+}

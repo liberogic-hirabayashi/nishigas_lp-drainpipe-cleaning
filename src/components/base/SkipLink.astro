@@ -1,0 +1,31 @@
+---
+export interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<a href={href} class="SkipLink">メインコンテンツにスキップ</a>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .SkipLink {
+      position: absolute;
+      top: 96px;
+      left: 8px;
+      z-index: var(--z-top-layer);
+      padding: 8px 16px;
+      background: #fff;
+      &:not(:focus) {
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  width?: 'full' | 'wide' | 'narrow';
+}
+
+const { width, class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['SectionInner', className]} data-width={width} {...rest}>
+  <slot />
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .SectionInner {
+      width: var(--contents);
+      margin-inline: auto;
+      &[data-width='full'] {
+        width: 100%;
+      }
+      &[data-width='narrow'] {
+        width: var(--contents-narrow);
+      }
+      &[data-width='wide'] {
+        width: var(--contents-wide);
+      }
+      & + & {
+        margin-top: var(--spacing-2xl);
+      }
+    }
+  }
+</style>

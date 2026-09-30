@@ -1,0 +1,43 @@
+// ============================================
+// SCSS トークン定義
+//
+// ⚠️ このファイルの $xxx 変数は _index.scss の
+// `@forward 'tokens' as t-*;` 経由で再エクスポートされるため、
+// 利用側からは `$t-xxx` という名前で参照します。
+//
+// 例:
+//   @use '@/styles/global' as *;
+//   @each $name in $t-spacing-names { ... }
+//
+// ⚠️ 同期が必要な値:
+// - ブレイクポイント($breakpoints-px):
+//   - src/config/breakpoints.ts
+//   - src/styles/tailwind.css(@custom-variant)
+// - フォントサイズスケール($text-sizes):
+//   - src/styles/cssVariables.scss(--text-*-min/max 定義 + @each で --text-* 生成)
+//   - src/styles/tailwind.css(@utility text-* で --text-* を参照)
+// - スペーシングスケール($spacing-names):
+//   - src/config/spacing.ts(SpacingSize 型)
+//   - src/styles/cssVariables.scss(--spacing-*-min/max 定義 + @each で --spacing-* 生成)
+//   - src/styles/tailwind.css(@theme inline で --spacing-* を登録)
+// ============================================
+
+// ブレイクポイント
+$breakpoints-px: (
+  2xs: 0,
+  xs: 240px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  2xl: 1400px,
+) !default;
+
+// フォントサイズ
+$text-sizes: ('xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl');
+
+// スペーシング
+$spacing-names: ('0', '3xs', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl');
+
+// レイアウト用（StackやGridでループを回す対象）
+$gap-breakpoints: ('lg', 'md', 'sm');

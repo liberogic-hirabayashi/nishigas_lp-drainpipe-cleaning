@@ -1,0 +1,94 @@
+---
+export interface Props {
+  open?: boolean;
+  name?: string; // 同じname属性のアコーディオンは排他的になる
+  class?: string;
+}
+
+const { open, name, class: className, ...rest } = Astro.props;
+---
+
+<details class:list={['Accordion', className]} open={open} name={name} {...rest}>
+  <summary class="summary">
+    <slot name="summary" />
+  </summary>
+  <div class="panel">
+    <div class="content">
+      <slot />
+    </div>
+  </div>
+</details>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Accordion {
+      --_arrow-size: 18px;
+      .Accordion {
+        margin-left: 20px;
+      }
+      > .summary {
+        position: relative;
+        display: block;
+        padding-right: calc(var(--_arrow-size) + var(--spacing-xs));
+        cursor: pointer;
+        &::-webkit-details-marker {
+          display: none;
+        }
+        &::before,
+        &::after {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          display: block;
+          width: var(--_arrow-size);
+          height: 2px;
+          margin-top: -1px;
+          content: '';
+          background: var(--color-primary);
+        }
+        &::after {
+          rotate: -90deg;
+          scale: 1 1;
+          transition: scale var(--default-duration);
+        }
+      }
+      > .panel {
+        // details直下のタグにpaddingを設定すると挙動がおかしくなるので、ここには指定しない
+        // > .content { /* 必要に応じてここに padding を指定 */ }
+      }
+      &[open]:not(.is-closing) {
+        > .summary {
+          &::after {
+            scale: 1 0;
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  import initializeDetailsAccordion, { type AccordionOptions } from '@/scripts/utils/initializeDetailsAccordion.ts';
+
+  function initializeAccordions() {
+    const detailsElements = document.querySelectorAll('details') as NodeListOf<HTMLDetailsElement>;
+
+    if (detailsElements.length === 0) return;
+
+    const options: AccordionOptions = {
+      duration: 300,
+      easing: 'ease-in-out',
+    };
+
+    detailsElements.forEach((details) => {
+      initializeDetailsAccordion(details, options);
+    });
+  }
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initializeAccordions);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initializeAccordions);
+</script>

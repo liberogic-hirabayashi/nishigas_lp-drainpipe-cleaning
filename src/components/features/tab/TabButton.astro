@@ -1,0 +1,31 @@
+---
+export interface Props {
+  active?: boolean;
+  target: string;
+  id: string;
+}
+
+const { active, target, id } = Astro.props;
+---
+
+<button
+  id={id}
+  class="TabButton js-tabButton"
+  type="button"
+  role="tab"
+  aria-selected={active ? 'true' : 'false'}
+  aria-controls={target}
+  ><slot />
+</button>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .TabButton {
+      cursor: pointer;
+      &[aria-selected='true'] {
+        background: var(--color-secondary);
+      }
+    }
+  }
+</style>

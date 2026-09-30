@@ -1,0 +1,151 @@
+---
+import type { SpacingSize } from '@/config/spacing';
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  direction?: 'column' | 'row';
+  gap?: SpacingSize;
+  lgGap?: SpacingSize;
+  mdGap?: SpacingSize;
+  smGap?: SpacingSize;
+  align?: 'stretch' | 'start' | 'center' | 'end';
+  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  wrap?: boolean;
+  divider?: boolean; // wrapと併用しない
+}
+
+const {
+  direction = 'column',
+  gap = 'md',
+  lgGap,
+  mdGap,
+  smGap,
+  align = 'stretch',
+  justify,
+  wrap = false,
+  divider = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class:list={['Stack', className]}
+  data-direction={direction}
+  data-wrap={wrap}
+  data-gap={gap}
+  data-gap-lg={lgGap}
+  data-gap-md={mdGap}
+  data-gap-sm={smGap}
+  data-align={align}
+  data-justify={justify}
+  data-divider={divider}
+  {...rest}
+>
+  <slot />
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Stack {
+      display: flex;
+      gap: var(--_gap);
+
+      // gap
+      @each $name in $t-spacing-names {
+        &[data-gap='#{$name}'] {
+          @if $name == '0' {
+            --_gap: 0;
+          } @else {
+            --_gap: var(--spacing-#{$name});
+          }
+        }
+      }
+      @each $bp in $t-gap-breakpoints {
+        @include mq-down($bp) {
+          @each $name in $t-spacing-names {
+            &[data-gap-#{$bp}='#{$name}'] {
+              @if $name == '0' {
+                --_gap: 0;
+              } @else {
+                --_gap: var(--spacing-#{$name});
+              }
+            }
+          }
+        }
+      }
+
+      // direction
+      &[data-direction='row'] {
+        flex-direction: row;
+      }
+      &[data-direction='column'] {
+        flex-direction: column;
+      }
+
+      // align-items
+      &[data-align='stretch'] {
+        align-items: stretch;
+      }
+      &[data-align='start'] {
+        align-items: flex-start;
+      }
+      &[data-align='center'] {
+        align-items: center;
+      }
+      &[data-align='end'] {
+        align-items: flex-end;
+      }
+
+      // justify-content
+      &[data-justify='start'] {
+        justify-content: flex-start;
+      }
+      &[data-justify='center'] {
+        justify-content: center;
+      }
+      &[data-justify='end'] {
+        justify-content: flex-end;
+      }
+      &[data-justify='between'] {
+        justify-content: space-between;
+      }
+      &[data-justify='around'] {
+        justify-content: space-around;
+      }
+      &[data-justify='evenly'] {
+        justify-content: space-evenly;
+      }
+
+      &[data-wrap='true'] {
+        flex-wrap: wrap;
+      }
+
+      // divider
+      &[data-divider='true'] > :global(*:not(:last-child)) {
+        position: relative;
+        &::after {
+          position: absolute;
+          display: block;
+          content: '';
+          background: var(--color-border);
+        }
+      }
+      &[data-direction='row'][data-divider='true'] > :global(*:not(:last-child)) {
+        &::after {
+          inset-block: 0;
+          right: calc(var(--_gap) / 2 * -1);
+          width: 1px;
+        }
+      }
+      &[data-direction='column'][data-divider='true'] > :global(*:not(:last-child)) {
+        &::after {
+          inset-inline: 0;
+          bottom: calc(var(--_gap) / 2 * -1);
+          height: 1px;
+        }
+      }
+    }
+  }
+</style>

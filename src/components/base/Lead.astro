@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'p'> {}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<p class:list={['Lead', className]} {...rest}>
+  <slot />
+</p>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Lead {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

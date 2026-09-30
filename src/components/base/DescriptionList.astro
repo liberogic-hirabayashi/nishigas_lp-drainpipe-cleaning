@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'dl'> {}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<dl class:list={['DescriptionList', className]} {...rest}>
+  <slot />
+</dl>

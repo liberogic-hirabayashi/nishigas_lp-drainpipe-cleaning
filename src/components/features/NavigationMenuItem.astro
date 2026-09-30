@@ -1,0 +1,229 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'a'> {
+  /** サブメニューのトリガーにする場合の見出し文言。指定時は href を無視し button になる */
+  label?: string;
+  /** サブメニューの開閉に使う一意なid（サブメニュー使用時は必須。ページ内で重複しない値を渡す） */
+  id?: string;
+  /**
+   * サブメニューパネルの幅
+   * - auto: トリガー直下に内容量に応じた幅で表示（シンプルなドロップダウン）
+   * - full: 画面幅いっぱいに表示（メガメニュー）。ARIA・開閉の仕組みはautoと同一で見た目のみが異なる
+   */
+  width?: 'auto' | 'full';
+  /** width="auto" 時のパネルの横位置。start=トリガー左端に揃える / end=トリガー右端に揃える（既定） */
+  align?: 'start' | 'end';
+  /**
+   * パネル上端の基準
+   * - trigger: トリガー直下に表示（既定）
+   * - それ以外: 渡した値をそのまま top に使う（固定値の他、'anchor(--foo bottom)' も可。
+   *   対象がsticky/fixedでない場合はanchor()でないとスクロールに追従しない）。width とは独立
+   */
+  top?: 'trigger' | (string & {});
+  class?: string;
+}
+
+const { href, label, id, width = 'auto', align = 'end', top = 'trigger', class: className, ...rest } = Astro.props;
+const hasSubmenu = !href && !!label;
+const isTriggerTop = top === 'trigger';
+
+// CSS Anchor Positioningの anchor-name は var() でなくリテラルの dashed-ident が必要なため、id から都度生成する
+const anchorName = id ? `--navmenu-anchor-${id}` : undefined;
+---
+
+<li
+  class:list={['NavigationMenuItem', className]}
+  data-width={width}
+  data-align={align}
+  data-top={isTriggerTop ? 'trigger' : 'custom'}
+  style={!isTriggerTop ? `--_top: ${top}` : undefined}
+>
+  {
+    hasSubmenu ? (
+      <>
+        <button
+          type="button"
+          class="trigger"
+          popovertarget={id}
+          popovertargetaction="toggle"
+          aria-expanded="false"
+          aria-controls={id}
+          style={`anchor-name:${anchorName}`}
+        >
+          {label}
+        </button>
+        {/* パネルは <ul popover="auto"> にする。開閉・Escape・外クリック・他サブメニューが開いたら自動で閉じるのは
+            すべてネイティブのpopoverに任せる。aria-expandedはブラウザの暗黙対応（実装差があり得る）に頼らず、
+            仕様で発火が保証されたtoggleイベントを使って自前で同期する（下部script） */}
+        <ul id={id} class="submenu" popover="auto" style={`position-anchor:${anchorName}`}>
+          <slot />
+        </ul>
+      </>
+    ) : (
+      <a href={href} class="link" {...rest}>
+        <slot />
+      </a>
+    )
+  }
+</li>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .NavigationMenuItem {
+      position: relative;
+      .link,
+      .trigger {
+        display: inline-flex;
+        gap: var(--spacing-3xs);
+        align-items: center;
+        font: inherit;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+      .trigger {
+        &::after {
+          width: 1em;
+          height: 1em;
+          content: '';
+          background: currentcolor;
+          mask: var(--icon-chevron-down) center / contain no-repeat;
+          transition: rotate var(--default-duration);
+        }
+        // シェブロンの回転はaria-expandedでなく、隣接するpopoverの:popover-openをCSSの:has()で直接参照する（JS不要）
+        &:has(+ .submenu:popover-open)::after {
+          rotate: 180deg;
+        }
+      }
+      .submenu {
+        // position: fixed は指定しない。[popover]要素はUAスタイルシートで既定position:fixedのため重複
+        inset: auto;
+        display: flex;
+        flex-flow: column wrap;
+        gap: var(--spacing-3xs) var(--spacing-lg);
+        width: max-content;
+        max-width: 90vw;
+        padding: var(--spacing-md);
+        margin: 0;
+        list-style: none;
+        background: var(--color-white);
+        border-radius: var(--rounded-sm);
+        box-shadow: var(--shadow-lg);
+        opacity: 0;
+        transition:
+          opacity var(--default-duration) var(--default-easing),
+          overlay var(--default-duration) var(--default-easing) allow-discrete,
+          display var(--default-duration) var(--default-easing) allow-discrete;
+        &:popover-open {
+          opacity: 1;
+          @starting-style {
+            opacity: 0;
+          }
+        }
+        &::backdrop {
+          background: transparent;
+        }
+      }
+    }
+    // 縦位置（top）と横位置（width/align）は独立した軸。それぞれ単独のプロパティで指定し、
+    // position-area（縦横をまとめて1つの値にする）は使わない。anchor()関数なら軸ごとに個別指定でき、
+    // 例えば top="var(--header-height)"（縦=ヘッダー基準）+ align="end"（横=アンカー基準）のような組み合わせが成立する。
+    // top="trigger"以外はtop propの値をそのまま使う（--_topはli要素にインラインstyleで設定）。
+    // CSS Anchor Positioningに依存しないため@supportsの外＝全ブラウザ共通で効く。JSフォールバックは下部script参照
+    .NavigationMenuItem[data-top='custom'] .submenu {
+      top: var(--_top);
+    }
+    .NavigationMenuItem[data-width='full'] .submenu {
+      right: 0;
+      left: 0;
+      flex-flow: row wrap;
+      width: 100%;
+      max-width: none;
+    }
+    @supports (anchor-name: --a) {
+      // top="trigger"（既定）: トリガー直下に表示
+      .NavigationMenuItem[data-top='trigger'] .submenu {
+        top: calc(anchor(bottom) + var(--spacing-2xs));
+        position-try-fallbacks: flip-block;
+      }
+      // align（width="full"以外に適用）: start=トリガー左端 / end=トリガー右端（既定）
+      .NavigationMenuItem:not([data-width='full'])[data-align='start'] .submenu {
+        left: anchor(left);
+      }
+      .NavigationMenuItem:not([data-width='full'])[data-align='end'] .submenu {
+        right: anchor(right);
+      }
+    }
+  }
+</style>
+
+<script>
+  // 表示/非表示・Escape・外クリック・排他制御（他のサブメニューが開いたら閉じる）はネイティブpopoverに任せる。
+  // JSが担うのは以下の3つだけ:
+  // 1. aria-expandedの同期（全ブラウザ共通）: popovertarget導入ボタンにブラウザがaria-expandedを
+  //    暗黙で反映するかは実装依存で保証がないため、仕様で発火が保証されたtoggleイベントで自前管理する
+  // 2. フォーカスアウトで閉じる（全ブラウザ共通）: popoverのlight-dismissはクリック・Escapeが中心で、
+  //    Tabキーだけでトリガー+パネルの外へフォーカスが抜けても自動では閉じない（検証済み）ため自前で閉じる
+  // 3. CSS Anchor Positioning非対応ブラウザ（本記述時点でFirefox）向けの配置フォールバック。
+  //    top="trigger"以外の縦位置とwidth="full"の横位置は指定値/100%というCSSのみ（@supports外）で
+  //    全ブラウザ解決済みのため、フォールバックが担うのは「トリガー基準の縦位置」と「align基準の横位置」だけ
+  function initNavigationMenuItems() {
+    const supportsAnchor = CSS.supports('anchor-name', '--a');
+
+    document.querySelectorAll<HTMLElement>('.NavigationMenuItem').forEach((item) => {
+      const trigger = item.querySelector<HTMLElement>('.trigger');
+      const panel = item.querySelector<HTMLElement>('.submenu');
+      if (!trigger || !panel) return;
+
+      panel.addEventListener('toggle', (e) => {
+        trigger.setAttribute('aria-expanded', String((e as ToggleEvent).newState === 'open'));
+      });
+
+      item.addEventListener('focusout', (e) => {
+        const next = e.relatedTarget as Node | null;
+        // ウィンドウ切り替え等でrelatedTargetがnullの場合や、トリガー/パネル内への移動は閉じない
+        if (!next || item.contains(next)) return;
+        if (panel.matches(':popover-open')) panel.hidePopover();
+      });
+
+      if (supportsAnchor) return;
+
+      const needsTopFallback = item.dataset.top === 'trigger';
+      const needsLeftFallback = item.dataset.width !== 'full';
+      const isEnd = item.dataset.align === 'end';
+
+      // 両軸ともCSSのみで解決済みなら何もすることがない
+      if (!needsTopFallback && !needsLeftFallback) return;
+
+      const place = () => {
+        const t = trigger.getBoundingClientRect();
+        if (needsTopFallback) {
+          panel.style.top = `${t.bottom}px`;
+        }
+        if (needsLeftFallback) {
+          const p = panel.getBoundingClientRect();
+          const naturalLeft = isEnd ? t.right - p.width : t.left;
+          const left = Math.min(naturalLeft, window.innerWidth - p.width - 8);
+          panel.style.left = `${Math.max(8, left)}px`;
+        }
+      };
+
+      panel.addEventListener('beforetoggle', (e) => {
+        if ((e as ToggleEvent).newState === 'open') place();
+      });
+      window.addEventListener('resize', () => {
+        if (panel.matches(':popover-open')) place();
+      });
+    });
+  }
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initNavigationMenuItems);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initNavigationMenuItems);
+</script>

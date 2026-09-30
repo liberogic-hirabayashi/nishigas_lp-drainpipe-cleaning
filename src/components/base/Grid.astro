@@ -1,0 +1,82 @@
+---
+import type { SpacingSize } from '@/config/spacing';
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  col?: number;
+  lgCol?: number;
+  mdCol?: number;
+  smCol?: number;
+  gap?: SpacingSize;
+  lgGap?: SpacingSize;
+  mdGap?: SpacingSize;
+  smGap?: SpacingSize;
+}
+
+const { col, lgCol, mdCol, smCol, gap = 'md', lgGap, mdGap, smGap, class: className, ...rest } = Astro.props;
+---
+
+<div
+  class:list={['Grid', className]}
+  data-col={col}
+  data-col-lg={lgCol}
+  data-col-md={mdCol}
+  data-col-sm={smCol}
+  data-gap={gap}
+  data-gap-lg={lgGap}
+  data-gap-md={mdGap}
+  data-gap-sm={smGap}
+  {...rest}
+>
+  <slot />
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Grid {
+      display: grid;
+      grid-template-columns: repeat(var(--_col, 1), minmax(0, 1fr));
+      gap: var(--_gap);
+
+      // column
+      @for $i from 1 through 12 {
+        &[data-col='#{$i}'] {
+          --_col: #{$i};
+        }
+      }
+      @each $bp in $t-gap-breakpoints {
+        @include mq-down($bp) {
+          @for $i from 1 through 12 {
+            &[data-col-#{$bp}='#{$i}'] {
+              --_col: #{$i};
+            }
+          }
+        }
+      }
+      // gap
+      @each $name in $t-spacing-names {
+        &[data-gap='#{$name}'] {
+          @if $name == '0' {
+            --_gap: 0;
+          } @else {
+            --_gap: var(--spacing-#{$name});
+          }
+        }
+      }
+      @each $bp in $t-gap-breakpoints {
+        @include mq-down($bp) {
+          @each $name in $t-spacing-names {
+            &[data-gap-#{$bp}='#{$name}'] {
+              @if $name == '0' {
+                --_gap: 0;
+              } @else {
+                --_gap: var(--spacing-#{$name});
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

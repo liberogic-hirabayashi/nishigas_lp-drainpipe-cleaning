@@ -1,0 +1,66 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'select'> {}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['Select', className]}>
+  <select {...rest}>
+    <slot />
+  </select>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Select {
+      position: relative;
+      display: inline-block;
+      @include mq-down(md) {
+        max-width: calc(100vw - (var(--side-gutter) * 2));
+      }
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        content: '';
+        background: var(--color-text);
+        mask: var(--icon-chevron-down) center / contain no-repeat;
+        translate: 0 -50%;
+      }
+      &:has(select[aria-invalid='true'])::after {
+        background: var(--color-attention);
+      }
+      &:has(select:disabled)::after {
+        background: var(--color-disabled);
+      }
+      select {
+        width: 100%;
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        font-size: rem(16);
+        color: var(--color-text);
+        appearance: none;
+        cursor: pointer;
+        background: var(--color-white);
+        border: 1px solid var(--color-border-input);
+        border-radius: var(--rounded-sm);
+        &[aria-invalid='true'] {
+          background: var(--color-bg-attention);
+          border-color: var(--color-attention);
+        }
+        &:disabled {
+          color: var(--color-disabled);
+          cursor: not-allowed;
+          background: var(--color-bg-disabled);
+          border-color: var(--color-bg-disabled);
+          opacity: 1;
+        }
+      }
+    }
+  }
+</style>

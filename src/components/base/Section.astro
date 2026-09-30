@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'section'> {
+  tag?: 'section' | 'div';
+  bg?: boolean;
+}
+
+const { tag = 'section', bg, class: className, ...rest } = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag class:list={['Section', className]} data-bg={bg} {...rest}><slot /></Tag>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Section {
+      padding-top: var(--spacing-3xl);
+      &:last-of-type {
+        padding-bottom: var(--spacing-3xl);
+      }
+      &[data-bg] {
+        padding-block: var(--spacing-3xl);
+        background: var(--color-bg-section);
+      }
+      &:not([data-bg]) + [data-bg] {
+        margin-top: var(--spacing-3xl);
+      }
+      // ブレイクアウトを使う子孫（data-breakout="true"）がいる場合だけコンテナにする
+      &:has([data-breakout='true']) {
+        container-type: inline-size;
+      }
+    }
+  }
+</style>

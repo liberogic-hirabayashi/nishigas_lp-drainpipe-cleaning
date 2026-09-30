@@ -1,0 +1,71 @@
+---
+export interface Props {
+  lists: {
+    text: string;
+    href: string;
+  }[];
+}
+const { lists } = Astro.props;
+const breadcrumbs = lists.map(({ text, href }) => ({
+  text,
+  href: href.replace(/\/index\.html$/, '/'),
+}));
+
+// JSON-LD用のデータ生成
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.text,
+    item: new URL(item.href, Astro.site).toString(),
+  })),
+};
+---
+
+<nav aria-label="パンくずリスト" class="Breadcrumbs">
+  <ol>
+    {
+      breadcrumbs.map(({ text, href }, i: any) => {
+        const isCurrentPage = i === breadcrumbs.length - 1;
+        return (
+          <li>
+            {isCurrentPage ? (
+              <span aria-current="page">{text}</span>
+            ) : (
+              <a href={href}>
+                <span>{text}</span>
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .Breadcrumbs {
+      > ol {
+        padding-left: 0;
+        margin: 0;
+        list-style: none;
+        > li {
+          display: inline;
+          + li::before {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin: 0 0.75em 0 0.5em;
+            content: '/';
+          }
+        }
+      }
+    }
+  }
+</style>

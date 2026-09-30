@@ -1,0 +1,16 @@
+@use 'sass:math';
+@use './strip-unit' as *;
+
+// @overview - pxをremに変換
+// rem(16) => 1.6rem
+//
+// @example scss - Usage
+//
+// .example {
+//   font-size: rem(16);
+// }
+
+@function rem($px) {
+  $value: calc($px / var(--base-font-size) * 1rem);
+  @return $value;
+}

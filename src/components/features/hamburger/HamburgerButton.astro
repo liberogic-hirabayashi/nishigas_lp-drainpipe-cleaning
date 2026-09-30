@@ -1,0 +1,311 @@
+---
+export interface Props {
+  target: string;
+  overlay?: boolean;
+  class?: string;
+}
+
+const { target, overlay = true, class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['HamburgerButton', 'js-hamburger', className]}
+  aria-controls={target}
+  aria-haspopup={overlay ? 'dialog' : undefined}
+  aria-expanded={overlay ? undefined : 'false'}
+  aria-label="メニュー"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  @layer components {
+    .HamburgerButton {
+      --_base-size: 40px;
+      --_base-color: transparent;
+      --_bar-width: 20px;
+      --_bar-height: 2px;
+      --_bar-gutter: 4px;
+      --_bar-color: var(--color-primary);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: var(--_base-size);
+      height: var(--_base-size);
+      cursor: pointer;
+      background: var(--_base-color);
+      transition:
+        transform var(--default-duration),
+        background var(--default-duration);
+      span {
+        position: relative;
+        display: block;
+        width: var(--_bar-width);
+        height: var(--_bar-height);
+        transition:
+          transform var(--default-duration),
+          margin var(--default-duration);
+        &:nth-of-type(1) {
+          margin-bottom: var(--_bar-gutter);
+        }
+        &:nth-of-type(3) {
+          margin-top: var(--_bar-gutter);
+        }
+        &::before,
+        &::after {
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          content: '';
+          background-color: var(--_bar-color);
+        }
+        &::before {
+          transform: scale3d(0, 1, 1);
+          transform-origin: left;
+        }
+        &::after {
+          transform: scale3d(1, 1, 1);
+          transform-origin: right;
+        }
+      }
+      @include hover {
+        span {
+          &::before,
+          &::after {
+            --_duration: 0.25s;
+            --_delay: 0s;
+            --_easing: cubic-bezier(0.49, 0.46, 0.05, 0.995);
+            transition: transform var(--_duration) var(--_delay) var(--_easing);
+          }
+          &::before {
+            --_delay: calc(var(--_duration) + 0.1s);
+            transform: scale3d(1, 1, 1);
+          }
+          &::after {
+            transform: scale3d(0, 1, 1);
+          }
+          &:nth-of-type(2) {
+            &::before {
+              --_delay: calc(var(--_duration) + 0.2s);
+            }
+            &::after {
+              --_delay: 0.1s;
+            }
+          }
+          &:nth-of-type(3) {
+            &::before {
+              --_delay: calc(var(--_duration) + 0.3s);
+            }
+            &::after {
+              --_delay: 0.2s;
+            }
+          }
+        }
+      }
+      &.-open {
+        span {
+          &:nth-of-type(1) {
+            margin-bottom: calc(var(--_bar-height) * -1);
+            transform: rotate(-135deg) scale3d(-1, -1, 1);
+          }
+          &:nth-of-type(2) {
+            transform: scale3d(0, 0, 0);
+          }
+          &:nth-of-type(3) {
+            margin-top: calc(var(--_bar-height) * -1);
+            transform: rotate(135deg) scale3d(1, -1, 1);
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  import mediaQuery from '@/scripts/utils/mediaQuery';
+
+  function initializeHamburgerMenu() {
+    const elms = document.querySelectorAll('.js-hamburger');
+    const IS_OPENED_CLASS = '-open';
+
+    elms.forEach((elm) => {
+      const target = elm.getAttribute('aria-controls');
+      const menuContent = document.getElementById(target);
+
+      if (!menuContent) return;
+
+      const hasAriaExpanded = elm.hasAttribute('aria-expanded');
+      const isModal = !hasAriaExpanded;
+
+      // inertを付けた要素を保持(close時に解除する)
+      const inertedElements = [];
+      // 非レンダリング要素・開発用ツールは inert 対象から除外
+      const SKIP_TAGS = new Set([
+        'SCRIPT',
+        'STYLE',
+        'LINK',
+        'META',
+        'BASE',
+        'NOSCRIPT',
+        'TEMPLATE',
+        'ASTRO-DEV-TOOLBAR',
+      ]);
+
+      // ダイアログ・トリガーボタン以外を inert にする(モーダル専用)
+      const applyInert = () => {
+        let current = menuContent;
+        while (current !== document.body && current.parentElement) {
+          const parent = current.parentElement;
+          Array.from(parent.children).forEach((sibling) => {
+            if (sibling === current) return;
+            if (sibling === elm || sibling.contains(elm)) return;
+            if (SKIP_TAGS.has(sibling.tagName)) return;
+            if (sibling.getAttribute('aria-hidden') === 'true') return;
+            if (sibling.hasAttribute('inert')) return;
+            sibling.setAttribute('inert', '');
+            inertedElements.push(sibling);
+          });
+          current = parent;
+        }
+      };
+
+      const removeInert = () => {
+        inertedElements.forEach((el) => el.removeAttribute('inert'));
+        inertedElements.length = 0;
+      };
+
+      // メニュー内の全フォーカス可能要素を取得する関数 - ハンバーガーボタンも含める
+      const getFocusableElements = () => {
+        // メニュー内の要素とハンバーガーボタンを結合
+        const menuElements = Array.from(
+          menuContent.querySelectorAll('a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])')
+        );
+
+        // ハンバーガーボタンを配列の最初に追加
+        return [elm, ...menuElements];
+      };
+
+      const menuOpen = () => {
+        elm.classList.add(IS_OPENED_CLASS);
+        if (hasAriaExpanded) elm.setAttribute('aria-expanded', 'true');
+        menuContent.setAttribute('data-active', 'true');
+
+        // キーボードトラップの設定
+        document.addEventListener('keydown', trapFocus);
+
+        if (isModal) {
+          // 背景を inert にして SR・キーボード操作から隔離
+          applyInert();
+          // モーダル時はダイアログコンテナへフォーカス移動(SRが「メニューダイアログ」とアナウンス)
+          menuContent.focus({ preventScroll: true });
+        } else {
+          // ディスクロージャー時はフォーカスがメニュー外へ抜けたら閉じる
+          document.addEventListener('focusout', handleFocusOut);
+        }
+      };
+
+      const menuClose = (shouldReturnFocus = true) => {
+        elm.classList.remove(IS_OPENED_CLASS);
+        if (hasAriaExpanded) elm.setAttribute('aria-expanded', 'false');
+        menuContent.setAttribute('data-active', 'false');
+
+        // キーボードトラップを解除
+        document.removeEventListener('keydown', trapFocus);
+        document.removeEventListener('focusout', handleFocusOut);
+
+        // 背景の inert を解除
+        removeInert();
+
+        // フォーカスをボタンに戻す
+        if (shouldReturnFocus) {
+          elm.focus();
+        }
+      };
+
+      // フォーカスがボタン・メニュー外へ移った場合に閉じる(ディスクロージャー専用)
+      const handleFocusOut = (e) => {
+        const next = e.relatedTarget;
+        // ウィンドウ切り替え等で relatedTarget が null のケースは閉じない
+        if (!next) return;
+        if (elm.contains(next) || menuContent.contains(next)) return;
+        menuClose(false);
+      };
+
+      // フォーカストラップの実装(モーダル時はTabラップ、ディスクロージャー時はEscapeのみ)
+      const trapFocus = (e) => {
+        if (e.key === 'Escape') {
+          menuClose(true);
+          return;
+        }
+
+        if (!isModal) return;
+        if (e.key !== 'Tab') return;
+
+        const focusables = getFocusableElements();
+        if (focusables.length <= 1) return;
+
+        // ハンバーガーボタンにフォーカスがあり、それがTabで移動された場合
+        if (document.activeElement === elm && !e.shiftKey) {
+          e.preventDefault();
+          focusables[1].focus(); // 最初のメニュー項目へ
+          return;
+        }
+
+        // ハンバーガーボタンにフォーカスがあり、Shift+Tabの場合
+        if (document.activeElement === elm && e.shiftKey) {
+          e.preventDefault();
+          focusables[focusables.length - 1].focus(); // 最後のメニュー項目へ
+          return;
+        }
+
+        // 最後のメニュー項目でTabを押した場合、ハンバーガーボタンへ
+        if (document.activeElement === focusables[focusables.length - 1] && !e.shiftKey) {
+          e.preventDefault();
+          elm.focus();
+          return;
+        }
+
+        // 最初のメニュー項目でShift+Tabを押した場合、ハンバーガーボタンへ
+        if (document.activeElement === focusables[1] && e.shiftKey) {
+          e.preventDefault();
+          elm.focus();
+          return;
+        }
+      };
+
+      elm.addEventListener('click', () => {
+        if (elm.classList.contains(IS_OPENED_CLASS)) {
+          menuClose(true);
+        } else {
+          menuOpen();
+        }
+      });
+
+      // メニュー外クリックで閉じる
+      document.addEventListener('click', (e) => {
+        if (elm.classList.contains(IS_OPENED_CLASS) && !menuContent.contains(e.target) && !elm.contains(e.target)) {
+          menuClose(true);
+        }
+      });
+
+      mediaQuery.matches('md', (matches) => {
+        // ブレイクポイント切り替えで閉じる
+        menuClose(false);
+      });
+    });
+  }
+
+  // ViewTransition不使用時
+  document.addEventListener('DOMContentLoaded', initializeHamburgerMenu);
+
+  // ViewTransition使用時
+  // document.addEventListener('astro:page-load', initializeHamburgerMenu);
+</script>
