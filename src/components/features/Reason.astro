@@ -1,0 +1,141 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Button from '@/components/base/Button.astro';
+import ButtonWrap from '@/components/base/ButtonWrap.astro';
+import Icon from '@/components/base/Icon.astro';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+import Features from '@/images/features.png';
+import headline from '@/images/headline.png';
+import img_reason01 from '@/images/img_reason01.png';
+import img_reason02 from '@/images/img_reason02.png';
+import img_reason03 from '@/images/img_reason03.png';
+import img_reason04 from '@/images/img_reason04.png';
+---
+
+<Section class="Reason" bg="blue">
+  <SectionInner>
+    <SecTitle tag="reason">
+      <Heading lv="h2" tag="h2"
+        >ニチガスの排水管洗浄が<br />
+        <span>選ばれる理由</span></Heading
+      >
+    </SecTitle>
+    <div class="Reason__items">
+      <div class="Card">
+        <div>
+          <div class="Card__num">
+            Reason<span>01</span>
+          </div>
+          <Heading tag="h3" lv="h3"> 施工はグループ会社<br /> 「ニチガスホームアシスト株式会社」</Heading>
+          <p>
+            ニチガスが掲げる「お客様第一」の精神を受け継ぎ、排水管や床下など“目に見えない部分”の課題にこそ真摯に向き合います。安全・品質・迅速を徹底し、見えないところまで届く安心をお届けします。
+          </p>
+        </div>
+        <div class="Card__img">
+          <Image src={img_reason01} alt="" width={460} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+      </div>
+      <div class="Card -revers">
+        <div>
+          <div class="Card__num">
+            Reason<span>02</span>
+          </div>
+          <Heading tag="h3" lv="h3">
+            事前調査・お見積りのうえ作業。<br />
+            追加費用の不安がありません</Heading
+          >
+          <p>
+            作業前に現地を確認し、お客様に内容・金額をご確認、ご納得いただいたうえで作業すため想定外の費用が発生する不安を軽減します。
+          </p>
+        </div>
+        <div class="Card__img">
+          <Image src={img_reason02} alt="" width={460} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+      </div>
+      <div class="Card">
+        <div>
+          <div class="Card__num">
+            Reason<span>03</span>
+          </div>
+          <Heading tag="h3" lv="h3">
+            ご契約数200万件超。<br />
+            エネルギー事業で培った<br />
+            地域に根ざした対応力</Heading
+          >
+          <p>
+            私たちは現場経験豊富な職人ネットワークを活かし、関東圏を中心に水まわりのトラブルを未然に防ぎ、安心な暮らしを守ってまいります。
+          </p>
+        </div>
+        <div class="Card__img">
+          <Image src={img_reason03} alt="" width={460} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+      </div>
+      <div class="Card -revers">
+        <div>
+          <div class="Card__num">
+            Reason<span>04</span>
+          </div>
+          <Heading tag="h3" lv="h3">
+            給湯器交換やリフォームなど、<br />
+            住まいのお困りごとも<br />
+            まとめて相談できます</Heading
+          >
+          <p>ガス器具からリフォーム、住まいに関するサービスまで幅広く提供し、お客様の暮らしをトータルでサポート</p>
+        </div>
+        <div class="Card__img">
+          <Image src={img_reason04} alt="" width={460} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Reason {
+    margin-top: 40px;
+    &::before {
+      background-color: #ffe038;
+    }
+    &__items {
+      display: grid;
+      grid-template-columns: auto;
+      gap: 40px;
+      .Card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 48px;
+        align-items: center;
+        justify-content: center;
+        padding: 54px 64px;
+        background-color: #fff;
+        border-radius: 32px;
+        &__num {
+          font-size: rem(14);
+          font-weight: bold;
+          color: var(--color-primary);
+          span {
+            margin-left: 8px;
+            font-size: rem(64);
+            font-weight: 900;
+            color: var(--color-yellow);
+          }
+        }
+        :global(.h3) {
+          font-size: rem(26);
+        }
+        &__img {
+          border-radius: 28px;
+        }
+        &.-revers {
+          .Card__img {
+            order: -1;
+          }
+        }
+      }
+    }
+  }
+</style>

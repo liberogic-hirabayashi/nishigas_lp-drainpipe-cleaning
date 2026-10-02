@@ -33,7 +33,7 @@
   --z-top-layer: calc(infinity);
 
   // font
-  --font: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Local Noto Sans JP', arial, 'BIZ UDGothic', meiryo, sans-serif;
+  --font: 'Noto Sans JP', 'Local Noto Sans JP', arial, 'BIZ UDGothic', meiryo, sans-serif;
   --leading-trim: calc((1em - 1lh) / 2);
 
   // clamp 計算の共通設定(font sizes / 余白設定 両方で使用)

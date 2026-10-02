@@ -22,17 +22,34 @@ const Tag = tag;
         padding-bottom: var(--spacing-3xl);
       }
       &[data-bg] {
+        position: relative;
         padding-block: var(--spacing-3xl);
         background: var(--color-bg-section);
+        &:not(:first-of-type) {
+          &::before {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            content: '';
+            background-color: #fff8e5;
+            background-image: url('/src/images/sec_line_blue.png');
+            background-size: cover;
+          }
+        }
       }
       &[data-bg='yellow'] {
         background: #fff8e5;
       }
       &[data-bg='blue'] {
         background: #e8f3ff;
+        &::before {
+          background-image: url('/src/images/sec_line_blue.png');
+        }
       }
       &:not([data-bg]) + [data-bg] {
-        margin-top: var(--spacing-3xl);
+        // margin-top: var(--spacing-3xl);
       }
       // ブレイクアウトを使う子孫（data-breakout="true"）がいる場合だけコンテナにする
       &:has([data-breakout='true']) {
