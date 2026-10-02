@@ -1,0 +1,121 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Button from '@/components/base/Button.astro';
+import ButtonWrap from '@/components/base/ButtonWrap.astro';
+import Icon from '@/components/base/Icon.astro';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import Heading from '../base/Heading.astro';
+import Features from '@/images/features.png';
+import Title from '@/images/haisui_title.png';
+---
+
+<Section class="Main">
+  <SectionInner>
+    <div class="Main__contents">
+      <div class="Main__copy"><span>屋内からも屋外からも、まるごと高圧洗浄</span></div>
+      <Heading lv="h1" tag="h1">
+        <Image src={Title} alt="" width={770} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      </Heading>
+      <div class="Main__lead">
+        キッチン・洗面台・浴室・洗濯排水の屋内4箇所と、<br />
+        屋外の外枡10枡まで。
+      </div>
+      <div>
+        <Image src={Features} alt="" width={524} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      </div>
+      <p>施工は安心のニチガスホームアシスト株式会社が行います</p>
+      <ButtonWrap justify="start">
+        <Button href="#">
+          <Fragment slot="icon-left">
+            <Icon name="copy" aria-hidden />
+          </Fragment><span> お電話で相談する </span>
+        </Button>
+        <Button href="#" variant="secondary">
+          <Fragment slot="icon-left">
+            <Icon name="copy" aria-hidden />
+          </Fragment>
+          お問い合わせフォーム
+        </Button>
+      </ButtonWrap>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Main {
+    padding-bottom: 80px;
+
+    $this: &;
+    overflow: hidden;
+    background-image: url('/src/images/bg.png');
+    background-size: cover;
+    &__contents {
+      position: relative;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &::before,
+      &::after {
+        position: absolute;
+        z-index: -1;
+        content: '';
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      &::before {
+        top: 0;
+        left: -150px;
+        width: 340px;
+        height: 405px;
+        background-image: url('/src/images/main01.png');
+      }
+      &::after {
+        top: 53px;
+        right: -200px;
+        width: 462px;
+        height: 540px;
+        background-image: url('/src/images/main02.png');
+      }
+      .h1 {
+        margin-block: 16px;
+        line-height: 1;
+      }
+      #{$this}__copy {
+        span {
+          padding: 8px 20px;
+          font-size: rem(18);
+          font-weight: bold;
+          color: #1b6fd9;
+          background-color: var(--color-white);
+          border: solid 2px #1b6fd9;
+          border-radius: var(--rounded-full);
+        }
+      }
+      #{$this}__lead {
+        font-size: rem(18);
+        font-weight: bold;
+        text-align: center;
+      }
+      p {
+        display: flex;
+        align-items: center;
+        font-size: rem(14);
+        &::before {
+          display: block;
+          width: 10px;
+          height: 10px;
+          margin-right: 7px;
+          content: '';
+          background-color: var(--color-yellow);
+          border-radius: var(--rounded-full);
+        }
+      }
+      :global(.ButtonWrap) {
+        margin-top: 24px;
+      }
+    }
+  }
+</style>

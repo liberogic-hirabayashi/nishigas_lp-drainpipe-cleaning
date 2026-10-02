@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'astro/types';
 
 export interface Props extends HTMLAttributes<'section'> {
   tag?: 'section' | 'div';
-  bg?: boolean;
+  bg?: 'yellow' | 'blue';
 }
 
 const { tag = 'section', bg, class: className, ...rest } = Astro.props;
@@ -24,6 +24,12 @@ const Tag = tag;
       &[data-bg] {
         padding-block: var(--spacing-3xl);
         background: var(--color-bg-section);
+      }
+      &[data-bg='yellow'] {
+        background: #fff8e5;
+      }
+      &[data-bg='blue'] {
+        background: #e8f3ff;
       }
       &:not([data-bg]) + [data-bg] {
         margin-top: var(--spacing-3xl);

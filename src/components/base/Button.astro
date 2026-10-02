@@ -107,6 +107,7 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
       --_bg-color: white;
       --_color: var(--color-link);
       --_border-color: transparent;
+      position: relative;
       display: inline-grid;
       grid-template-columns: 1fr;
       gap: var(--_gap);
@@ -119,9 +120,13 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
       color: var(--_color);
       text-align: center;
       text-decoration: none;
-      background: var(--_bg-color);
-      border-radius: var(--rounded-sm);
+      background: linear-gradient(180deg, #4099ff 0%, #0a59d1 100%);
+      border-radius: var(--rounded-full);
+      box-shadow: 0 4px 2px 0 #fff6 inset;
       transition: background var(--default-duration);
+      span {
+        text-shadow: 0 2px 0 0 #05338580;
+      }
       &::after {
         display: block;
         width: var(--_icon-size);
@@ -307,8 +312,12 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
         }
       }
       &[data-variant='secondary'] {
-        --_bg-color: var(--color-secondary);
-        --_color: var(--color-text);
+        text-shadow: 0 6px 0 0 #a82908;
+        background: linear-gradient(180deg, #ff9433 0%, #ed4d14 100%);
+        box-shadow: 0 12px 16px 0 #a8290840;
+        box-shadow: 0 4px 2px 0 #fff6 inset;
+
+        --_color: #fff;
         @include hover {
           &:not(:disabled, .-disabled) {
             --_bg-color: rgb(from var(--color-secondary) r g b / 60%);

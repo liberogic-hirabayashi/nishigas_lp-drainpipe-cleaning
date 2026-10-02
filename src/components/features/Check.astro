@@ -1,0 +1,137 @@
+---
+import { Image, Picture } from 'astro:assets';
+import ButtonWrap from '@/components/base/ButtonWrap.astro';
+import Icon from '@/components/base/Icon.astro';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+import Title from '@/images/haisui_title.png';
+import img_check01 from '@/images/img_check01.png';
+import img_check02 from '@/images/img_check02.png';
+import img_check03 from '@/images/img_check03.png';
+import img_check04 from '@/images/img_check04.png';
+import img_check05 from '@/images/img_check05.png';
+import img_check06 from '@/images/img_check06.png';
+---
+
+<Section class="Check" bg="yellow">
+  <SectionInner>
+    <SecTitle tag="check">
+      <Heading lv="h2" tag="h2"
+        >こんなサインが出たら、<br />
+        <span>排水管洗浄のタイミング</span>です</Heading
+      >
+    </SecTitle>
+    <div class="Check__items">
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 01</span>
+        </div>
+        <div>
+          <Image src={img_check01} alt="" width={151} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>
+          排水口から<br />
+          嫌なニオイが上がってくる
+        </p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 02</span>
+        </div>
+        <div>
+          <Image src={img_check02} alt="" width={240} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>ゴボゴボと音がする</p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 03</span>
+        </div>
+        <div>
+          <Image src={img_check03} alt="" width={236} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>
+          水の流れが悪く、<br />
+          シンクや浴室に水が溜まる
+        </p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 04</span>
+        </div>
+        <div>
+          <Image src={img_check04} alt="" width={208} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>
+          入居してから一度も<br />
+          排水管を洗浄したことがない
+        </p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 05</span>
+        </div>
+        <div>
+          <Image src={img_check05} alt="" width={208} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>
+          屋外の排水枡（外枡）から<br />
+          水があふれている
+        </p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>CHECK 06</span>
+        </div>
+        <div>
+          <Image src={img_check06} alt="" width={194} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>
+          業者ごとに料金がバラバラで、<br />
+          どこに頼めばよいか分からない
+        </p>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Check {
+    &__items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      @include mq-down(md) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .Card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        padding: 28px;
+        background-color: #fff;
+        border-radius: 32px;
+        &__tag {
+          span {
+            padding: 6px 12px;
+            font-size: rem(12);
+            font-weight: bold;
+            color: var(--color-white);
+            background-color: var(--color-primary);
+            border-radius: 32px;
+          }
+        }
+        p {
+          font-size: rem(20);
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+    }
+  }
+</style>

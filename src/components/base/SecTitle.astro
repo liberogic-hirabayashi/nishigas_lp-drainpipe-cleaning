@@ -1,0 +1,39 @@
+---
+export interface Props {
+  tag?: string;
+}
+const { tag } = Astro.props;
+---
+
+<div class="SecTitle">
+  <span class=`SecTitle__tag`>{tag}</span>
+  <div>
+    <slot />
+  </div>
+</div>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .SecTitle {
+    margin-bottom: 40px;
+    text-align: center;
+    &__tag {
+      padding: 8px 16px;
+      font-size: rem(13);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      background-color: var(--color-yellow);
+      border-radius: var(--rounded-full);
+    }
+    > div {
+      :global(.h2) {
+        margin-block: 16px;
+        font-size: rem(40);
+      }
+      :global(span) {
+        color: var(--color-primary);
+      }
+    }
+  }
+</style>

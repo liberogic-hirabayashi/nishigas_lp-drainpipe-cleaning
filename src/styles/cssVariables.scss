@@ -8,10 +8,10 @@
   --color-bg-readonly: color-mix(in srgb, var(--color-disabled) 10%, transparent);
   --color-bg-attention: color-mix(in srgb, var(--color-attention) 5%, transparent);
   --color-bg-tooltip: color-mix(in srgb, var(--color-black) 80%, transparent);
-  --color-text: #333;
-  --color-primary: #0061c2;
-  --color-secondary: #eee;
-  --color-attention: #bf3838;
+  --color-text: #213354;
+    --color-primary: #1B6FD9;
+    --color-secondary: #EB7800;
+    --color-attention: #E52E26;
   --color-border: #ddd;
   --color-border-input: #ccc;
   --color-link: #0061c2;
@@ -23,6 +23,7 @@
   --color-white: #fff;
   --color-black: #000;
   --color-shadow: #000;
+  --color-yellow: #FFD340;
 
   --backdrop: rgb(0 0 0 / 60%);
 

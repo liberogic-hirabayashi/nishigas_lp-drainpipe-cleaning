@@ -1,5 +1,8 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Check from '@/components/features/Check.astro';
+import Cva from '@/components/features/Cva.astro';
+import Main from '@/components/features/Main.astro';
 
 const url = '';
 const title = 'TOP_title';
@@ -10,8 +13,9 @@ const current = 'top';
 
 <Layout title={title} description={description} url={url} ogimage={ogimage} metakey="top" current={current}>
   {/* ページ個別の script は <Fragment slot="head"> で囲んでここに書く（</Layout> の後に書くと </html> の外に出る） */}
-
-  コンテンツ
+  <Main />
+  <Check />
+  <Cva />
 </Layout>
 
 <style lang="scss">
