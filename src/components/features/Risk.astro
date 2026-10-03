@@ -1,0 +1,202 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+import img_risk01 from '@/images/img_risk01.png';
+import img_risk02 from '@/images/img_risk02.png';
+import img_risk03 from '@/images/img_risk03.png';
+import img_risk04 from '@/images/img_risk04.png';
+import img_risk_after from '@/images/img_risk_after.png';
+import img_risk_before from '@/images/img_risk_before.png';
+---
+
+<Section class="Risk">
+  <SectionInner>
+    <SecTitle tag="risk">
+      <Heading lv="h2" tag="h2"
+        >詰まってからでは手遅れ。<br />
+        <span class="-orange">害虫や悪臭の発生原因になります</span></Heading
+      >
+      <p>
+        排水管には油汚れや髪の毛などの細かいごみが少しずつ蓄積します。<br />
+        流れが遅くなる → ニオイ・害虫の発生 → 逆流・あふれ、と段階的に悪化し、詰まってからでは対処が大掛かりになります。詰まる前の定期的な洗浄が有効です。
+      </p>
+    </SecTitle>
+    <div class="Risk__flow">
+      <div class="Card">
+        <div class="Card__tag">
+          <span>STEP 1</span>
+        </div>
+        <div>
+          <Image src={img_risk01} alt="" width={100} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>流れが遅くなる</p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>STEP 2</span>
+        </div>
+        <div>
+          <Image src={img_risk02} alt="" width={100} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>ニオイ・害虫の発生</p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>STEP 3</span>
+        </div>
+        <div>
+          <Image src={img_risk03} alt="" width={100} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>逆流・あふれ</p>
+      </div>
+      <div class="Card">
+        <div class="Card__tag">
+          <span>STEP 4</span>
+        </div>
+        <div>
+          <Image src={img_risk04} alt="" width={100} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>洗浄では取れず「工事」</p>
+      </div>
+    </div>
+    <div class="Risk__beforeAfter">
+      <Heading lv="h3" tag="h3">洗浄前後の様子</Heading>
+      <div>
+        <div class="before">
+          <span>洗浄前</span>
+          <Image
+            src={img_risk_before}
+            alt=""
+            width={424}
+            densities={[1.5, 2]}
+            format="avif"
+            quality={50}
+            loading="lazy"
+          />
+        </div>
+        <div class="after">
+          <span>洗浄後</span>
+          <Image
+            src={img_risk_after}
+            alt=""
+            width={424}
+            densities={[1.5, 2]}
+            format="avif"
+            quality={50}
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Risk {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: #ffe038;
+    }
+    &__flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px;
+      .Card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        height: 230px;
+        padding: 18px;
+        background-color: #fff8e5;
+        border-radius: 32px;
+        &__tag {
+          span {
+            padding: 4px 12px;
+            font-size: rem(12);
+            font-weight: bold;
+            color: var(--color-white);
+            background-color: #eb7800;
+            border-radius: 32px;
+          }
+        }
+        p {
+          font-size: rem(18);
+          font-weight: bold;
+          text-align: center;
+        }
+        &:last-child {
+          background-color: #ffeded;
+          span {
+            background-color: #e55454;
+          }
+          p {
+            color: #e55454;
+          }
+        }
+        + .Card {
+          position: relative;
+          &::before {
+            position: absolute;
+            top: 50%;
+            left: -36px;
+            width: 24px;
+            height: 24px;
+            content: '';
+            background-image: url('/src/images/icon_arrow.png');
+          }
+        }
+      }
+    }
+    &__beforeAfter {
+      padding: 48px 72px;
+      margin-top: 56px;
+      text-align: center;
+      background-color: #e8f3ff;
+      border-radius: 40px;
+      > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 88px;
+        margin-top: 40px;
+        > div {
+          position: relative;
+          span {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            padding: 4px 24px;
+            font-size: rem(18);
+            font-weight: bold;
+            color: var(--color-white);
+            border-radius: var(--rounded-full);
+            transform: translateX(-50%);
+          }
+          &.before span {
+            background-color: #6b788c;
+          }
+          &.after span {
+            background-color: var(--color-primary);
+          }
+          + div {
+            &::before {
+              position: absolute;
+              top: calc(50% + -10px);
+              left: -60px;
+              width: 32px;
+              height: 32px;
+              content: '';
+              background-image: url('/src/images/icon_arrow_blue.png');
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,338 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Annotation from '../base/Annotation.astro';
+import BgBox from '../base/BgBox.astro';
+import Heading from '../base/Heading.astro';
+import img_additional01 from '@/images/img_additional01.png';
+import img_additional02 from '@/images/img_additional02.png';
+import img_additional03 from '@/images/img_additional03.png';
+import img_additional04 from '@/images/img_additional04.png';
+import img_plus from '@/images/img_plus.png';
+import img_price01 from '@/images/img_price01.png';
+import img_price02 from '@/images/img_price02.png';
+import img_price03 from '@/images/img_price03.png';
+import img_price04 from '@/images/img_price04.png';
+import img_price05 from '@/images/img_price05.png';
+---
+
+<Section class="Price" bg="blue">
+  <SectionInner>
+    <SecTitle tag="price">
+      <Heading lv="h2" tag="h2">料金</Heading>
+      <div class="price">基本パック<span>38,500</span>円（税込）</div>
+    </SecTitle>
+    <BgBox>
+      <Heading lv="h3" tag="h3"
+        >基本の作業範囲<br />
+        <span>（1箇所あたりに換算すると●●●●円）</span></Heading
+      >
+      <div>
+        <div class="Item">
+          <div class="Item__tag">
+            <span>屋外</span>
+          </div>
+          <div>
+            <Image
+              src={img_price01}
+              alt=""
+              width={228}
+              densities={[1.5, 2]}
+              format="avif"
+              quality={50}
+              loading="lazy"
+            />
+            <p>外枡（そとます）10枡まで</p>
+          </div>
+        </div>
+        <Image src={img_plus} alt="" width={48} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        <div class="Item">
+          <div class="Item__tag">
+            <span>室内（合計4箇所）</span>
+          </div>
+          <div>
+            <div>
+              <Image
+                src={img_price02}
+                alt=""
+                width={80}
+                densities={[1.5, 2]}
+                format="avif"
+                quality={50}
+                loading="lazy"
+              />
+              <p>キッチン</p>
+            </div>
+            <div>
+              <Image
+                src={img_price03}
+                alt=""
+                width={80}
+                densities={[1.5, 2]}
+                format="avif"
+                quality={50}
+                loading="lazy"
+              />
+              <p>洗面台</p>
+            </div>
+            <div>
+              <Image
+                src={img_price04}
+                alt=""
+                width={80}
+                densities={[1.5, 2]}
+                format="avif"
+                quality={50}
+                loading="lazy"
+              />
+              <p>浴室</p>
+            </div>
+            <div>
+              <Image
+                src={img_price05}
+                alt=""
+                width={80}
+                densities={[1.5, 2]}
+                format="avif"
+                quality={50}
+                loading="lazy"
+              />
+              <p>洗濯排水</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Annotation mark="※"> 一般戸建住宅が対象です。</Annotation>
+      <Annotation mark="※"> 屋内4箇所＋屋外10枡までを含む定額パックです。</Annotation>
+    </BgBox>
+    <BgBox>
+      <h4>追加料金となる場合</h4>
+      <div class="Price__additional">
+        <div>
+          <div>
+            <Image
+              src={img_additional01}
+              alt=""
+              width={56}
+              densities={[1.5, 2]}
+              format="avif"
+              quality={50}
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <b>トイレの屋内高圧洗浄は追加オプションとなります（便器内からの高圧洗浄はできません）。</b>
+            <p>トイレを脱着せずに行うオプションは薬剤洗浄・空気圧縮ポンプによる作業です。</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <Image
+              src={img_additional02}
+              alt=""
+              width={56}
+              densities={[1.5, 2]}
+              format="avif"
+              quality={50}
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <b>キッチン排水トラップがS管の場合は追加料金が発生します。</b>
+          </div>
+        </div>
+        <div>
+          <div>
+            <Image
+              src={img_additional03}
+              alt=""
+              width={56}
+              densities={[1.5, 2]}
+              format="avif"
+              quality={50}
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <b>基本の作業範囲を超える追加箇所がある場合は追加料金が発生します。</b>
+          </div>
+        </div>
+        <div>
+          <div>
+            <Image
+              src={img_additional04}
+              alt=""
+              width={56}
+              densities={[1.5, 2]}
+              format="avif"
+              quality={50}
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <b>集合住宅の場合は別途お見積りいたします。</b>
+          </div>
+        </div>
+      </div>
+    </BgBox>
+    <div class="Price__row">
+      <BgBox>
+        <div>
+          お見積り・キャンセル料は<br />
+          すべて無料です
+        </div>
+        <p>
+          この文章はダミーです。この文章はダミーです。この文章はダミーです。この文章はダミーです。この文章はダミーです。この文章はダミーです。
+        </p>
+      </BgBox>
+      <BgBox>
+        <div>
+          正確な金額は<br />
+          現地確認のうえご提示します
+        </div>
+        <p>
+          現場の状況により作業内容が異なる場合や、作業箇所が変更となる場合があります。作業内容は必ず事前調査のうえ、ご提案・お見積りいたします。
+        </p>
+      </BgBox>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Price {
+    margin-top: 40px;
+    &::before {
+      background-color: #ffe038;
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    :global(.SecTitle .price) {
+      width: 634px;
+      margin-inline: auto;
+      font-size: rem(28);
+      font-weight: bold;
+      background-color: #ffd340;
+      border-radius: var(--rounded-full);
+      span {
+        margin-inline: 10px;
+        font-size: rem(72);
+        font-weight: 900;
+        color: #cc610d;
+      }
+    }
+    :global(.h3) {
+      text-align: center;
+      span {
+        color: var(--color-primary);
+      }
+    }
+    :global(.BgBox) {
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 32px;
+        > img {
+          margin-inline: 24px;
+        }
+        .Item {
+          padding: 32px;
+          border-radius: 32px;
+          &__tag {
+            justify-content: center;
+            margin-bottom: 20px;
+            span {
+              display: inline-block;
+              padding: 4px 20px;
+              font-size: rem(18);
+              font-weight: bold;
+              color: var(--color-white);
+              border-radius: var(--rounded-full);
+            }
+          }
+          p {
+            margin-top: 12px;
+            font-size: rem(15);
+            font-weight: bold;
+          }
+
+          &:first-child {
+            background-color: #fff8e5;
+            .Item__tag span {
+              background-color: #eb7800;
+            }
+          }
+          &:last-child {
+            background-color: #e8f3ff;
+            .Item__tag span {
+              background-color: var(--color-primary);
+            }
+            > div {
+              display: flex;
+              gap: 20px;
+            }
+          }
+        }
+      }
+      :global(.Annotation) {
+        justify-content: center;
+      }
+      h4 {
+        display: flex;
+        align-items: center;
+        font-size: rem(26);
+        font-weight: bold;
+
+        &::before {
+          left: 0;
+          display: block;
+          width: 8px;
+          height: 32px;
+          margin-right: 10px;
+          content: '';
+          background-color: #eb7800;
+          border-radius: var(--rounded-md);
+        }
+      }
+      .Price__additional {
+        display: grid;
+        grid-template-columns: auto;
+        gap: 28px;
+        margin: 28px 0 0;
+        > div {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          padding: 16px 20px;
+          background-color: #fff8e5;
+          border-radius: var(--rounded-lg);
+        }
+      }
+    }
+    &__row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      :global(.BgBox) {
+        > div {
+          justify-content: flex-start;
+          margin-bottom: 16px;
+          font-size: rem(24);
+          font-weight: bold;
+          color: var(--color-primary);
+        }
+        p {
+          font-size: rem(15);
+        }
+      }
+      :global(.BgBox + .BgBox) {
+        margin-top: 0;
+      }
+    }
+  }
+</style>

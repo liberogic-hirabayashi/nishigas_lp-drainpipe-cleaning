@@ -34,13 +34,16 @@ const Tag = tag;
             height: 40px;
             content: '';
             background-color: #fff8e5;
-            background-image: url('/src/images/sec_line_blue.png');
+            // background-image: url('/src/images/sec_line_blue.png');
             background-size: cover;
           }
         }
       }
       &[data-bg='yellow'] {
         background: #fff8e5;
+        &::before {
+          background-image: url('/src/images/sec_line_yellow.png');
+        }
       }
       &[data-bg='blue'] {
         background: #e8f3ff;

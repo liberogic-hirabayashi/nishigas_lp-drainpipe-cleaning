@@ -1,0 +1,51 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import BgBox from '../base/BgBox.astro';
+import Heading from '../base/Heading.astro';
+
+import img_area from '@/images/img_area.png';
+---
+
+<Section class="Area" bg="yellow">
+  <SectionInner>
+    <SecTitle tag="area">
+      <Heading lv="h2" tag="h2">清掃<span>範囲</span> </Heading>
+    </SecTitle>
+    <BgBox>
+      <div class="Area__block">
+        <div>
+          <Image src={img_area} alt="" width={818} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        </div>
+        <p>一般戸建住宅は、屋外は外枡10枡以下。室内はキッチン、洗面台、浴室、洗濯排水の4箇所が基本となります。</p>
+      </div>
+    </BgBox>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+
+  .Area {
+    margin-top: 40px;
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    &::before {
+      background-color: var(--color-white);
+    }
+    &__block {
+      p {
+        margin-top: 32px;
+        font-size: rem(15);
+        text-align: center;
+      }
+      > div {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+</style>
