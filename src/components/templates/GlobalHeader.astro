@@ -1,9 +1,10 @@
 ---
-import Accordion from '@/components/features/Accordion.astro';
-import HamburgerButton from '@/components/features/hamburger/HamburgerButton.astro';
-import HamburgerContent from '@/components/features/hamburger/HamburgerContent.astro';
+import { Image } from 'astro:assets';
+import Button from '@/components/base/Button.astro';
+import ButtonWrap from '@/components/base/ButtonWrap.astro';
+import Icon from '@/components/base/Icon.astro';
 import NavigationMenu from '@/components/features/NavigationMenu.astro';
-import NavigationMenuItem from '@/components/features/NavigationMenuItem.astro';
+import Logo from '@/images/logo.svg';
 
 export interface Props {
   current?: string;
@@ -14,39 +15,26 @@ const { current, sticky = false } = Astro.props;
 ---
 
 <header class="GlobalHeader" data-sticky={sticky}>
-  <div class="logo">ロゴ</div>
+  <a href="/" class="logo">
+    <Logo />
+  </a>
   <NavigationMenu class="hide-down-md" aria-label="メインメニュー">
-    <NavigationMenuItem href="/" aria-current={current === 'top' && true}>Home</NavigationMenuItem>
-    <NavigationMenuItem href="/demo/" aria-current={current === 'demo' && true}>Demo</NavigationMenuItem>
-    <NavigationMenuItem label="展開メニューauto" width="auto" id="nav-test-auto">
-      <li><a href="/demo/">項目 A</a></li>
-      <li><a href="/demo/">項目 B</a></li>
-      <li><a href="/demo/">項目 C</a></li>
-    </NavigationMenuItem>
-    <NavigationMenuItem label="展開メニューfull" width="full" top="anchor(--global-header bottom)" id="nav-test-full">
-      <li><a href="/demo/">項目 A</a></li>
-      <li><a href="/demo/">項目 B</a></li>
-      <li><a href="/demo/">項目 C</a></li>
-    </NavigationMenuItem>
+    <p>【受付時間】平日9:00〜17:00（土日祝休）</p>
+    <ButtonWrap justify="start">
+      <Button href="#" size="lg" icon="none">
+        <Fragment slot="icon-left">
+          <Icon name="tel" aria-hidden />
+        </Fragment><span> お電話で相談する </span>
+      </Button>
+      <Button href="#" variant="secondary" size="lg" icon="none">
+        <Fragment slot="icon-left">
+          <Icon name="mail" aria-hidden />
+        </Fragment>
+        お問い合わせフォーム
+      </Button>
+    </ButtonWrap>
   </NavigationMenu>
   {/* ハンバーガーメニューがオーバーレイの場合は、overlayをtrueにするか削除する */}
-  <HamburgerButton class="hide-up-md" target="HamburgerContent" overlay={false} />
-  <HamburgerContent class="hide-up-md" id="HamburgerContent" overlay={false} top="anchor(--global-header bottom)">
-    <ul>
-      <li><a href="/" aria-current={current === 'top' && true}>Home</a></li>
-      <li><a href="/demo/" aria-current={current === 'demo' && true}>Demo</a></li>
-      <li>
-        <Accordion>
-          <Fragment slot="summary">展開するメニュー</Fragment>
-          <ul>
-            <li><a href="/demo/">項目 A</a></li>
-            <li><a href="/demo/">項目 B</a></li>
-            <li><a href="/demo/">項目 C</a></li>
-          </ul>
-        </Accordion>
-      </li>
-    </ul>
-  </HamburgerContent>
 </header>
 
 <style lang="scss">
@@ -59,11 +47,27 @@ const { current, sticky = false } = Astro.props;
       padding: var(--spacing-md);
       // NavigationMenuItem/HamburgerContentのtop propから anchor() で参照される
       anchor-name: --global-header;
-      background: #eee;
+      background: var(--color-white);
       &[data-sticky='true'] {
         position: sticky;
         top: 0;
         z-index: var(--z-sticky);
+      }
+      :global(.Button[data-variant='secondary']) {
+        background: #eb7800;
+        box-shadow: 0 3px 0 0 #cc610d;
+      }
+      :global(.Button[data-variant='primary']) {
+        background: #1b6fd9;
+        box-shadow: 0 3px 0 0 #0f4a99;
+      }
+      // spanはButtonコンポーネント内の要素のため、:global() で囲まないとscopeが付いて当たらない
+      :global(.Button[data-variant] span) {
+        text-shadow: none;
+      }
+      p {
+        font-size: rem(13);
+        color: #6b788c;
       }
     }
   }

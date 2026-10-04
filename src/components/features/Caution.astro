@@ -1,0 +1,161 @@
+---
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+---
+
+<Section class="Caution">
+  <SectionInner>
+    <SecTitle tag="Caution">
+      <Heading lv="h2" tag="h2"
+        >排水管洗浄の訪問営業・点検商法に<br />
+        <span class="-red">ご注意ください</span></Heading
+      >
+    </SecTitle>
+    <div class="Caution__wrap">
+      <div>
+        <span>ニチガス</span>
+        <div>安心の正規サービス</div>
+        <ul>
+          <li>事前予約制</li>
+          <li>社員証を提示</li>
+          <li>作業車を明示</li>
+        </ul>
+      </div>
+      <div>
+        <span>不審な業者</span>
+        <div>こんな訪問にご注意</div>
+        <ul>
+          <li>「近所で工事をしている」と声をかけられる</li>
+          <li>「無料で点検します」と勧誘される</li>
+        </ul>
+      </div>
+    </div>
+    <div class="Caution__list">
+      <p>
+        こうした飛び込み訪問をきっかけに、高額な作業を契約させられる事例が報告されています。<br />
+        ご依頼前に、以下の3点をご確認ください。
+      </p>
+      <div>
+        <ol>
+          <li><span>1</span>事前に書面で見積りが提示されるか</li>
+          <li><span>2</span>追加料金の条件が明確か</li>
+          <li><span>3</span>飛び込み営業やポスティングをきっかけにしていないか</li>
+        </ol>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Caution {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: #fff8e5;
+    }
+    :global(.SecTitle__tag) {
+      background-color: #ffeded;
+    }
+    &__wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 48px;
+      > div {
+        --_color: var(--color-primary);
+        --bg_color: #e8f3ff;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 56px;
+        background-color: var(--bg_color);
+        border: solid 3px var(--_color);
+        border-radius: 40px;
+        span {
+          position: absolute;
+          top: -20px;
+          padding: 4px 28px;
+          font-size: rem(20);
+          font-weight: bold;
+          color: var(--color-white);
+          background-color: var(--_color);
+          border-radius: 40px;
+        }
+        > div {
+          font-size: rem(28);
+          font-weight: bold;
+          color: var(--_color);
+        }
+        ul {
+          display: inline-block;
+          margin-top: 20px;
+          li {
+            display: flex;
+            align-items: center;
+            font-size: rem(17);
+            font-weight: bold;
+            &::before {
+              display: block;
+              width: 20px;
+              height: 20px;
+              margin-right: 10px;
+              content: '';
+              background-color: var(--_color);
+              border-radius: var(--rounded-full);
+            }
+            + li {
+              margin-top: 10px;
+            }
+          }
+        }
+        &:last-child {
+          --_color: #e55454;
+          --bg_color: #ffeded;
+        }
+      }
+    }
+    &__list {
+      padding: 40px;
+      margin-top: 56px;
+      background-color: #fff2c7;
+      border-radius: 40px;
+      p {
+        text-align: center;
+      }
+      > div {
+        width: 620px;
+        padding: 28px 40px;
+        margin-inline: auto;
+        margin-top: 24px;
+        background-color: var(--color-white);
+        border-radius: 28px;
+        ol {
+          li {
+            display: flex;
+            align-items: center;
+            font-size: rem(19);
+            font-weight: bold;
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 32px;
+              height: 32px;
+              margin-right: 14px;
+              font-weight: bold;
+              color: var(--color-white);
+              background-color: var(--color-secondary);
+              border-radius: var(--rounded-full);
+            }
+            + li {
+              margin-top: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

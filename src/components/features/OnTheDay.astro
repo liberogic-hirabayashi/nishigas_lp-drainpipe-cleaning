@@ -1,0 +1,177 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+import img_risk_after from '@/images/img_risk_after.png';
+import img_risk_before from '@/images/img_risk_before.png';
+---
+
+<Section class="OnTheDay" bg="yellow">
+  <SectionInner>
+    <SecTitle tag="On The Day">
+      <Heading lv="h2" tag="h2">作業当日の流れと<span>所要時間</span></Heading>
+      <p>
+        作業前に現地の状況を確認し、追加作業の有無や作業内容、料金についてご説明いたします。<br />
+        お客様にご確認・ご了承いただいたうえで、作業を開始いたします。
+      </p>
+    </SecTitle>
+
+    <div class="OnTheDay__flow">
+      <div class="item">
+        <span class="num">1</span>
+        <div>所要時間</div>
+        <b>作業時間の目安は</b>
+        <span>約90分</span>
+      </div>
+      <div class="item">
+        <span class="num">2</span>
+        <div>
+          水道やトイレは使えますか<br />
+          立ち会いは必要ですか
+        </div>
+
+        <p>
+          洗浄中の場所とは別の蛇口であれば、比較的安心してご使用いただけますが、作業中は極力ご使用をお控えください。また、作業当日はお立ち会いをお願いしております。
+        </p>
+      </div>
+      <div class="item">
+        <span class="num">3</span>
+        <div>当日ご準備いただくこと</div>
+
+        <p>駐車スペースの確保をお願いいたします。スペースがない場合は、事前にお伝えください。</p>
+      </div>
+    </div>
+    <div class="OnTheDay__beforeAfter">
+      <Heading lv="h3" tag="h3">洗浄前後の様子</Heading>
+      <div>
+        <div class="before">
+          <span>洗浄前</span>
+          <Image
+            src={img_risk_before}
+            alt=""
+            width={424}
+            densities={[1.5, 2]}
+            format="avif"
+            quality={50}
+            loading="lazy"
+          />
+        </div>
+        <div class="after">
+          <span>洗浄後</span>
+          <Image
+            src={img_risk_after}
+            alt=""
+            width={424}
+            densities={[1.5, 2]}
+            format="avif"
+            quality={50}
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .OnTheDay {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: var(--color-white);
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    &__flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px;
+        font-weight: bold;
+        background-color: var(--color-white);
+        border-radius: 40px;
+        box-shadow: 0 8px 24px 0 #1a4d9914;
+
+        .num {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 64px;
+          height: 64px;
+          font-size: rem(28);
+          background-color: var(--color-yellow);
+          border-radius: var(--rounded-full);
+        }
+        > div {
+          margin-block: 20px;
+          font-size: rem(20);
+          text-align: center;
+        }
+        > span:not(.num) {
+          display: block;
+          font-size: rem(64);
+          font-weight: 900;
+          line-height: 1.25;
+          color: var(--color-primary);
+        }
+        p {
+          font-size: rem(15);
+          font-weight: normal;
+        }
+      }
+    }
+    &__beforeAfter {
+      padding: 48px 72px;
+      margin-top: 56px;
+      text-align: center;
+      background-color: var(--color-white);
+      border-radius: 40px;
+      box-shadow: 0 8px 24px 0 #1a4d9914;
+      > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 88px;
+        margin-top: 40px;
+        > div {
+          position: relative;
+          span {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            padding: 4px 24px;
+            font-size: rem(18);
+            font-weight: bold;
+            color: var(--color-white);
+            border-radius: var(--rounded-full);
+            transform: translateX(-50%);
+          }
+          &.before span {
+            background-color: #6b788c;
+          }
+          &.after span {
+            background-color: var(--color-primary);
+          }
+          + div {
+            &::before {
+              position: absolute;
+              top: calc(50% + -10px);
+              left: -60px;
+              width: 32px;
+              height: 32px;
+              content: '';
+              background-image: url('/src/images/icon_arrow_blue.png');
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

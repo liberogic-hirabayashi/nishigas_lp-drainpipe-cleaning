@@ -1,0 +1,127 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+---
+
+<Section class="Flow" bg="blue">
+  <SectionInner>
+    <SecTitle tag="flow">
+      <Heading lv="h2" tag="h2">ご相談から<span>作業完了までの流れ</span></Heading>
+    </SecTitle>
+    <div class="Flow__step">
+      <div>
+        <div class="num">
+          STEP
+          <span>01</span>
+        </div>
+        <div>
+          <Heading lv="h3" tag="h3">お問い合わせ</Heading>
+          <p>フォーム（24時間受付）またはお電話でご連絡ください。</p>
+        </div>
+      </div>
+      <div>
+        <div class="num">
+          STEP
+          <span>02</span>
+        </div>
+        <div>
+          <Heading lv="h3" tag="h3">日程のご相談（お問い合わせから最短●日）</Heading>
+          <p>ご希望の作業日を調整します。</p>
+        </div>
+      </div>
+      <div>
+        <div class="num">
+          STEP
+          <span>03</span>
+        </div>
+        <div>
+          <Heading lv="h3" tag="h3">事前調査・お見積り（無料）</Heading>
+          <p>現場の状況を確認し、作業内容と金額をご提示します。</p>
+        </div>
+      </div>
+      <div>
+        <div class="num">
+          STEP
+          <span>04</span>
+        </div>
+        <div>
+          <Heading lv="h3" tag="h3">高圧洗浄作業（所要時間の目安 約90分）</Heading>
+          <p>屋内4箇所と屋外の外枡を洗浄します。</p>
+        </div>
+      </div>
+      <div>
+        <div class="num">
+          STEP
+          <span>05</span>
+        </div>
+        <div>
+          <Heading lv="h3" tag="h3">作業完了・ご確認</Heading>
+          <p>作業内容をご説明のうえ完了となります。</p>
+        </div>
+      </div>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Flow {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: var(--color-white);
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    &__step {
+      display: grid;
+      grid-template-columns: auto;
+      gap: 42px;
+      > div {
+        --_color: var(--color-primary);
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: var(--color-white);
+        border-radius: var(--rounded-full);
+        box-shadow: 0 8px 24px 0 #1a4d9914;
+        .num {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 88px;
+          height: 88px;
+          margin-right: 30px;
+          font-size: rem(11);
+          font-weight: bold;
+          color: var(--color-white);
+          background-color: var(--_color);
+          border-radius: var(--rounded-full);
+          > span {
+            font-size: rem(30);
+            line-height: 1;
+          }
+        }
+        > div {
+          .h3 {
+            margin-bottom: 0;
+          }
+          p {
+            font-size: rem(15);
+            color: #6b788c;
+          }
+        }
+        &:last-child {
+          .num {
+            --_color: var(--color-secondary);
+          }
+        }
+      }
+    }
+  }
+</style>

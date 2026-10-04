@@ -17,9 +17,21 @@ const Tag = tag;
   @use '@/styles/global' as *;
   @layer components {
     .Section {
+      position: relative;
+      padding-block: var(--spacing-3xl);
       padding-top: var(--spacing-3xl);
       &:last-of-type {
         padding-bottom: var(--spacing-3xl);
+      }
+      &::before {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        content: '';
+        background-image: url('/src/images/sec_line.png');
+        background-size: cover;
       }
       &[data-bg] {
         position: relative;
@@ -33,8 +45,7 @@ const Tag = tag;
             width: 100%;
             height: 40px;
             content: '';
-            background-color: #fff8e5;
-            // background-image: url('/src/images/sec_line_blue.png');
+            // background-image: url('/src/images/sec_line.png');
             background-size: cover;
           }
         }

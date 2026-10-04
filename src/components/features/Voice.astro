@@ -1,0 +1,107 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import BgBox from '../base/BgBox.astro';
+import Heading from '../base/Heading.astro';
+import face from '@/images/img_face.png';
+---
+
+<Section class="Voice" bg="yellow">
+  <SectionInner>
+    <SecTitle tag="Voice">
+      <Heading lv="h2" tag="h2"
+        >お客様の声<br />
+        <span class="-orange">2,000件</span>の施工実績</Heading
+      >
+    </SecTitle>
+    <BgBox>
+      <div class="Voice__contents">
+        <div class="heading">
+          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+          <span>春日部市 Y/S様</span>
+        </div>
+        <div class="body">
+          <Heading lv="h3" tag="h3">築20年で初の高圧洗浄、臭いも排水も解消 </Heading>
+          <p>
+            築20年目にして、初めて高圧洗浄を依頼しました。きっかけは、台所の異臭や洗濯機の漏水、浴室の排水不良といったトラブルが重なったことでした。依頼先を検討する中で、日頃からガスと電気を契約している「ニチガス」のホームページが目に留まりました。以前、コンロや給湯器の交換をお願いした際に、営業担当者の方や作業員の皆様の対応に大変満足していたため、今回も安心して依頼することができました。<br
+            />
+            当日は時間通りの訪問と丁寧な事前説明があり、非常に信頼できる対応でした。作業中に立ち会って実際の汚れを確認できたほか、日常のお手入れについてのアドバイスをいただいたり、作業動画を見せていただいたりと、終始安心して任せることができました。土日も作業に対応していただける点も大変助かりました。おかげさまで、臭いも解消され、排水もスムーズになり快適に過ごしております。ありがとうございました。
+          </p>
+        </div>
+      </div>
+    </BgBox>
+    <BgBox>
+      <div class="Voice__contents">
+        <div class="heading">
+          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+          <span>埼玉県 O様</span>
+        </div>
+        <div class="body">
+          <Heading lv="h3" tag="h3">業者選びに迷ったけどニチガスで安心できた </Heading>
+          <p>
+            キッチンの流れが悪くなり、時折生臭いニオイが気になっていたため、ニチガスさんに相談しました。<br />
+            いろんな業者がある中でどこに頼んだらいいか迷っていましたが今回ニチガスさんで排水管サービスを行っている提案を受け安心してお願いできました。<br
+            />
+            清掃後は一瞬で水が流れるようになりニオイも気にならずスッキリ解消できました。作業も丁寧に行ってもらい大変満足しニチガスさんに頼んでよかったです。
+          </p>
+        </div>
+      </div>
+    </BgBox>
+    <BgBox>
+      <div class="Voice__contents">
+        <div class="heading">
+          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+          <span>〇〇市 〇〇様</span>
+        </div>
+        <div class="body">
+          <Heading lv="h3" tag="h3">他社で断られた築40年の家にも快く対応！ </Heading>
+          <p>
+            築40年以上の戸建てってだけで作業を断られるなか、
+            相談のときから気持ちよく迅速に対応してくださいました。作業内容は、洗濯排水口と台所排水口の2箇所と、外の枡や排水管を掃除していただき、油脂・汚物をしっかり除去してくださいました。
+            作業後も画像を見ながら丁寧な説明をしてくださり、アドバイスなどもいただき、問題だった洗濯排水口からの悪臭も解決でき助かりました。作業を依頼して良かったです。
+            有り難うございました。
+          </p>
+        </div>
+      </div>
+    </BgBox>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Voice {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: #ffe038;
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    :global(.BgBox + .BgBox) {
+      margin-top: 12px;
+    }
+
+    &__contents {
+      display: flex;
+      align-items: center;
+      .heading {
+        flex-shrink: 0;
+        padding-inline: 56px;
+        span {
+          display: inline-block;
+          margin-top: 20px;
+          font-size: rem(13);
+          color: #6b788c;
+        }
+      }
+      .body {
+        padding-left: 40px;
+        margin-left: 40px;
+        border-left: dashed 2px #ffd340;
+      }
+    }
+  }
+</style>
