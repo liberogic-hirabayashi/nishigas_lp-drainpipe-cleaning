@@ -7,7 +7,7 @@ import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
 ---
 
-<Section class="Contact">
+<Section class="Contact" id="contact">
   <SectionInner>
     <SecTitle tag="Contact">
       <Heading lv="h2" tag="h2"><span>お問い合わせ</span>フォーム</Heading>
@@ -122,6 +122,9 @@ import Heading from '../base/Heading.astro';
           display: grid;
           grid-template-columns: 300px 1fr;
           gap: 24px;
+          @include mq-down(md) {
+            grid-template-columns: auto;
+          }
           &:has(textarea) {
             align-items: flex-start;
             dt {

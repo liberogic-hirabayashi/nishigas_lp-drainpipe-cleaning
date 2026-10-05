@@ -63,6 +63,9 @@ import Heading from '../base/Heading.astro';
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 48px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+      }
       > div {
         --_color: var(--color-primary);
         --bg_color: #e8f3ff;
@@ -132,6 +135,9 @@ import Heading from '../base/Heading.astro';
         margin-top: 24px;
         background-color: var(--color-white);
         border-radius: 28px;
+        @include mq-down(md) {
+          width: 100%;
+        }
         ol {
           li {
             display: flex;
