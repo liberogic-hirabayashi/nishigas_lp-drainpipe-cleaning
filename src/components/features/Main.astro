@@ -5,9 +5,13 @@ import ButtonWrap from '@/components/base/ButtonWrap.astro';
 import Icon from '@/components/base/Icon.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
+import Annotation from '../base/Annotation.astro';
 import Heading from '../base/Heading.astro';
-import Features from '@/images/features.png';
 import Title from '@/images/haisui_title.png';
+
+import IconMovie from '@/images/icon_movie.svg';
+import SpImage01 from '@/images/img_sp01.png';
+import SpImage02 from '@/images/img_sp02.png';
 ---
 
 <Section class="Main" tag="div">
@@ -21,22 +25,50 @@ import Title from '@/images/haisui_title.png';
         キッチン・洗面台・浴室・洗濯排水の屋内4箇所と、<br />
         屋外の外枡10枡まで。
       </div>
-      <div>
-        <Image src={Features} alt="" width={524} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      <div class="Main__spImage">
+        <Image src={SpImage01} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        <Image src={SpImage02} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      </div>
+      <div class="Main__features">
+        <div>
+          基本パック
+          <span class="num">38,500</span>円（税込）
+        </div>
+        <div>
+          電話ですぐに
+          <span class="">お見積もり</span>
+        </div>
+        <div>
+          累計
+          <span class="num">2,000</span>件以上
+          <Annotation mark="※">2026年〇月末時点</Annotation>
+        </div>
       </div>
       <p>施工は安心のニチガスホームアシスト株式会社が行います</p>
       <ButtonWrap justify="start">
         <Button href="#">
+          <span class="speechbubble">平日9:00〜17:00</span>
           <Fragment slot="icon-left">
-            <Icon name="copy" aria-hidden />
-          </Fragment><span> お電話で相談する </span>
+            <Icon name="tel" aria-hidden />
+          </Fragment>
+          <span>＼ 電話ですぐにお見積り ／</span>
+          お電話で相談する
         </Button>
         <Button href="#" variant="secondary">
+          <span class="speechbubble">24時間受付</span>
           <Fragment slot="icon-left">
-            <Icon name="copy" aria-hidden />
+            <Icon name="mail" aria-hidden />
           </Fragment>
-          お問い合わせフォーム
+          <span>＼ 見積り・キャンセル料無料 ／</span>お問い合わせフォーム
         </Button>
+      </ButtonWrap>
+      <ButtonWrap justify="start">
+        <a href="/" class="Button -outline">
+          <Fragment slot="icon-left">
+            <IconMovie />
+          </Fragment>
+          <span>動画で確認する</span>
+        </a>
       </ButtonWrap>
     </div>
   </SectionInner>
@@ -51,6 +83,9 @@ import Title from '@/images/haisui_title.png';
     overflow: hidden;
     background-image: url('/src/images/bg.png');
     background-size: cover;
+    @include mq-down(md) {
+      background-image: url('/src/images/bg_sp.png');
+    }
     &__contents {
       position: relative;
       z-index: 100;
@@ -64,6 +99,9 @@ import Title from '@/images/haisui_title.png';
         content: '';
         background-repeat: no-repeat;
         background-size: contain;
+        @include mq-down(md) {
+          display: none;
+        }
       }
       &::before {
         top: 0;
@@ -85,6 +123,7 @@ import Title from '@/images/haisui_title.png';
       }
       #{$this}__copy {
         span {
+          display: inline-block;
           padding: 8px 20px;
           font-size: rem(18);
           font-weight: bold;
@@ -92,17 +131,91 @@ import Title from '@/images/haisui_title.png';
           background-color: var(--color-white);
           border: solid 2px #1b6fd9;
           border-radius: var(--rounded-full);
+          @include mq-down(md) {
+            padding-inline: 16px;
+            font-size: rem(15);
+          }
         }
       }
       #{$this}__lead {
         font-size: rem(18);
         font-weight: bold;
         text-align: center;
+        @include mq-down(md) {
+          font-size: rem(13);
+        }
       }
-      p {
+      #{$this}__features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        width: 524px;
+        margin: 16px auto;
+        @include mq-down(md) {
+          grid-template-columns: repeat(3, auto);
+          gap: 0;
+          justify-content: center;
+          width: 100%;
+        }
+        > div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          // width: 164px;
+          height: 164px;
+          font-size: rem(14);
+          font-weight: bold;
+          background-image: url('/src/images/img_deco.png');
+          background-size: 100% 100%;
+          @include mq-down(md) {
+            width: vw(100, 375);
+            height: vw(100, 375);
+            font-size: rem(10);
+          }
+          > span {
+            display: block;
+            font-size: rem(26);
+            font-weight: 900;
+            line-height: 1;
+            @include mq-down(md) {
+              font-size: rem(17);
+            }
+            .num {
+              font-size: rem(34);
+              @include mq-down(md) {
+                font-size: rem(22);
+              }
+            }
+          }
+          :global(.Annotation) {
+            font-size: rem(10) !important;
+            font-weight: normal !important;
+            color: #213354;
+            @include mq-down(md) {
+              font-size: rem(7) !important;
+            }
+          }
+        }
+      }
+      #{$this}__spImage {
+        display: none;
+        @include mq-down(md) {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          justify-content: center;
+          margin-block: 16px;
+        }
+      }
+      > p {
         display: flex;
         align-items: center;
         font-size: rem(14);
+        @include mq-down(md) {
+          font-size: rem(12);
+          letter-spacing: -0.01rem;
+        }
         &::before {
           display: block;
           width: 10px;
@@ -114,7 +227,87 @@ import Title from '@/images/haisui_title.png';
         }
       }
       :global(.ButtonWrap) {
-        margin-top: 24px;
+        margin-top: 48px;
+        @include mq-down(md) {
+          display: flex;
+          flex-direction: column;
+          gap: 42px;
+        }
+        + .ButtonWrap {
+          margin-top: 24px;
+        }
+      }
+      :global(.Button) {
+        --_shadow-color: #053385;
+        --_main-color: var(--color-primary);
+        min-width: 296px;
+        box-shadow: 0 3px 0 0 var(--_shadow-color);
+        span:not(.speechbubble) {
+          display: flex;
+          flex-direction: column;
+          font-size: rem(12);
+          color: #ffe566;
+        }
+        .speechbubble {
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          width: auto;
+          padding: 1px 10px;
+          font-size: rem(13);
+          color: var(--_main-color);
+          white-space: nowrap;
+          text-shadow: none;
+          background-color: var(--color-white);
+          border: solid 2px var(--_main-color);
+          border-radius: var(--rounded-full);
+          transform: translateX(-50%);
+          &::before {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 10px;
+            height: 8px;
+            content: '';
+            background-color: var(--_main-color);
+            clip-path: polygon(0 0, 100% 0%, 50% 100%);
+            transform: translateX(-50%);
+          }
+        }
+        :global(.Icon) {
+          position: relative;
+          &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 40px;
+            height: 40px;
+            content: '';
+            border: solid 1px #fff;
+          }
+        }
+        &[data-variant='secondary'] {
+          --_main-color: var(--color-secondary);
+          --_shadow-color: #a82908;
+        }
+        &.-outline {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          min-width: auto;
+          padding: 11px 20px;
+          text-decoration: none;
+          background-color: var(--color-white);
+          border: solid 1px #21335426;
+          border-radius: var(--rounded-full);
+          box-shadow: none;
+          span {
+            font-size: rem(14);
+            font-weight: bold;
+            color: #213354;
+          }
+        }
       }
     }
   }

@@ -217,6 +217,9 @@ import img_price05 from '@/images/img_price05.png';
       font-weight: bold;
       background-color: #ffd340;
       border-radius: var(--rounded-full);
+      @include mq-down(md) {
+        width: 100%;
+      }
       span {
         margin-inline: 10px;
         font-size: rem(72);

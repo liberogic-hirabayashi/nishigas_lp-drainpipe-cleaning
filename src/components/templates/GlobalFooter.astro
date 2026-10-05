@@ -1,10 +1,22 @@
 ---
-
+import { Image, Picture } from 'astro:assets';
+import Logo from '@/images/footer_logo.svg';
 ---
 
 <footer class="GlobalFooter">
+  <div>
+    <a href="/"> <Logo /></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/corporate/aboutus">会社概要</a></li>
+      <li><a href="/privacy">個人情報保護方針</a></li>
+      <li><a href="/guide">サイトご利用にあたって</a></li>
+      <li><a href="#contact">お問い合わせ</a></li>
+    </ul>
+  </nav>
   <div class="copyright">
-    <small>© xxxx</small>
+    <small>© NIPPON GAS CO., LTD. All Rights Reserved.</small>
   </div>
 </footer>
 
@@ -12,8 +24,42 @@
   @use '@/styles/global' as *;
   @layer components {
     .GlobalFooter {
-      background: #eee;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 40px 48px;
+      margin-top: 40px;
+      background: #213354;
+      &::before {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        content: '';
+        background-color: #fff8e5;
+        background-image: url('/src/images/footer_line.png');
+        background-size: cover;
+      }
+      nav {
+        margin-block: 32px;
+        ul {
+          display: flex;
+          gap: 32px;
+          a {
+            font-size: rem(14);
+            font-weight: bold;
+            color: var(--color-white);
+            text-decoration: none;
+          }
+        }
+      }
+
       .copyright {
+        font-size: rem(12);
+        font-weight: bold;
+        color: var(--color-white);
         text-align: center;
       }
     }

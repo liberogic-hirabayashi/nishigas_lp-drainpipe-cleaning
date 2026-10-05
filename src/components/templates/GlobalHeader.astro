@@ -44,7 +44,7 @@ const { current, sticky = false } = Astro.props;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--spacing-md);
+      padding: 20px;
       // NavigationMenuItem/HamburgerContentのtop propから anchor() で参照される
       anchor-name: --global-header;
       background: var(--color-white);
@@ -52,6 +52,10 @@ const { current, sticky = false } = Astro.props;
         position: sticky;
         top: 0;
         z-index: var(--z-sticky);
+      }
+
+      :global(.Button) {
+        min-height: auto;
       }
       :global(.Button[data-variant='secondary']) {
         background: #eb7800;

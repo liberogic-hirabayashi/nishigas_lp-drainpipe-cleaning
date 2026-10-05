@@ -106,6 +106,9 @@ import img_risk_before from '@/images/img_risk_before.png';
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 48px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+      }
       .Card {
         --_color: var(--color-secondary);
         --bg_color: #fff8e5;

@@ -90,6 +90,9 @@ import img_risk_before from '@/images/img_risk_before.png';
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+      }
       .item {
         display: flex;
         flex-direction: column;
