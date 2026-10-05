@@ -1,0 +1,226 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Icon from '@/components/base/Icon.astro';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Heading from '../base/Heading.astro';
+---
+
+<Section class="Contact">
+  <SectionInner>
+    <SecTitle tag="Contact">
+      <Heading lv="h2" tag="h2"><span>お問い合わせ</span>フォーム</Heading>
+      <p>ご登録後、ニチガスホームアシスト作業員よりご連絡させていただきます。</p>
+    </SecTitle>
+    <div class="Contact__formWrap">
+      <form action="">
+        <div class="form-area">
+          <dl class="form-area__item">
+            <dt>ご住宅タイプ<span class="icn-require">必須</span></dt>
+            <dd>
+              <ul class="form-radio-list">
+                <li>
+                  <label><input type="radio" name="entry." value="戸建て" required />戸建て</label>
+                </li>
+                <li>
+                  <label><input type="radio" name="entry." value="集合住宅" />集合住宅</label>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt>お名前<span class="icn-require">必須</span></dt>
+            <dd>
+              <input type="text" name="entry.1700126369" required placeholder="例）佐藤　太郎" />
+            </dd>
+          </dl>
+
+          <dl class="form-area__item">
+            <dt>カタカナ（フリガナ）<span class="icn-require">必須</span></dt>
+            <dd>
+              <input type="text" name="entry.1827714625" required placeholder="例）サトウ　タロウ" />
+            </dd>
+          </dl>
+
+          <dl class="form-area__item">
+            <dt>メールアドレス<span class="icn-require">必須</span></dt>
+            <dd>
+              <input type="email" name="entry.1079469528" required placeholder="例）sample@example.com" />
+            </dd>
+          </dl>
+
+          <dl class="form-area__item">
+            <dt>電話番号（携帯）<span class="icn-require">必須</span></dt>
+            <dd>
+              <input type="text" name="entry.1863385176" inputmode="numeric" required placeholder="例）090-1234-5678" />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt>郵便番号<span class="icn-require">必須</span></dt>
+            <dd>
+              <input type="text" name="entry.1863385176" inputmode="numeric" required placeholder="例）123-4567" />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt>住所<span class="icn-require">必須</span></dt>
+            <dd>
+              <input
+                type="text"
+                name="entry.1863385176"
+                inputmode="numeric"
+                required
+                placeholder="例）東京都渋谷区〇〇1-2-3"
+              />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt>アパート・マンション名<span class="icn-any">任意</span></dt>
+            <dd>
+              <input type="text" name="entry.1863385176" inputmode="numeric" placeholder="例）〇〇マンション101号室" />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt>その他お問い合わせ内容<span class="icn-any">任意</span></dt>
+            <dd>
+              <textarea name="entry.8158703" placeholder="ご質問・ご要望などございましたらご記入ください"></textarea>
+            </dd>
+          </dl>
+          <div class="form-area__checkbox">
+            <input type="checkbox" /><label for="scales"><a href="/">個人情報の取り扱い</a>への同意（必須）</label>
+          </div>
+
+          <div class="form-area__btn-box">
+            <button type="submit" disabled>
+              <Fragment slot="icon-left">
+                <Icon name="mail" aria-hidden />
+              </Fragment>
+              この内容で送る
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Contact {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: #ffe038;
+    }
+    &__formWrap {
+      padding: 56px;
+      margin-top: 48px;
+      background-color: #e8f3ff;
+      border-radius: 40px;
+      .form-area {
+        &__item {
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 24px;
+          &:has(textarea) {
+            align-items: flex-start;
+            dt {
+              margin-top: 18px;
+            }
+          }
+          dt {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: rem(16);
+            font-weight: bold;
+            span {
+              display: inline-block;
+              padding: 0 8px;
+              font-size: rem(12);
+              font-weight: bold;
+              color: var(--color-white);
+              border-radius: var(--rounded-full);
+              &.icn-require {
+                background-color: var(--color-secondary);
+              }
+              &.icn-any {
+                background-color: #6b788c;
+              }
+            }
+          }
+          dd {
+            input,
+            textarea {
+              width: 100%;
+              padding: 16px 20px;
+              background-color: var(--color-white);
+              border: solid 1px #d6e3f2;
+              border-radius: 16px;
+            }
+            textarea {
+              min-height: 160px;
+            }
+            .form-radio-list {
+              display: flex;
+              gap: 32px;
+              input {
+                width: auto;
+                margin-right: 10px;
+              }
+            }
+          }
+          + .form-area__item {
+            margin-top: 24px;
+          }
+        }
+        &__checkbox {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 40px;
+          font-weight: bold;
+          input {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+          }
+        }
+        &__btn-box {
+          display: flex;
+          justify-content: center;
+          margin-top: 24px;
+          [type='submit'] {
+            position: relative;
+            display: flex;
+            gap: var(--_gap);
+            align-items: center;
+            justify-content: center;
+            width: 440px;
+            padding: var(--_pad-y) var(--_pad-x);
+            font-size: rem(22);
+            font-weight: bold;
+            line-height: 1.5;
+            vertical-align: top;
+            color: var(--_color);
+            text-align: center;
+            text-decoration: none;
+            background-color: var(--color-secondary);
+            border-radius: var(--rounded-full);
+            box-shadow: 0 6px 0 0 #cc610d;
+            transition: background var(--default-duration);
+            --_icon-size: 1em;
+            --_fit-space: calc(var(--_icon-size) / 2);
+            --_pad-x: var(--spacing-sm);
+            --_pad-y: 20px;
+            --_gap: var(--spacing-xs);
+            --_color: var(--color-white);
+            &:disabled {
+              opacity: 0.6;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

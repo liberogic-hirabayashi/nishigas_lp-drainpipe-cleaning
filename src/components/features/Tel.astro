@@ -1,0 +1,87 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Icon from '@/components/base/Icon.astro';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import BgBox from '../base/BgBox.astro';
+import Heading from '../base/Heading.astro';
+
+const TelArea = [
+  { place: '東京都', tel: '0120-445-670' },
+  { place: '茨城県', tel: '012-877-128' },
+  { place: '神奈川県', tel: '0120-149-333' },
+  { place: '栃木県', tel: '012-173-203' },
+  { place: '埼玉県', tel: '0120-36-1139' },
+  { place: '群馬県', tel: '0120-458-138' },
+  { place: '千葉県', tel: '0120-50-2985' },
+];
+---
+
+<Section class="Tel" bg="yellow">
+  <SectionInner>
+    <SecTitle tag="Tel">
+      <Heading lv="h2" tag="h2"><span>お電話</span>でのお問い合わせ</Heading>
+    </SecTitle>
+    <BgBox>
+      <p>【受付時間】平日9:00〜17:00（土日・祝日休み）</p>
+      <div class="Tel__area">
+        {
+          TelArea.map((area) => (
+            <div>
+              <span>{area.place}</span>
+              <Fragment slot="icon-left">
+                <Icon name="tel" aria-hidden />
+              </Fragment>
+              <div>{area.tel}</div>
+            </div>
+          ))
+        }
+      </div>
+    </BgBox>
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Tel {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: var(--color-white);
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    p {
+      font-size: rem(18);
+      font-weight: bold;
+      text-align: center;
+    }
+    &__area {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+      > div {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 18px 20px;
+        font-weight: bold;
+        color: var(--color-primary);
+        background-color: #e8f3ff;
+        border-radius: 20px;
+        span {
+          padding: 2px 10px;
+          color: var(--color-white);
+          background-color: var(--color-primary);
+          border-radius: var(--rounded-full);
+        }
+        > div {
+          font-size: rem(20);
+        }
+      }
+    }
+  }
+</style>

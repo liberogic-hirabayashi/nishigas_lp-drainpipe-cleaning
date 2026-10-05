@@ -6,9 +6,15 @@ import Icon from '@/components/base/Icon.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import headline from '@/images/headline.png';
+
+export interface Props {
+  variant?: 'white' | 'blue' | 'yellow';
+}
+
+const { variant = '' } = Astro.props;
 ---
 
-<Section class="Cva">
+<Section class="Cva" data-variant={variant}>
   <SectionInner>
     <div class="Cva__wrap">
       <div class="speechBubble">
@@ -65,7 +71,6 @@ import headline from '@/images/headline.png';
       width: 100%;
       height: 40px;
       content: '';
-      background-color: #fff8e5;
       background-image: url('/src/images/cva_line.png');
       background-size: cover;
     }
@@ -143,6 +148,21 @@ import headline from '@/images/headline.png';
       }
       :global(.ButtonWrap) {
         margin-top: 32px;
+      }
+    }
+    &[data-variant='yellow'] {
+      &::before {
+        background-color: #fff8e5;
+      }
+    }
+    &[data-variant='blue'] {
+      &::before {
+        background-color: #e8f3ff;
+      }
+    }
+    &[data-variant='white'] {
+      &::before {
+        background-color: var(--color-white);
       }
     }
   }

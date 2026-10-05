@@ -1,9 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Area from '@/components/features/Area.astro';
+import AreaTime from '@/components/features/AreaTime.astro';
 import Caution from '@/components/features/Caution.astro';
 import Check from '@/components/features/Check.astro';
+import Contact from '@/components/features/Contact.astro';
 import Cva from '@/components/features/Cva.astro';
+import Faq from '@/components/features/Faq.astro';
 import Flow from '@/components/features/Flow.astro';
 import Frequency from '@/components/features/Frequency.astro';
 import Main from '@/components/features/Main.astro';
@@ -11,6 +14,7 @@ import OnTheDay from '@/components/features/OnTheDay.astro';
 import Price from '@/components/features/Price.astro';
 import Reason from '@/components/features/Reason.astro';
 import Risk from '@/components/features/Risk.astro';
+import Tel from '@/components/features/Tel.astro';
 import Voice from '@/components/features/Voice.astro';
 
 const url = '';
@@ -24,19 +28,24 @@ const current = 'top';
   {/* ページ個別の script は <Fragment slot="head"> で囲んでここに書く（</Layout> の後に書くと </html> の外に出る） */}
   <Main />
   <Check />
-  <Cva />
+  <Cva variant="yellow" />
   <Reason />
   <Risk />
   <Area />
-  <Cva />
+  <Cva variant="yellow" />
   <Price />
-  <Cva />
+  <Cva variant="blue" />
   <Frequency />
   <OnTheDay />
   <Caution />
   <Flow />
-  <Cva />
+  <Cva variant="blue" />
   <Voice />
+  <AreaTime />
+  <Faq />
+  <Cva variant="blue" />
+  <Contact />
+  <Tel />
 </Layout>
 
 <style lang="scss">

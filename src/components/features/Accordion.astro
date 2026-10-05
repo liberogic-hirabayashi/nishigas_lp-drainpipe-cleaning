@@ -10,10 +10,14 @@ const { open, name, class: className, ...rest } = Astro.props;
 
 <details class:list={['Accordion', className]} open={open} name={name} {...rest}>
   <summary class="summary">
-    <slot name="summary" />
+    <div>
+      <span>Q</span>
+      <slot name="summary" />
+    </div>
   </summary>
   <div class="panel">
     <div class="content">
+      <span>A</span>
       <slot />
     </div>
   </div>
@@ -23,23 +27,59 @@ const { open, name, class: className, ...rest } = Astro.props;
   @use '@/styles/global' as *;
   @layer components {
     .Accordion {
-      --_arrow-size: 18px;
+      --_arrow-size: 12px;
       .Accordion {
         margin-left: 20px;
       }
       > .summary {
         position: relative;
         display: block;
+        padding: 20px;
         padding-right: calc(var(--_arrow-size) + var(--spacing-xs));
         cursor: pointer;
+        background-color: var(--color-white);
+        border-radius: 28px;
         &::-webkit-details-marker {
           display: none;
+        }
+        > div {
+          position: relative;
+          display: flex;
+          align-items: center;
+          font-size: rem(18);
+          font-weight: bold;
+          &::after {
+            position: absolute;
+            top: 50%;
+            right: -6px;
+            z-index: 0;
+            width: 32px;
+            height: 32px;
+            content: '';
+            background-color: #e8f3ff;
+            border-radius: var(--rounded-full);
+            transform: translateY(-50%);
+          }
+          > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin-right: 20px;
+            font-size: rem(20);
+            font-weight: 900;
+            color: var(--color-white);
+            background-color: var(--color-primary);
+            border-radius: var(--rounded-full);
+          }
         }
         &::before,
         &::after {
           position: absolute;
           top: 50%;
-          right: 0;
+          right: 28px;
+          z-index: 1;
           display: block;
           width: var(--_arrow-size);
           height: 2px;
@@ -56,9 +96,37 @@ const { open, name, class: className, ...rest } = Astro.props;
       > .panel {
         // details直下のタグにpaddingを設定すると挙動がおかしくなるので、ここには指定しない
         // > .content { /* 必要に応じてここに padding を指定 */ }
+        > .content {
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          font-size: rem(15);
+          background-color: var(--color-white);
+          border-radius: 0 0 28px 28px;
+          transition: scale var(--default-duration);
+
+          > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin-right: 20px;
+            font-size: rem(20);
+            font-weight: 900;
+            color: var(--color-white);
+            background-color: var(--color-secondary);
+            border-radius: var(--rounded-full);
+          }
+        }
+      }
+      // 閉じるアニメーション中も .content が見えているので、角丸は [open] が外れるまで維持する
+      &[open] > .summary {
+        border-radius: 28px 28px 0 0;
       }
       &[open]:not(.is-closing) {
         > .summary {
+          transition: scale var(--default-duration);
           &::after {
             scale: 1 0;
           }

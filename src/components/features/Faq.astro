@@ -1,0 +1,84 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Section from '@/components/base/Section.astro';
+import SectionInner from '@/components/base/SectionInner.astro';
+import SecTitle from '@/components/base/SecTitle.astro';
+import Accordion from '@/components/features/Accordion.astro';
+import Heading from '../base/Heading.astro';
+
+const FaqList = [
+  {
+    Q: '料金は38,500円だけで済みますか？',
+    A: '一般戸建住宅で基本の作業範囲であれば38,500円（税込）です。トイレの屋内高圧洗浄、キッチン排水トラップがS管の場合、基本範囲を超える追加箇所がある場合は追加料金となります。事前調査のうえ正式にお見積りします。',
+  },
+  {
+    Q: 'どのくらいの頻度で洗浄すればよいですか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  {
+    Q: 'マンションなどの集合住宅でも依頼できますか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  { Q: 'トイレも洗浄してもらえますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  { Q: '作業当日は立ち会いが必要ですか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  { Q: '作業時間はどのくらいかかりますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  {
+    Q: 'ニチガスのガスを契約していなくても依頼できますか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  {
+    Q: 'すでに詰まっている場合も対応できますか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  { Q: '支払い方法は選べますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  { Q: '見積り後に断ることはできますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  { Q: '作業中、水道やトイレは使えますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  { Q: '作業車の駐車スペースは必要ですか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  {
+    Q: '汚水枡（外枡）が見当たらない・埋まっている場合はどうなりますか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  { Q: '賃貸住宅でも依頼できますか？', A: 'テキストテキストテキストテキストテキストテキストテキストテキスト' },
+  {
+    Q: '悪臭や害虫が出ている場合も、高圧洗浄で改善しますか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+  {
+    Q: '戸建てなので洗浄は不要と聞きましたが、本当に必要ですか？',
+    A: 'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  },
+];
+---
+
+<Section class="Faq" bg="blue">
+  <SectionInner>
+    <SecTitle tag="Faq">
+      <Heading lv="h2" tag="h2"><span>よくある質問</span></Heading>
+    </SecTitle>
+    {
+      FaqList.map((faq) => (
+        <Accordion>
+          <Fragment slot="summary">{faq.Q}</Fragment>
+          {faq.A}
+        </Accordion>
+      ))
+    }
+  </SectionInner>
+</Section>
+
+<style lang="scss">
+  @use '@/styles/global' as *;
+  .Faq {
+    padding-bottom: 80px;
+    margin-top: 40px;
+    &::before {
+      background-color: var(--color-white);
+    }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
+    :global(.Accordion + .Accordion) {
+      margin-top: 14px;
+    }
+  }
+</style>
