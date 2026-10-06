@@ -29,7 +29,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check01} alt="" width={151} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
-          排水口から<br class="sp-hide" />嫌なニオイが上がってくる
+          排水口から<br class="hide-down-md" />嫌なニオイが上がってくる
         </p>
       </div>
       <div class="Card">
@@ -49,7 +49,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check03} alt="" width={236} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
-          水の流れが悪く、<br class="sp-hide" />シンクや浴室に水が溜まる
+          水の流れが悪く、<br class="hide-down-md" />シンクや浴室に水が溜まる
         </p>
       </div>
       <div class="Card">
@@ -60,7 +60,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check04} alt="" width={208} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
-          入居してから一度も<br class="sp-hide" />排水管を洗浄したことがない
+          入居してから一度も<br class="hide-down-md" />排水管を洗浄したことがない
         </p>
       </div>
       <div class="Card">
@@ -71,7 +71,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check05} alt="" width={208} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
-          屋外の<br class="pc-hide" />排水枡（外枡）から<br class="sp-hide" />水があふれている
+          屋外の<br class="hide-up-md" />排水枡（外枡）から<br class="hide-down-md" />水があふれている
         </p>
       </div>
       <div class="Card">
@@ -82,7 +82,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check06} alt="" width={194} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
-          業者ごとに料金が<br class="pc-hide" />バラバラで、<br class="sp-hide" />どこに頼めばよいか分からない
+          業者ごとに料金が<br class="hide-up-md" />バラバラで、<br class="hide-down-md" />どこに頼めばよいか分からない
         </p>
       </div>
     </div>
@@ -134,16 +134,6 @@ import img_check06 from '@/images/img_check06.png';
           text-align: center;
           @include mq-down(md) {
             font-size: rem(12);
-          }
-          .sp-hide {
-            @include mq-down(md) {
-              display: none;
-            }
-          }
-          .pc-hide {
-            @include mq-up(md) {
-              display: none;
-            }
           }
         }
         img {

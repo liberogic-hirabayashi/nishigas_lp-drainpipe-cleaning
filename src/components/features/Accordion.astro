@@ -63,7 +63,7 @@ const { open, name, class: className, ...rest } = Astro.props;
             width: 32px;
             height: 32px;
             content: '';
-            background-color: #e8f3ff;
+            background-color: var(--color-bg-blue);
             border-radius: var(--rounded-full);
             transform: translateY(-50%);
             @include mq-down(md) {

@@ -20,10 +20,10 @@ import img_risk_before from '@/images/img_risk_before.png';
         <span class="-orange">害虫や悪臭の発生原因</span>になります</Heading
       >
       <p>
-        排水管には油汚れや髪の毛などの<br class="pc-hide" />細かいごみが少しずつ蓄積します。<br />
+        排水管には油汚れや髪の毛などの<br class="hide-up-md" />細かいごみが少しずつ蓄積します。<br />
         流れが遅くなる → ニオイ・害虫の発生 → 逆流・あふれ、と段階的に悪化し、<br
-          class="pc-hide"
-        />詰まってからでは対処が大掛かりになります。<br class="pc-hide" />詰まる前の定期的な洗浄が有効です。
+          class="hide-up-md"
+        />詰まってからでは対処が大掛かりになります。<br class="hide-up-md" />詰まる前の定期的な洗浄が有効です。
       </p>
     </SecTitle>
     <div class="Risk__flow">
@@ -104,7 +104,7 @@ import img_risk_before from '@/images/img_risk_before.png';
     }
     margin-top: 40px;
     &::before {
-      background-color: #e8f3ff;
+      background-color: var(--color-bg-blue);
     }
     &__flow {
       display: grid;
@@ -115,7 +115,7 @@ import img_risk_before from '@/images/img_risk_before.png';
       }
       .Card {
         --_color: var(--color-secondary);
-        --bg_color: #fff8e5;
+        --bg_color: var(--color-bg-orange);
         display: flex;
         flex-direction: column;
         gap: 16px;
@@ -178,7 +178,7 @@ import img_risk_before from '@/images/img_risk_before.png';
       padding: 48px 72px;
       margin-top: 56px;
       text-align: center;
-      background-color: #e8f3ff;
+      background-color: var(--color-bg-blue);
       border-radius: 40px;
       .h3 {
         font-size: rem(28);

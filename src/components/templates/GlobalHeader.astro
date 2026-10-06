@@ -75,11 +75,11 @@ const { current, sticky = false } = Astro.props;
         min-height: auto;
       }
       :global(.Button[data-variant='secondary']) {
-        background: #eb7800;
+        background: var(--color-secondary);
         box-shadow: 0 3px 0 0 #cc610d;
       }
       :global(.Button[data-variant='primary']) {
-        background: #1b6fd9;
+        background: var(--color-primary);
         box-shadow: 0 3px 0 0 #0f4a99;
       }
       // spanはButtonコンポーネント内の要素のため、:global() で囲まないとscopeが付いて当たらない
@@ -98,12 +98,12 @@ const { current, sticky = false } = Astro.props;
           }
         }
         .tel {
-          --_bg-color: #1b6fd9;
+          --_bg-color: var(--color-primary);
           --_color: var(--color-white);
           box-shadow: 0 3px 0 0 #0f4a99;
         }
         .mail {
-          --_bg-color: #eb7800;
+          --_bg-color: var(--color-secondary);
           --_color: var(--color-white);
           box-shadow: 0 3px 0 0 #cc610d;
         }

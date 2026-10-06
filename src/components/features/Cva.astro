@@ -74,7 +74,7 @@ const { variant = '' } = Astro.props;
     padding-top: 110px;
     padding-bottom: 80px;
     margin-top: 40px;
-    background-color: #ffe038;
+    background-color: var(--color-bg-yellow);
     background-image: url('/src/images/bg_cva.png');
     background-size: cover;
     @include mq-down(md) {
@@ -278,12 +278,12 @@ const { variant = '' } = Astro.props;
     }
     &[data-variant='yellow'] {
       &::before {
-        background-color: #fff8e5;
+        background-color: var(--color-bg-orange);
       }
     }
     &[data-variant='blue'] {
       &::before {
-        background-color: #e8f3ff;
+        background-color: var(--color-bg-blue);
       }
     }
     &[data-variant='white'] {

@@ -4,12 +4,15 @@
   // colors
   --color-bg-body: #fff;
   --color-bg-section: #f8fafc;
+  --color-bg-yellow: #ffe038;
+    --color-bg-blue: #e8f3ff;
+    --color-bg-orange: #fff8e5;
   --color-bg-disabled: color-mix(in srgb, var(--color-disabled) 20%, transparent);
   --color-bg-readonly: color-mix(in srgb, var(--color-disabled) 10%, transparent);
   --color-bg-attention: color-mix(in srgb, var(--color-attention) 5%, transparent);
   --color-bg-tooltip: color-mix(in srgb, var(--color-black) 80%, transparent);
   --color-text: #213354;
-  --color-primary: #1b6fd9;
+  --color-primary: #1B6FD9;
   --color-secondary: #eb7800;
   --color-attention: #e52e26;
   --color-border: #ddd;

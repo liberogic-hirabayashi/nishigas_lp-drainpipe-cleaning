@@ -27,7 +27,7 @@ import Heading from '../base/Heading.astro';
         <span>不審な業者</span>
         <div>こんな訪問にご注意</div>
         <ul>
-          <li>「近所で工事をしている」と<br class="pc-hide" />声をかけられる</li>
+          <li>「近所で工事をしている」と<br class="hide-up-md" />声をかけられる</li>
           <li>「無料で点検します」と勧誘される</li>
         </ul>
       </div>
@@ -35,7 +35,7 @@ import Heading from '../base/Heading.astro';
     <div class="Caution__list">
       <p>
         こうした飛び込み訪問をきっかけに、高額な作業を契約させられる事例が報告されています。<br />
-        ご依頼前に、以下の3点を<br class="pc-hide" />ご確認ください。
+        ご依頼前に、以下の3点を<br class="hide-up-md" />ご確認ください。
       </p>
       <div>
         <ol>
@@ -57,7 +57,7 @@ import Heading from '../base/Heading.astro';
       padding-bottom: 40px;
     }
     &::before {
-      background-color: #fff8e5;
+      background-color: var(--color-bg-orange);
     }
     :global(.SecTitle .h2) {
       @include mq-down(md) {
@@ -79,7 +79,7 @@ import Heading from '../base/Heading.astro';
       }
       > div {
         --_color: var(--color-primary);
-        --bg_color: #e8f3ff;
+        --bg_color: var(--color-bg-blue);
         position: relative;
         display: flex;
         flex-direction: column;
@@ -139,11 +139,6 @@ import Heading from '../base/Heading.astro';
             }
             + li {
               margin-top: 10px;
-            }
-            .pc-hide {
-              @include mq-up(md) {
-                display: none;
-              }
             }
           }
         }

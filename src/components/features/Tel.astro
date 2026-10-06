@@ -23,7 +23,7 @@ const TelArea = [
       <Heading lv="h2" tag="h2"><span>お電話</span>でのお問い合わせ</Heading>
     </SecTitle>
     <BgBox>
-      <p>【受付時間】<br class="pc-hide" />平日9:00〜17:00<br class="pc-hide" />（土日・祝日休み）</p>
+      <p>【受付時間】<br class="hide-up-md" />平日9:00〜17:00<br class="hide-up-md" />（土日・祝日休み）</p>
       <div class="Tel__area">
         {
           TelArea.map((area) => (
@@ -85,7 +85,7 @@ const TelArea = [
         padding: 16px 20px;
         font-weight: bold;
         color: var(--color-primary);
-        background-color: #e8f3ff;
+        background-color: var(--color-bg-blue);
         border-radius: 20px;
         @include mq-down(md) {
           gap: 10px;

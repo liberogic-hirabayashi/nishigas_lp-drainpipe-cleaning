@@ -173,7 +173,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>集合住宅の場合は<br class="pc-hide" />別途お見積もりいたします。</b>
+            <b>集合住宅の場合は<br class="hide-up-md" />別途お見積もりいたします。</b>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ import img_price05 from '@/images/img_price05.png';
   .Price {
     margin-top: 40px;
     &::before {
-      background-color: #ffe038;
+      background-color: var(--color-bg-yellow);
     }
     :global(.SecTitle__tag) {
       background-color: var(--color-white);
@@ -302,13 +302,13 @@ import img_price05 from '@/images/img_price05.png';
           }
 
           &:first-child {
-            background-color: #fff8e5;
+            background-color: var(--color-bg-orange);
             .Item__tag span {
               background-color: var(--color-secondary);
             }
           }
           &:last-child {
-            background-color: #e8f3ff;
+            background-color: var(--color-bg-blue);
             .Item__tag span {
               background-color: var(--color-primary);
             }
@@ -367,16 +367,11 @@ import img_price05 from '@/images/img_price05.png';
           gap: 20px;
           align-items: center;
           padding: 16px 20px;
-          background-color: #fff8e5;
+          background-color: var(--color-bg-orange);
           border-radius: 24px;
           @include mq-down(md) {
             flex-direction: column;
             text-align: center;
-            .pc-hide {
-              @include mq-up(md) {
-                display: none;
-              }
-            }
           }
           :has(img) {
             flex-shrink: 0;
