@@ -10,10 +10,10 @@ const { open, name, class: className, ...rest } = Astro.props;
 
 <details class:list={['Accordion', className]} open={open} name={name} {...rest}>
   <summary class="summary">
-    <div>
+    <span>
       <span>Q</span>
       <slot name="summary" />
-    </div>
+    </span>
   </summary>
   <div class="panel">
     <div class="content">
@@ -46,7 +46,7 @@ const { open, name, class: className, ...rest } = Astro.props;
         &::-webkit-details-marker {
           display: none;
         }
-        > div {
+        > span {
           position: relative;
           display: flex;
           align-items: center;

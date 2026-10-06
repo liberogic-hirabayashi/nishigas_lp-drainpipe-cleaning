@@ -16,7 +16,7 @@ const { current, sticky = false } = Astro.props;
 
 <header class="GlobalHeader" data-sticky={sticky}>
   <a href="/" class="logo">
-    <Logo />
+    <Logo aria-label="ロゴ：ニチガス" />
   </a>
   <NavigationMenu aria-label="メインメニュー">
     <p class="hide-down-lg">【受付時間】平日9:00〜17:00（土日祝休）</p>
@@ -109,6 +109,7 @@ const { current, sticky = false } = Astro.props;
         }
       }
       p {
+        display: inline;
         font-size: rem(13);
         color: #6b788c;
       }

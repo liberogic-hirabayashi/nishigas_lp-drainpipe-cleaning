@@ -4,8 +4,8 @@ import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
-import img_risk_after from '@/images/img_risk_after.png';
-import img_risk_before from '@/images/img_risk_before.png';
+
+import BeforeAfterBlock from './BeforeAfterBlock.astro';
 ---
 
 <Section class="OnTheDay" bg="yellow">
@@ -43,35 +43,7 @@ import img_risk_before from '@/images/img_risk_before.png';
         <p>駐車スペースの確保をお願いいたします。スペースがない場合は、事前にお伝えください。</p>
       </div>
     </div>
-    <div class="OnTheDay__beforeAfter">
-      <Heading lv="h3" tag="h3">洗浄前後の様子</Heading>
-      <div>
-        <div class="before">
-          <span>洗浄前</span>
-          <Image
-            src={img_risk_before}
-            alt=""
-            width={424}
-            densities={[1.5, 2]}
-            format="avif"
-            quality={50}
-            loading="lazy"
-          />
-        </div>
-        <div class="after">
-          <span>洗浄後</span>
-          <Image
-            src={img_risk_after}
-            alt=""
-            width={424}
-            densities={[1.5, 2]}
-            format="avif"
-            quality={50}
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </div>
+    <BeforeAfterBlock />
   </SectionInner>
 </Section>
 
@@ -148,75 +120,6 @@ import img_risk_before from '@/images/img_risk_before.png';
           @include mq-down(md) {
             font-size: rem(14);
             text-align: center;
-          }
-        }
-      }
-    }
-    &__beforeAfter {
-      padding: 48px 72px;
-      margin-top: 56px;
-      text-align: center;
-      background-color: var(--color-white);
-      border-radius: 40px;
-      box-shadow: 0 8px 24px 0 #1a4d9914;
-      .h3 {
-        font-size: rem(28);
-        @include mq-down(md) {
-          font-size: rem(22);
-        }
-      }
-      @include mq-down(md) {
-        padding: 24px;
-        margin-top: 28px;
-      }
-      > div {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 88px;
-        margin-top: 60px;
-        @include mq-down(md) {
-          grid-template-columns: auto;
-          gap: 60px;
-          margin-top: 40px;
-        }
-        > div {
-          position: relative;
-          span {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            padding: 4px 24px;
-            font-size: rem(18);
-            font-weight: bold;
-            color: var(--color-white);
-            border-radius: var(--rounded-full);
-            transform: translateX(-50%);
-            @include mq-down(md) {
-              padding: 4px 16px;
-              font-size: rem(15);
-            }
-          }
-          &.before span {
-            background-color: #6b788c;
-          }
-          &.after span {
-            background-color: var(--color-primary);
-          }
-          + div {
-            &::before {
-              position: absolute;
-              top: calc(50% + -10px);
-              left: -60px;
-              width: 32px;
-              height: 32px;
-              content: '';
-              background-image: url('/src/images/icon_arrow_blue.png');
-              @include mq-down(md) {
-                top: -56px;
-                left: 50%;
-                transform: rotate(90deg) translateY(50%);
-              }
-            }
           }
         }
       }

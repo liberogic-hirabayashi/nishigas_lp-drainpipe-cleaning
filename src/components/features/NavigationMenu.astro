@@ -10,16 +10,16 @@ const { class: className, 'aria-label': ariaLabel = 'メインメニュー', ...
 ---
 
 <nav class:list={['NavigationMenu', className]} aria-label={ariaLabel} {...rest}>
-  <ul>
+  <div>
     <slot />
-  </ul>
+  </div>
 </nav>
 
 <style lang="scss">
   @use '@/styles/global' as *;
   @layer components {
     .NavigationMenu {
-      > ul {
+      > div {
         display: flex;
         flex-wrap: wrap;
         gap: var(--spacing-md);

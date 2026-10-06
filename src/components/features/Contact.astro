@@ -31,9 +31,9 @@ const ENTRY = {
     <div class="Contact__formWrap">
       <form class="form" action={GOOGLE_FORM_ACTION} method="post" data-contact-form>
         <div class="form-area">
-          <dl class="form-area__item">
-            <dt>ご住宅タイプ<span class="icn-require">必須</span></dt>
-            <dd>
+          <fieldset class="form-area__item">
+            <legend>ご住宅タイプ<span class="icn-require">必須</span></legend>
+            <div class="field">
               <ul class="form-radio-list">
                 <li>
                   <label><input type="radio" name={ENTRY.houseType} value="戸建て" required />戸建て</label>
@@ -42,19 +42,27 @@ const ENTRY = {
                   <label><input type="radio" name={ENTRY.houseType} value="集合住宅" />集合住宅</label>
                 </li>
               </ul>
-            </dd>
-          </dl>
+            </div>
+          </fieldset>
           <dl class="form-area__item">
-            <dt>お名前<span class="icn-require">必須</span></dt>
-            <dd>
-              <input type="text" name={ENTRY.name} autocomplete="name" required placeholder="例）佐藤　太郎" />
-            </dd>
-          </dl>
-          <dl class="form-area__item">
-            <dt>フリガナ（カタカナ）<span class="icn-require">必須</span></dt>
+            <dt><label for="contact-name">お名前</label><span class="icn-require">必須</span></dt>
             <dd>
               <input
                 type="text"
+                id="contact-name"
+                name={ENTRY.name}
+                autocomplete="name"
+                required
+                placeholder="例）佐藤　太郎"
+              />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt><label for="contact-kana">フリガナ（カタカナ）</label><span class="icn-require">必須</span></dt>
+            <dd>
+              <input
+                type="text"
+                id="contact-kana"
                 name={ENTRY.kana}
                 required
                 pattern="[ァ-ヶー\s]*[ァ-ヶー][ァ-ヶー\s]*"
@@ -64,10 +72,11 @@ const ENTRY = {
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt>メールアドレス<span class="icn-require">必須</span></dt>
+            <dt><label for="contact-email">メールアドレス</label><span class="icn-require">必須</span></dt>
             <dd>
               <input
                 type="email"
+                id="contact-email"
                 name={ENTRY.email}
                 autocomplete="email"
                 required
@@ -78,29 +87,43 @@ const ENTRY = {
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt>電話番号（携帯）<span class="icn-require">必須</span></dt>
-            <dd>
-              <input type="tel" name={ENTRY.tel} autocomplete="tel" required placeholder="例）090-1234-5678" />
-            </dd>
-          </dl>
-          <dl class="form-area__item">
-            <dt>郵便番号<span class="icn-require">必須</span></dt>
+            <dt><label for="contact-tel">電話番号（携帯）</label><span class="icn-require">必須</span></dt>
             <dd>
               <input
-                type="text"
-                name={ENTRY.zip}
-                inputmode="numeric"
-                autocomplete="postal-code"
+                type="tel"
+                id="contact-tel"
+                name={ENTRY.tel}
+                autocomplete="tel-national"
                 required
-                placeholder="例）123-4567"
+                pattern="0\d{9,10}"
+                title="ハイフンなしの半角数字10〜11桁で入力してください"
+                placeholder="例）09012345678"
               />
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt>住所<span class="icn-require">必須</span></dt>
+            <dt><label for="contact-zip">郵便番号</label><span class="icn-require">必須</span></dt>
             <dd>
               <input
                 type="text"
+                id="contact-zip"
+                name={ENTRY.zip}
+                inputmode="numeric"
+                autocomplete="postal-code"
+                required
+                pattern="\d{7}"
+                maxlength="7"
+                title="ハイフンなしの半角数字7桁で入力してください"
+                placeholder="例）1234567"
+              />
+            </dd>
+          </dl>
+          <dl class="form-area__item">
+            <dt><label for="contact-address">住所</label><span class="icn-require">必須</span></dt>
+            <dd>
+              <input
+                type="text"
+                id="contact-address"
                 name={ENTRY.address}
                 autocomplete="street-address"
                 required
@@ -109,19 +132,22 @@ const ENTRY = {
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt>アパート・マンション名<span class="icn-any">任意</span></dt>
+            <dt><label for="contact-building">アパート・マンション名</label><span class="icn-any">任意</span></dt>
             <dd>
-              <input type="text" name={ENTRY.building} placeholder="例）〇〇マンション101号室" />
+              <input type="text" id="contact-building" name={ENTRY.building} placeholder="例）〇〇マンション101号室" />
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt>その他お問い合わせ内容<span class="icn-any">任意</span></dt>
+            <dt><label for="contact-message">その他お問い合わせ内容</label><span class="icn-any">任意</span></dt>
             <dd>
-              <textarea name={ENTRY.message} placeholder="ご質問・ご要望などございましたらご記入ください"></textarea>
+              <textarea
+                id="contact-message"
+                name={ENTRY.message}
+                placeholder="ご質問・ご要望などございましたらご記入ください"></textarea>
             </dd>
           </dl>
           <div class="form-area__checkbox">
-            <input type="checkbox" id="contact-agree" required data-contact-agree /><label for="contact-agree"
+            <input type="checkbox" id="contact-agree" required /><label for="contact-agree"
               ><a href="/privacy">個人情報の取り扱い</a>への同意（必須）</label
             >
           </div>
@@ -169,6 +195,10 @@ const ENTRY = {
           display: grid;
           grid-template-columns: 300px 1fr;
           gap: 24px;
+          min-inline-size: 0;
+          padding: 0;
+          margin-inline: 0;
+          border: 0;
           @include mq-down(md) {
             grid-template-columns: auto;
             gap: 8px;
@@ -181,7 +211,8 @@ const ENTRY = {
               }
             }
           }
-          dt {
+          dt,
+          legend {
             display: flex;
             gap: 10px;
             align-items: center;
@@ -205,7 +236,13 @@ const ENTRY = {
               }
             }
           }
-          dd {
+          // float させると rendered legend 扱いが外れ、fieldset の grid アイテムとして dt と同じ位置に並ぶ
+          legend {
+            float: left;
+            padding: 0;
+          }
+          dd,
+          .field {
             input,
             textarea {
               width: 100%;
@@ -280,8 +317,8 @@ const ENTRY = {
             @include mq-down(md) {
               font-size: rem(17);
             }
-            &:disabled {
-              opacity: 0.6;
+            @include hover {
+              opacity: 0.7;
             }
           }
         }
@@ -305,16 +342,10 @@ const ENTRY = {
 
 <script>
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
-    const agree = form.querySelector<HTMLInputElement>('[data-contact-agree]');
     const submit = form.querySelector<HTMLButtonElement>('[data-contact-submit]');
     const error = form.querySelector<HTMLElement>('[data-contact-error]');
     const thanks = form.parentElement?.querySelector<HTMLElement>('[data-contact-thanks]');
-    if (!agree || !submit) return;
-
-    // JS無効時は送信できるよう、disabled はHTMLに書かずJSで付与する
-    const syncDisabled = () => (submit.disabled = !agree.checked);
-    syncDisabled();
-    agree.addEventListener('change', syncDisabled);
+    if (!submit) return;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -334,7 +365,7 @@ const ENTRY = {
         }
       } catch {
         if (error) error.hidden = false;
-        syncDisabled();
+        submit.disabled = false;
       }
     });
   });

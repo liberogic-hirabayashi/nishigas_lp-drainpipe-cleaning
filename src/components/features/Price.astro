@@ -19,7 +19,7 @@ import img_price04 from '@/images/img_price04.png';
 import img_price05 from '@/images/img_price05.png';
 ---
 
-<Section class="Price" bg="blue">
+<Section class="Price" bg="blue" id="price">
   <SectionInner>
     <SecTitle tag="price">
       <Heading lv="h2" tag="h2">料金</Heading>
@@ -109,7 +109,7 @@ import img_price05 from '@/images/img_price05.png';
       <Annotation mark="※"> 屋内4箇所＋屋外10枡までを含む定額パックです。</Annotation>
     </BgBox>
     <BgBox>
-      <h4>追加料金となる場合</h4>
+      <Heading lv="h4" tag="h3">追加料金となる場合</Heading>
       <div class="Price__additional">
         <div>
           <div>
@@ -124,7 +124,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>トイレの屋内高圧洗浄は追加オプションとなります（便器内からの高圧洗浄はできません）。</b>
+            <p>トイレの屋内高圧洗浄は追加オプションとなります（便器内からの高圧洗浄はできません）。</p>
             <p>トイレを脱着せずに行うオプションは薬剤洗浄・空気圧縮ポンプによる作業です。</p>
           </div>
         </div>
@@ -141,7 +141,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>キッチン排水トラップがS管の場合は追加料金が発生します。</b>
+            <p>キッチン排水トラップがS管の場合は追加料金が発生します。</p>
           </div>
         </div>
         <div>
@@ -157,7 +157,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>基本の作業範囲を超える追加箇所がある場合は追加料金が発生します。</b>
+            <p>基本の作業範囲を超える追加箇所がある場合は追加料金が発生します。</p>
           </div>
         </div>
         <div>
@@ -173,7 +173,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>集合住宅の場合は<br class="hide-up-md" />別途お見積もりいたします。</b>
+            <p>集合住宅の場合は<br class="hide-up-md" />別途お見積もりいたします。</p>
           </div>
         </div>
       </div>
@@ -333,7 +333,7 @@ import img_price05 from '@/images/img_price05.png';
           text-align: center;
         }
       }
-      h4 {
+      .h4 {
         display: flex;
         align-items: center;
         font-size: rem(26);
@@ -375,6 +375,14 @@ import img_price05 from '@/images/img_price05.png';
           }
           :has(img) {
             flex-shrink: 0;
+          }
+          p {
+            &:first-child {
+              font-weight: bold;
+            }
+            + p {
+              margin-top: 0;
+            }
           }
         }
       }

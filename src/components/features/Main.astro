@@ -27,7 +27,8 @@ import SpImage02 from '@/images/img_sp02.png';
           densities={[1.5, 2]}
           format="avif"
           quality={50}
-          loading="lazy"
+          loading="eager"
+          fetchpriority="high"
         />
       </Heading>
       <div class="Main__lead">
@@ -68,7 +69,7 @@ import SpImage02 from '@/images/img_sp02.png';
           <Fragment slot="icon-left">
             <Icon name="mail" aria-hidden />
           </Fragment>
-          <span>＼ 見積り・キャンセル料無料 ／</span>お問い合わせフォーム
+          <span>＼ 見積もり・キャンセル料無料 ／</span>お問い合わせフォーム
         </Button>
       </ButtonWrap>
       <ButtonWrap justify="start">
