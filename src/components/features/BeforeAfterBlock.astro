@@ -16,11 +16,27 @@ const { bg = 'white' } = Astro.props;
   <div>
     <div class="before">
       <span>洗浄前</span>
-      <Image src={img_risk_before} alt="" width={424} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      <Image
+        src={img_risk_before}
+        alt="洗浄前の写真"
+        width={424}
+        densities={[1.5, 2]}
+        format="avif"
+        quality={50}
+        loading="lazy"
+      />
     </div>
     <div class="after">
       <span>洗浄後</span>
-      <Image src={img_risk_after} alt="" width={424} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      <Image
+        src={img_risk_after}
+        alt="洗浄後の写真"
+        width={424}
+        densities={[1.5, 2]}
+        format="avif"
+        quality={50}
+        loading="lazy"
+      />
     </div>
   </div>
 </div>

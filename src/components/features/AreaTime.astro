@@ -30,14 +30,14 @@ import map_sp from '@/images/img_map_sp.png';
         />
       </div>
       <div class="box">
-        <span>受付時間</span>
+        <Heading lv="h3" tag="h3">受付時間</Heading>
         <p>
           平日9:00〜17:00<br />
           ※お問い合わせフォームは24時間受付です
         </p>
       </div>
       <div class="box">
-        <span>対応エリア</span>
+        <Heading lv="h3" tag="h3">対応エリア</Heading>
         <p>
           １都９県<br />
           （東京・埼玉・千葉・茨城・栃木・群馬・神奈川・静岡・山梨・長野）<br />※地域によっては対応できない場合あり
@@ -79,7 +79,7 @@ import map_sp from '@/images/img_map_sp.png';
         @include mq-down(md) {
           padding: 16px;
         }
-        span {
+        .h3 {
           font-size: rem(22);
           font-weight: bold;
           color: var(--color-primary);
