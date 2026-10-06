@@ -63,7 +63,7 @@ export default defineConfig({
   },
   build: {
     // format: 'preserve', // pagesの構造のまま出力（ファイル名.htmlを使いたい時）
-    // assets: 'assets/img', // 出力ディレクトリを変更
+    assets: 'assets/js', // Astroが出力するJSの出力先（既定は _astro。画像・CSSは下の assetFileNames で振り分け）
   },
   experimental: {
     // incrementalBuild: true, // getStaticPaths + cacheKey を返す動的ルートが多い場合に有効化（CIでは node_modules/.astro の保持設定が必要）
@@ -72,31 +72,31 @@ export default defineConfig({
     plugins: [tailwindcss()],
     build: {
       assetsInlineLimit: 0, // 常にアセットファイルとして出力
-      // cssCodeSplit: false, // falseでcssを分割しないで出力
+       cssCodeSplit: false, // falseでcssを分割しないで出力
       rollupOptions: {
-        // output: {
-        //   assetFileNames: (assetInfo) => {
-        //     let extType = assetInfo.name.split('.')[1];
-        //     if (/ttf|otf|eot|woff|woff2/i.test(extType)) {
-        //       extType = 'fonts';
-        //     }
-        //     if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extType)) {
-        //       extType = 'img';
-        //     }
-        //     // if (extType === 'css') {
-        //     //   return `assets/css/[name].[hash].css`;
-        //     // }
-        //     // if (extType === 'css') {
-        //     //   return `assets/css/style.css`;
-        //     // }
-        //     if (extType === 'css') {
-        //       return `assets/css/style.[hash].css`;
-        //     }
-        //     return `assets/${extType}/[name].[hash][extname]`;
-        //   },
-        //   entryFileNames: `assets/js/[name].js`,
-        //   // chunkFileNames: `assets/js/chunk/[name].[hash].js`
-        // },
+        output: {
+          assetFileNames: (assetInfo) => {
+            let extType = assetInfo.name.split('.')[1];
+            if (/ttf|otf|eot|woff|woff2/i.test(extType)) {
+              extType = 'fonts';
+            }
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extType)) {
+              extType = 'img';
+            }
+            // if (extType === 'css') {
+            //   return `assets/css/[name].[hash].css`;
+            // }
+            // if (extType === 'css') {
+            //   return `assets/css/style.css`;
+            // }
+            if (extType === 'css') {
+              return `assets/css/style.[hash].css`;
+            }
+            return `assets/${extType}/[name].[hash][extname]`;
+          },
+          entryFileNames: `assets/js/[name].js`,
+          // chunkFileNames: `assets/js/chunk/[name].[hash].js`
+        },
       },
     },
     resolve: {

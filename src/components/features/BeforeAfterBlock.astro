@@ -1,6 +1,7 @@
 ---
 import { Image, Picture } from 'astro:assets';
 import Heading from '../base/Heading.astro';
+import arrow from '@/images/icon_arrow_blue.png';
 import img_risk_after from '@/images/img_risk_after.png';
 import img_risk_before from '@/images/img_risk_before.png';
 
@@ -11,7 +12,7 @@ export interface Props {
 const { bg = 'white' } = Astro.props;
 ---
 
-<div class="BeforeAfterBlock" data-bg={bg}>
+<div class="BeforeAfterBlock" data-bg={bg} style={`--_arrow: url(${arrow.src})`}>
   <Heading lv="h3" tag="h3">洗浄前後の様子</Heading>
   <div>
     <div class="before">
@@ -103,7 +104,7 @@ const { bg = 'white' } = Astro.props;
             width: 32px;
             height: 32px;
             content: '';
-            background-image: url('/src/images/icon_arrow_blue.png');
+            background-image: var(--_arrow);
             @include mq-down(md) {
               top: -56px;
               left: 50%;

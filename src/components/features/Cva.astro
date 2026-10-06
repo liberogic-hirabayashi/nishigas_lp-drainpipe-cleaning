@@ -6,8 +6,8 @@ import Icon from '@/components/base/Icon.astro';
 import PictureImage from '@/components/base/PictureImage.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
-import illust_sp from '@//images/cva_illust.png';
 import { basicPackPrice } from '@/config/price';
+import illust from '@/images/cva_illust.png';
 import headline from '@/images/headline.png';
 import headlineSp from '@/images/headline_sp.png';
 
@@ -18,7 +18,7 @@ export interface Props {
 const { variant = '' } = Astro.props;
 ---
 
-<Section class="Cva" data-variant={variant}>
+<Section class="Cva" data-variant={variant} style={`--_illust: url(${illust.src})`}>
   <SectionInner>
     <div class="Cva__wrap">
       <div class="speechBubble">
@@ -38,7 +38,7 @@ const { variant = '' } = Astro.props;
         />
       </div>
       <div class="text">
-        <Image src={illust_sp} alt="" width={87} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        <Image src={illust} alt="" width={87} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         <p>
           基本パック<span>{basicPackPrice}円<span>（税込）</span></span
           >電話ですぐにお見積もり。お見積もり後の追加費用はいただきません
@@ -103,7 +103,7 @@ const { variant = '' } = Astro.props;
       width: 288px;
       height: 211px;
       content: '';
-      background-image: url('/src/images/cva_illust.png');
+      background-image: var(--_illust);
       background-size: contain;
       @include mq-down(lg) {
         display: none;
