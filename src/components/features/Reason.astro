@@ -95,6 +95,9 @@ import img_reason04 from '@/images/img_reason04.png';
     &::before {
       background-color: #ffe038;
     }
+    :global(.SecTitle__tag) {
+      background-color: var(--color-white);
+    }
     &__items {
       display: grid;
       grid-template-columns: auto;
@@ -108,15 +111,17 @@ import img_reason04 from '@/images/img_reason04.png';
         gap: 48px;
         align-items: center;
         justify-content: center;
-        padding: 54px 64px;
+        padding: 40px 48px;
         background-color: #fff;
         border-radius: 32px;
+        box-shadow: 0 8px 24px 0 #1a4d9914;
         @include mq-down(md) {
           grid-template-columns: auto;
           gap: 24px;
           padding: 20px 24px;
         }
         &__num {
+          margin-bottom: 16px;
           font-size: rem(14);
           font-weight: bold;
           color: var(--color-primary);
@@ -124,6 +129,7 @@ import img_reason04 from '@/images/img_reason04.png';
             margin-left: 8px;
             font-size: rem(64);
             font-weight: 900;
+            line-height: 1;
             color: var(--color-yellow);
             @include mq-down(md) {
               font-size: rem(35);

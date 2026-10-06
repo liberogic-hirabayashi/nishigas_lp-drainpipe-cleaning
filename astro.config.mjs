@@ -7,7 +7,7 @@ import path, { dirname } from 'path';
 
 import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from './src/lib/i18nLocales';
 
-const url = 'https://example.com';
+const url = 'https://www.nichigas.co.jp/';
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);

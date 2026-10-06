@@ -71,12 +71,14 @@ const { variant = '' } = Astro.props;
   @use '@/styles/global' as *;
   .Cva {
     position: relative;
+    padding-top: 110px;
     padding-bottom: 80px;
     margin-top: 40px;
     background-color: #ffe038;
     background-image: url('/src/images/bg_cva.png');
     background-size: cover;
     @include mq-down(md) {
+      padding-top: 80px;
       padding-bottom: 40px;
     }
     :global(.SectionInner) {
@@ -208,9 +210,12 @@ const { variant = '' } = Astro.props;
         --_main-color: var(--color-primary);
         // 既定の 1fr だと min-width / width: 100% で文字列が伸び、左右アイコンが両端に離れるため中央にまとめる
         grid-template-columns: var(--_icon-size) auto var(--_icon-size);
-        min-width: 296px;
-        padding-block: 12px;
-        box-shadow: 0 3px 0 0 var(--_shadow-color);
+        min-width: 420px;
+        padding: 24px 20px;
+        box-shadow: 0 6px 0 0 var(--_shadow-color);
+        :global(> span) {
+          font-size: rem(28) !important;
+        }
         @include mq-down(md) {
           width: 100%;
         }
@@ -219,13 +224,13 @@ const { variant = '' } = Astro.props;
           top: -20px;
           left: 50%;
           width: auto;
-          padding: 1px 10px;
-          font-size: rem(13);
+          padding: 2px 20px;
+          font-size: rem(15);
           color: var(--_main-color);
           white-space: nowrap;
           text-shadow: none;
           background-color: var(--color-white);
-          border: solid 2px var(--_main-color);
+          border: solid 2.5px var(--_main-color);
           border-radius: var(--rounded-full);
           transform: translateX(-50%);
           &::before {
@@ -251,10 +256,6 @@ const { variant = '' } = Astro.props;
         a {
           font-weight: bold;
           color: var(--color-attention);
-          text-decoration: none;
-          @include hover {
-            text-decoration: underline;
-          }
         }
       }
     }

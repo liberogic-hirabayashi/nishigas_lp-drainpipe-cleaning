@@ -95,12 +95,16 @@ import face from '@/images/img_face.png';
     :global(.SecTitle__tag) {
       background-color: var(--color-white);
     }
-    :global(.BgBox + .BgBox) {
-      margin-top: 12px;
-      @include mq-down(md) {
-        margin-top: 0;
+    :global(.BgBox) {
+      padding: 35px 28px !important;
+      + :global(.BgBox) {
+        margin-top: 12px;
+        @include mq-down(md) {
+          margin-top: 0;
+        }
       }
     }
+
     &__slider {
       @include mq-down(md) {
         display: grid;

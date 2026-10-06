@@ -243,6 +243,7 @@ import img_price05 from '@/images/img_price05.png';
       }
     }
     :global(.BgBox) {
+      padding: 48px 62px !important;
       @include mq-down(md) {
         padding: 32px !important;
       }
@@ -264,13 +265,16 @@ import img_price05 from '@/images/img_price05.png';
         }
         .Item {
           display: flex;
+          flex-grow: 1;
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          min-width: 380px;
           padding: 32px;
           border-radius: 32px;
           @include mq-down(md) {
             width: 100%;
+            min-width: 100%;
             padding: 16px;
           }
           &__tag {
@@ -349,8 +353,9 @@ import img_price05 from '@/images/img_price05.png';
       }
       .Price__additional {
         display: grid;
-        grid-template-columns: auto;
+        grid-template-columns: 1fr;
         gap: 28px;
+        justify-content: stretch;
         margin: 28px 0 0;
         @include mq-down(md) {
           gap: 14px;
@@ -385,6 +390,7 @@ import img_price05 from '@/images/img_price05.png';
         margin-top: 20px;
       }
       :global(.BgBox) {
+        padding: 40px !important;
         > div {
           justify-content: flex-start;
           margin-bottom: 16px;

@@ -183,7 +183,7 @@ import SpImage02 from '@/images/img_sp02.png';
             @include mq-down(md) {
               font-size: rem(17);
             }
-            .num {
+            &.num {
               font-size: rem(34);
               @include mq-down(md) {
                 font-size: rem(22);
@@ -245,7 +245,7 @@ import SpImage02 from '@/images/img_sp02.png';
         grid-template-columns: auto auto var(--_icon-size);
         min-width: 296px;
         padding-block: 12px;
-        box-shadow: 0 3px 0 0 var(--_shadow-color);
+        box-shadow: 0 6px 0 0 var(--_shadow-color);
         span:not(.speechbubble) {
           display: flex;
           flex-direction: column;
