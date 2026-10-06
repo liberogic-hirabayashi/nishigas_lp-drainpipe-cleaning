@@ -7,17 +7,18 @@ import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
 
 // Googleフォームの「事前入力したURLを取得」で各設問の entry ID を確認して設定する
-const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/【FORM_ID】/formResponse';
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLScF3SVedSAvMzh_rviHUHWrQXvu0cIOFiQoT9RKkRfZyCQxhw/formResponse';
 const ENTRY = {
-  houseType: 'entry.【ご住宅タイプ】',
-  name: 'entry.1700126369',
-  kana: 'entry.1827714625',
-  email: 'entry.1079469528',
-  tel: 'entry.1863385176',
-  zip: 'entry.【郵便番号】',
-  address: 'entry.【住所】',
-  building: 'entry.【アパート・マンション名】',
-  message: 'entry.8158703',
+  houseType: 'entry.492073079',
+  name: 'entry.1299702797',
+  kana: 'entry.1295024558',
+  email: 'entry.1463796648',
+  tel: 'entry.2044330490',
+  zip: 'entry.682620208',
+  address: 'entry.822879137',
+  building: 'entry.1259925314',
+  message: 'entry.1081246126',
 };
 ---
 
@@ -52,7 +53,14 @@ const ENTRY = {
           <dl class="form-area__item">
             <dt>カタカナ（フリガナ）<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="text" name={ENTRY.kana} required placeholder="例）サトウ　タロウ" />
+              <input
+                type="text"
+                name={ENTRY.kana}
+                required
+                pattern="[ァ-ヶー\s]*[ァ-ヶー][ァ-ヶー\s]*"
+                title="全角カタカナで入力してください"
+                placeholder="例）サトウ　タロウ"
+              />
             </dd>
           </dl>
           <dl class="form-area__item">
@@ -63,6 +71,8 @@ const ENTRY = {
                 name={ENTRY.email}
                 autocomplete="email"
                 required
+                pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                title="sample@example.com の形式で入力してください"
                 placeholder="例）sample@example.com"
               />
             </dd>
@@ -112,7 +122,7 @@ const ENTRY = {
           </dl>
           <div class="form-area__checkbox">
             <input type="checkbox" id="contact-agree" required data-contact-agree /><label for="contact-agree"
-              ><a href="/">個人情報の取り扱い</a>への同意（必須）</label
+              ><a href="/privacy">個人情報の取り扱い</a>への同意（必須）</label
             >
           </div>
           <div class="form-area__btn-box">
