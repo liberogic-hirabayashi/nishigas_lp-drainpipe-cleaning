@@ -45,14 +45,14 @@ const { variant = '' } = Astro.props;
         </p>
       </div>
       <ButtonWrap justify="start">
-        <Button href="#">
+        <Button href="#tel">
           <span class="speechbubble">平日9:00〜17:00</span>
           <Fragment slot="icon-left">
             <Icon name="tel" aria-hidden />
           </Fragment>
           お電話で相談する
         </Button>
-        <Button href="#" variant="secondary">
+        <Button href="#contact" variant="secondary">
           <span class="speechbubble">24時間受付</span>
           <Fragment slot="icon-left">
             <Icon name="mail" aria-hidden />
@@ -78,7 +78,7 @@ const { variant = '' } = Astro.props;
     background-image: url('/src/images/bg_cva.png');
     background-size: cover;
     @include mq-down(md) {
-      padding-top: 80px;
+      padding-top: 45px;
       padding-bottom: 40px;
     }
     :global(.SectionInner) {
@@ -105,7 +105,7 @@ const { variant = '' } = Astro.props;
       content: '';
       background-image: url('/src/images/cva_illust.png');
       background-size: contain;
-      @include mq-down(md) {
+      @include mq-down(lg) {
         display: none;
       }
     }
@@ -148,7 +148,7 @@ const { variant = '' } = Astro.props;
         background-color: var(--color-attention);
         border-radius: var(--rounded-full);
         @include mq-down(md) {
-          padding: 10px 16px;
+          padding: 5px 16px;
           margin-bottom: 16px;
           font-size: rem(17);
         }
@@ -164,6 +164,9 @@ const { variant = '' } = Astro.props;
       }
       .headline {
         margin-bottom: 26px;
+        @include mq-down(md) {
+          margin-bottom: 8px;
+        }
       }
       .text {
         position: relative;
@@ -171,16 +174,18 @@ const { variant = '' } = Astro.props;
         font-weight: bold;
         background-color: var(--color-white);
         border-radius: var(--rounded-full);
-        @include mq-down(md) {
+        @include mq-down(lg) {
           display: flex;
-          gap: 19px;
+          gap: 16px;
           align-items: center;
           padding: 10px 22px;
+          font-size: rem(15);
+          line-height: 1.5;
           border-radius: var(--rounded-md);
         }
         img {
           display: none;
-          @include mq-down(md) {
+          @include mq-down(lg) {
             display: block;
             flex-shrink: 0;
           }
@@ -201,24 +206,33 @@ const { variant = '' } = Astro.props;
       }
       :global(.ButtonWrap) {
         margin-top: 52px;
-        @include mq-down(md) {
+        @include mq-down(lg) {
           gap: var(--spacing-xl);
+          margin-top: 40px;
         }
       }
       :global(.Button) {
+        --_icon-size: 22px;
         --_shadow-color: #053385;
         --_main-color: var(--color-primary);
         // 既定の 1fr だと min-width / width: 100% で文字列が伸び、左右アイコンが両端に離れるため中央にまとめる
         grid-template-columns: var(--_icon-size) auto var(--_icon-size);
         min-width: 420px;
         padding: 24px 20px;
+        border: solid 2px var(--_shadow-color);
         box-shadow: 0 6px 0 0 var(--_shadow-color);
+        @include mq-down(lg) {
+          width: 100%;
+          min-width: 100%;
+          padding: 16px 20px;
+        }
         :global(> span) {
           font-size: rem(28) !important;
+          @include mq-down(lg) {
+            font-size: rem(22) !important;
+          }
         }
-        @include mq-down(md) {
-          width: 100%;
-        }
+
         .speechbubble {
           position: absolute;
           top: -20px;
@@ -253,6 +267,9 @@ const { variant = '' } = Astro.props;
       .Cva__link {
         margin-top: 26px;
         text-align: center;
+        @include mq-down(lg) {
+          margin-top: 16px;
+        }
         a {
           font-weight: bold;
           color: var(--color-attention);

@@ -171,7 +171,7 @@ const ENTRY = {
           gap: 24px;
           @include mq-down(md) {
             grid-template-columns: auto;
-            gap: 12px;
+            gap: 8px;
           }
           &:has(textarea) {
             align-items: flex-start;
@@ -187,6 +187,9 @@ const ENTRY = {
             align-items: center;
             font-size: rem(16);
             font-weight: bold;
+            @include mq-down(md) {
+              font-size: rem(15);
+            }
             span {
               display: inline-block;
               padding: 0 8px;
@@ -210,6 +213,9 @@ const ENTRY = {
               background-color: var(--color-white);
               border: solid 2px #d6e3f2;
               border-radius: 16px;
+              @include mq-down(md) {
+                padding: 12px 14px;
+              }
             }
             textarea {
               min-height: 160px;
@@ -225,6 +231,9 @@ const ENTRY = {
           }
           + .form-area__item {
             margin-top: 24px;
+            @include mq-down(md) {
+              margin-top: 12px;
+            }
           }
         }
         &__checkbox {

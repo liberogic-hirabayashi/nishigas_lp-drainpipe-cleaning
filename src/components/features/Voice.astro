@@ -97,6 +97,9 @@ import face from '@/images/img_face.png';
     }
     :global(.BgBox) {
       padding: 35px 28px !important;
+      @include mq-down(md) {
+        padding: 16px 24px !important;
+      }
       + :global(.BgBox) {
         margin-top: 12px;
         @include mq-down(md) {
@@ -112,7 +115,7 @@ import face from '@/images/img_face.png';
         grid-auto-flow: column;
         gap: 12px;
         // 画面端までスワイプ領域を広げる。下paddingはBgBoxのbox-shadowが切れないための余白
-        padding-block: 8px 32px;
+        padding-block: 8px 24px;
         padding-inline: var(--side-gutter);
         margin-inline: calc(var(--side-gutter) * -1);
         overflow-x: auto;
@@ -170,11 +173,20 @@ import face from '@/images/img_face.png';
       .heading {
         flex-shrink: 0;
         padding-inline: 56px;
+        @include mq-down(md) {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          padding-inline: 0;
+        }
         span {
           display: inline-block;
           margin-top: 20px;
           font-size: rem(13);
           color: #6b788c;
+          @include mq-down(md) {
+            margin-top: 0;
+          }
         }
       }
       .body {
@@ -188,6 +200,9 @@ import face from '@/images/img_face.png';
           margin-left: 0;
           border-top: dashed 2px #ffd340;
           border-left: 0;
+          .h3 {
+            font-size: rem(17);
+          }
         }
       }
     }

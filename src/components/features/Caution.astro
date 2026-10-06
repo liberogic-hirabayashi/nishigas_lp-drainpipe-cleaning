@@ -59,6 +59,11 @@ import Heading from '../base/Heading.astro';
     &::before {
       background-color: #fff8e5;
     }
+    :global(.SecTitle .h2) {
+      @include mq-down(md) {
+        font-size: rem(20) !important;
+      }
+    }
     :global(.SecTitle__tag) {
       background-color: #ffeded;
     }
@@ -70,7 +75,7 @@ import Heading from '../base/Heading.astro';
       @include mq-down(md) {
         grid-template-columns: auto;
         gap: 24px;
-        margin-top: 0;
+        margin-top: 44px;
       }
       > div {
         --_color: var(--color-primary);
@@ -84,7 +89,8 @@ import Heading from '../base/Heading.astro';
         border: solid 3px var(--_color);
         border-radius: 40px;
         @include mq-down(md) {
-          padding: 28px;
+          padding: 20px;
+          padding-top: 28px;
         }
         span {
           position: absolute;
@@ -110,6 +116,9 @@ import Heading from '../base/Heading.astro';
         ul {
           display: inline-block;
           margin-top: 20px;
+          @include mq-down(md) {
+            margin-top: 16px;
+          }
           li {
             display: flex;
             align-items: center;

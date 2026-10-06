@@ -216,14 +216,15 @@ import img_price05 from '@/images/img_price05.png';
       margin-inline: auto;
       font-size: rem(28);
       font-weight: bold;
+      letter-spacing: -0.01rem;
       background-color: #ffd340;
       border-radius: var(--rounded-full);
       @include mq-down(md) {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        padding: 14px;
+        width: calc(100% - 40px);
+        padding: 12px;
         font-size: rem(15);
       }
       span {
@@ -232,6 +233,7 @@ import img_price05 from '@/images/img_price05.png';
         font-weight: 900;
         color: #cc610d;
         @include mq-down(md) {
+          margin-inline: 4px;
           font-size: rem(32);
         }
       }
@@ -245,20 +247,20 @@ import img_price05 from '@/images/img_price05.png';
     :global(.BgBox) {
       padding: 48px 62px !important;
       @include mq-down(md) {
-        padding: 32px !important;
+        padding: 24px 32px !important;
       }
       > div {
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 32px;
-        @include mq-down(md) {
+        @include mq-down(lg) {
           flex-direction: column;
           margin-bottom: 16px;
         }
         > img {
           margin-inline: 24px;
-          @include mq-down(md) {
+          @include mq-down(lg) {
             margin-block: 12px;
             margin-inline: auto;
           }
@@ -272,9 +274,9 @@ import img_price05 from '@/images/img_price05.png';
           min-width: 380px;
           padding: 32px;
           border-radius: 32px;
-          @include mq-down(md) {
+          @include mq-down(lg) {
             width: 100%;
-            min-width: 100%;
+            min-width: 0;
             padding: 16px;
           }
           &__tag {
@@ -366,7 +368,7 @@ import img_price05 from '@/images/img_price05.png';
           align-items: center;
           padding: 16px 20px;
           background-color: #fff8e5;
-          border-radius: var(--rounded-lg);
+          border-radius: 24px;
           @include mq-down(md) {
             flex-direction: column;
             text-align: center;
@@ -375,6 +377,9 @@ import img_price05 from '@/images/img_price05.png';
                 display: none;
               }
             }
+          }
+          :has(img) {
+            flex-shrink: 0;
           }
         }
       }
@@ -391,6 +396,9 @@ import img_price05 from '@/images/img_price05.png';
       }
       :global(.BgBox) {
         padding: 40px !important;
+        @include mq-down(md) {
+          padding: 20px !important;
+        }
         > div {
           justify-content: flex-start;
           margin-bottom: 16px;

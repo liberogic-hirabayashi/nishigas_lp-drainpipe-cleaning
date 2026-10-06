@@ -56,14 +56,18 @@ const TelArea = [
       background-color: var(--color-white);
     }
     :global(.BgBox) {
-      @include mq-up(md) {
-        padding: 56px;
+      padding: 56px;
+      @include mq-down(md) {
+        padding: 24px 28px;
       }
     }
     p {
       font-size: rem(18);
       font-weight: bold;
       text-align: center;
+      @include mq-down(md) {
+        font-size: rem(15);
+      }
     }
     &__area {
       display: grid;
@@ -72,6 +76,7 @@ const TelArea = [
       margin-top: 28px;
       @include mq-down(md) {
         grid-template-columns: auto;
+        margin-top: 14px;
       }
       > div {
         display: flex;

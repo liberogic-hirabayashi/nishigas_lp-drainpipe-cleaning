@@ -9,9 +9,9 @@
   --color-bg-attention: color-mix(in srgb, var(--color-attention) 5%, transparent);
   --color-bg-tooltip: color-mix(in srgb, var(--color-black) 80%, transparent);
   --color-text: #213354;
-    --color-primary: #1B6FD9;
-    --color-secondary: #eb7800;
-    --color-attention: #E52E26;
+  --color-primary: #1b6fd9;
+  --color-secondary: #eb7800;
+  --color-attention: #e52e26;
   --color-border: #ddd;
   --color-border-input: #ccc;
   --color-link: #0061c2;
@@ -23,7 +23,7 @@
   --color-white: #fff;
   --color-black: #000;
   --color-shadow: #000;
-  --color-yellow: #FFD340;
+  --color-yellow: #ffd340;
 
   --backdrop: rgb(0 0 0 / 60%);
 
@@ -173,7 +173,7 @@
   --artboad-size: 1440;
   --width-base: 1080px;
   --width-wide: 1280px;
-    --width-narrow: 920px;
+  --width-narrow: 920px;
   --side-gutter-px-min: 24;
   --side-gutter-px: 40;
   --side-gutter: clamp(
@@ -203,6 +203,7 @@
   @include mq-down(md) {
     --header-height: 80px;
     --artboad-size: 375;
+    --side-gutter-px-min: 20;
     --side-gutter-px: var(--side-gutter-px-min);
   }
 

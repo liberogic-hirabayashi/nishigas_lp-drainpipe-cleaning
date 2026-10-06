@@ -63,6 +63,9 @@ import Logo from '@/images/footer_logo.svg';
             font-weight: bold;
             color: var(--color-white);
             text-decoration: none;
+            @include hover {
+              text-decoration: underline;
+            }
             @include mq-down(md) {
               font-size: rem(12);
             }

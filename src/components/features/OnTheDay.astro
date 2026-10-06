@@ -106,6 +106,9 @@ import img_risk_before from '@/images/img_risk_before.png';
         background-color: var(--color-white);
         border-radius: 40px;
         box-shadow: 0 8px 24px 0 #1a4d9914;
+        @include mq-down(md) {
+          padding: 27px;
+        }
 
         .num {
           display: flex;
@@ -174,6 +177,7 @@ import img_risk_before from '@/images/img_risk_before.png';
         @include mq-down(md) {
           grid-template-columns: auto;
           gap: 60px;
+          margin-top: 40px;
         }
         > div {
           position: relative;
@@ -188,6 +192,7 @@ import img_risk_before from '@/images/img_risk_before.png';
             border-radius: var(--rounded-full);
             transform: translateX(-50%);
             @include mq-down(md) {
+              padding: 4px 16px;
               font-size: rem(15);
             }
           }
