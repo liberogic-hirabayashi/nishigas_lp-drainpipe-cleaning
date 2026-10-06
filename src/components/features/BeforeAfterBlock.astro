@@ -10,9 +10,12 @@ export interface Props {
 }
 
 const { bg = 'white' } = Astro.props;
+
+// CSS の background-image でも同じ画像を使っている。.src を参照しないと <Image> の最適化後に元画像がビルド出力から削除されるため、明示的に参照して残す
+void arrow.src;
 ---
 
-<div class="BeforeAfterBlock" data-bg={bg} style={`--_arrow: url(${arrow.src})`}>
+<div class="BeforeAfterBlock" data-bg={bg}>
   <Heading lv="h3" tag="h3">洗浄前後の様子</Heading>
   <div>
     <div class="before">
@@ -104,7 +107,7 @@ const { bg = 'white' } = Astro.props;
             width: 32px;
             height: 32px;
             content: '';
-            background-image: var(--_arrow);
+            background-image: url('@/images/icon_arrow_blue.png');
             @include mq-down(md) {
               top: -56px;
               left: 50%;

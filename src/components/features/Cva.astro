@@ -16,9 +16,12 @@ export interface Props {
 }
 
 const { variant = '' } = Astro.props;
+
+// CSS の background-image でも同じ画像を使っている。.src を参照しないと <Image> の最適化後に元画像がビルド出力から削除されるため、明示的に参照して残す
+void illust.src;
 ---
 
-<Section class="Cva" data-variant={variant} style={`--_illust: url(${illust.src})`}>
+<Section class="Cva" data-variant={variant}>
   <SectionInner>
     <div class="Cva__wrap">
       <div class="speechBubble">
@@ -75,7 +78,7 @@ const { variant = '' } = Astro.props;
     padding-bottom: 80px;
     margin-top: 40px;
     background-color: var(--color-bg-yellow);
-    background-image: url('/src/images/bg_cva.png');
+    background-image: url('@/images/bg_cva.png');
     background-size: cover;
     @include mq-down(md) {
       padding-top: 45px;
@@ -93,7 +96,7 @@ const { variant = '' } = Astro.props;
       width: 100%;
       height: 40px;
       content: '';
-      background-image: url('/src/images/cva_line.png');
+      background-image: url('@/images/cva_line.png');
       background-size: cover;
     }
     &::after {
@@ -103,7 +106,7 @@ const { variant = '' } = Astro.props;
       width: 288px;
       height: 211px;
       content: '';
-      background-image: var(--_illust);
+      background-image: url('@/images/cva_illust.png');
       background-size: contain;
       @include mq-down(lg) {
         display: none;
@@ -128,14 +131,14 @@ const { variant = '' } = Astro.props;
         left: 0;
         width: 152px;
         height: 232px;
-        background-image: url('/src/images/cva_deco_left.png');
+        background-image: url('@/images/cva_deco_left.png');
       }
       &::after {
         top: 0;
         right: -40px;
         width: 150px;
         height: 250px;
-        background-image: url('/src/images/cva_deco_right.png');
+        background-image: url('@/images/cva_deco_right.png');
       }
 
       .speechBubble {

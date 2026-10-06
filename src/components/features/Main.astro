@@ -91,11 +91,11 @@ import SpImage02 from '@/images/img_sp02.png';
 
     $this: &;
     overflow: hidden;
-    background-image: url('/src/images/bg.png');
+    background-image: url('@/images/bg.png');
     background-size: cover;
     @include mq-down(md) {
       padding: 24px 0 40px;
-      background-image: url('/src/images/bg_sp.png');
+      background-image: url('@/images/bg_sp.png');
     }
     &__contents {
       position: relative;
@@ -119,14 +119,14 @@ import SpImage02 from '@/images/img_sp02.png';
         left: -150px;
         width: 340px;
         height: 405px;
-        background-image: url('/src/images/main01.png');
+        background-image: url('@/images/main01.png');
       }
       &::after {
         top: 53px;
         right: -200px;
         width: 462px;
         height: 540px;
-        background-image: url('/src/images/main02.png');
+        background-image: url('@/images/main02.png');
       }
       .h1 {
         margin-block: 16px;
@@ -180,7 +180,7 @@ import SpImage02 from '@/images/img_sp02.png';
           height: 164px;
           font-size: rem(14);
           font-weight: bold;
-          background-image: url('/src/images/img_deco.png');
+          background-image: url('@/images/img_deco.png');
           background-size: 100% 100%;
           @include mq-down(md) {
             width: vw(109, 375);
