@@ -31,6 +31,9 @@ import Logo from '@/images/footer_logo.svg';
       padding: 80px 40px 48px;
       margin-top: 40px;
       background: #213354;
+      @include mq-down(md) {
+        padding: 36px 20px 24px;
+      }
       &::before {
         position: absolute;
         top: -40px;
@@ -44,14 +47,25 @@ import Logo from '@/images/footer_logo.svg';
       }
       nav {
         margin-block: 32px;
+        @include mq-down(md) {
+          margin-block: 16px;
+        }
         ul {
           display: flex;
           gap: 32px;
+          @include mq-down(md) {
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+          }
           a {
             font-size: rem(14);
             font-weight: bold;
             color: var(--color-white);
             text-decoration: none;
+            @include mq-down(md) {
+              font-size: rem(12);
+            }
           }
         }
       }

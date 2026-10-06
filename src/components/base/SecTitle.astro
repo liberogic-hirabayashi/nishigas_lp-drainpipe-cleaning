@@ -32,14 +32,23 @@ const { tag } = Astro.props;
       :global(.h2) {
         margin-block: 16px;
         font-size: rem(40);
+        @include mq-down(md) {
+          font-size: rem(20);
+        }
       }
       :global(span) {
         color: var(--color-primary);
+
         &.-orange {
           color: var(--color-secondary);
         }
         &.-red {
           color: #e55454;
+        }
+      }
+      :global(.pc-hide) {
+        @include mq-up(md) {
+          display: none;
         }
       }
     }

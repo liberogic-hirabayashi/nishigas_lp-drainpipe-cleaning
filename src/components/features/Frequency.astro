@@ -71,11 +71,18 @@ import img_frequency02 from '@/images/img_frequency02.png';
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 32px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+        gap: 16px;
+      }
       .item {
         --bg_color: #e8f3ff;
         padding: 36px;
         background-color: var(--bg_color);
         border-radius: 40px;
+        @include mq-down(md) {
+          padding: 18px;
+        }
 
         &:last-child {
           --bg_color: #fff8e5;
@@ -85,10 +92,16 @@ import img_frequency02 from '@/images/img_frequency02.png';
           text-align: center;
           > span {
             font-size: rem(20);
+            @include mq-down(md) {
+              font-size: rem(17);
+            }
           }
           > div {
             font-size: rem(44);
             font-weight: 900;
+            @include mq-down(md) {
+              font-size: rem(27);
+            }
             > span {
               color: var(--color-primary);
             }
@@ -99,6 +112,9 @@ import img_frequency02 from '@/images/img_frequency02.png';
         }
         p {
           font-size: rem(15);
+          @include mq-down(md) {
+            font-size: rem(14);
+          }
         }
       }
     }

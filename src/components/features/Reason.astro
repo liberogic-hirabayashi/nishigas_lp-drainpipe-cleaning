@@ -99,6 +99,9 @@ import img_reason04 from '@/images/img_reason04.png';
       display: grid;
       grid-template-columns: auto;
       gap: 40px;
+      @include mq-down(md) {
+        gap: 20px;
+      }
       .Card {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -108,6 +111,11 @@ import img_reason04 from '@/images/img_reason04.png';
         padding: 54px 64px;
         background-color: #fff;
         border-radius: 32px;
+        @include mq-down(md) {
+          grid-template-columns: auto;
+          gap: 24px;
+          padding: 20px 24px;
+        }
         &__num {
           font-size: rem(14);
           font-weight: bold;
@@ -117,17 +125,25 @@ import img_reason04 from '@/images/img_reason04.png';
             font-size: rem(64);
             font-weight: 900;
             color: var(--color-yellow);
+            @include mq-down(md) {
+              font-size: rem(35);
+            }
           }
         }
         :global(.h3) {
           font-size: rem(26);
+          @include mq-down(md) {
+            font-size: rem(20);
+          }
         }
         &__img {
           border-radius: 28px;
         }
         &.-revers {
           .Card__img {
-            order: -1;
+            @include mq-up(md) {
+              order: -1;
+            }
           }
         }
       }

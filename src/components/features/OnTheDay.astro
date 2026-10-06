@@ -80,6 +80,9 @@ import img_risk_before from '@/images/img_risk_before.png';
   .OnTheDay {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: var(--color-white);
     }
@@ -92,6 +95,7 @@ import img_risk_before from '@/images/img_risk_before.png';
       gap: 24px;
       @include mq-down(md) {
         grid-template-columns: auto;
+        gap: 12px;
       }
       .item {
         display: flex;
@@ -112,11 +116,18 @@ import img_risk_before from '@/images/img_risk_before.png';
           font-size: rem(28);
           background-color: var(--color-yellow);
           border-radius: var(--rounded-full);
+          @include mq-down(md) {
+            font-size: rem(22);
+          }
         }
         > div {
           margin-block: 20px;
           font-size: rem(20);
           text-align: center;
+          @include mq-down(md) {
+            margin-block: 16px;
+            font-size: rem(17);
+          }
         }
         > span:not(.num) {
           display: block;
@@ -124,10 +135,17 @@ import img_risk_before from '@/images/img_risk_before.png';
           font-weight: 900;
           line-height: 1.25;
           color: var(--color-primary);
+          @include mq-down(md) {
+            font-size: rem(35);
+          }
         }
         p {
           font-size: rem(15);
           font-weight: normal;
+          @include mq-down(md) {
+            font-size: rem(14);
+            text-align: center;
+          }
         }
       }
     }
@@ -138,11 +156,22 @@ import img_risk_before from '@/images/img_risk_before.png';
       background-color: var(--color-white);
       border-radius: 40px;
       box-shadow: 0 8px 24px 0 #1a4d9914;
+      @include mq-down(md) {
+        padding: 24px;
+        margin-top: 28px;
+        .h3 {
+          font-size: rem(22);
+        }
+      }
       > div {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 88px;
         margin-top: 40px;
+        @include mq-down(md) {
+          grid-template-columns: auto;
+          gap: 60px;
+        }
         > div {
           position: relative;
           span {
@@ -155,6 +184,9 @@ import img_risk_before from '@/images/img_risk_before.png';
             color: var(--color-white);
             border-radius: var(--rounded-full);
             transform: translateX(-50%);
+            @include mq-down(md) {
+              font-size: rem(15);
+            }
           }
           &.before span {
             background-color: #6b788c;
@@ -171,6 +203,11 @@ import img_risk_before from '@/images/img_risk_before.png';
               height: 32px;
               content: '';
               background-image: url('/src/images/icon_arrow_blue.png');
+              @include mq-down(md) {
+                top: -56px;
+                left: 50%;
+                transform: rotate(90deg) translateY(50%);
+              }
             }
           }
         }

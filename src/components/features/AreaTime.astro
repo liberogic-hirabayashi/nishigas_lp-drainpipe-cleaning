@@ -1,10 +1,12 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import PictureImage from '@/components/base/PictureImage.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
 import map from '@/images/img_map.png';
+import map_sp from '@/images/img_map_sp.png';
 ---
 
 <Section class="AreaTime">
@@ -14,7 +16,18 @@ import map from '@/images/img_map.png';
     </SecTitle>
     <div class="AreaTime__grid">
       <div class="img">
-        <Image src={map} alt="" width={516} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+        <PictureImage
+          src={map}
+          spSrc={map_sp}
+          alt=""
+          width={516}
+          spWidth={335}
+          spHeight={376}
+          densities={[1.5, 2]}
+          format="avif"
+          quality={50}
+          loading="lazy"
+        />
       </div>
       <div class="box">
         <span>受付時間</span>
@@ -39,6 +52,9 @@ import map from '@/images/img_map.png';
   .AreaTime {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: #fff8e5;
     }
@@ -46,29 +62,47 @@ import map from '@/images/img_map.png';
       display: grid;
       gap: 20px 48px;
       align-items: center;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+      }
       .img {
-        grid-row: 1/3;
-        grid-column: 1/2;
+        @include mq-up(md) {
+          grid-row: 1/3;
+          grid-column: 1/2;
+        }
       }
       .box {
         padding: 28px;
         background-color: #fff2c7;
         border-radius: 28px;
+        @include mq-down(md) {
+          padding: 16px;
+        }
         span {
           font-size: rem(22);
           font-weight: bold;
           color: var(--color-primary);
+          @include mq-down(md) {
+            font-size: rem(17);
+          }
         }
         p {
           font-size: rem(15);
+          @include mq-down(md) {
+            font-size: rem(14);
+          }
         }
         &:first-child {
-          grid-row: 1/2;
-          grid-column: 2/3;
+          @include mq-up(md) {
+            grid-row: 1/2;
+            grid-column: 2/3;
+          }
         }
         &:last-child {
-          grid-row: 2/3;
-          grid-column: 2/3;
+          @include mq-up(md) {
+            grid-row: 2/3;
+            grid-column: 2/3;
+          }
           background-color: #e8f3ff;
         }
       }

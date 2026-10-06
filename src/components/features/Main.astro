@@ -7,6 +7,7 @@ import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import Annotation from '../base/Annotation.astro';
 import Heading from '../base/Heading.astro';
+import { basicPackPrice } from '@/config/price';
 import Title from '@/images/haisui_title.png';
 
 import IconMovie from '@/images/icon_movie.svg';
@@ -32,7 +33,7 @@ import SpImage02 from '@/images/img_sp02.png';
       <div class="Main__features">
         <div>
           基本パック
-          <span class="num">38,500</span>円（税込）
+          <span class="num">{basicPackPrice}</span>円（税込）
         </div>
         <div>
           電話ですぐに
@@ -84,6 +85,7 @@ import SpImage02 from '@/images/img_sp02.png';
     background-image: url('/src/images/bg.png');
     background-size: cover;
     @include mq-down(md) {
+      padding: 24px 0 40px;
       background-image: url('/src/images/bg_sp.png');
     }
     &__contents {
@@ -162,7 +164,7 @@ import SpImage02 from '@/images/img_sp02.png';
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          // width: 164px;
+          width: 164px;
           height: 164px;
           font-size: rem(14);
           font-weight: bold;
@@ -205,7 +207,7 @@ import SpImage02 from '@/images/img_sp02.png';
           gap: 12px;
           align-items: center;
           justify-content: center;
-          margin-block: 16px;
+          margin-top: 16px;
         }
       }
       > p {
@@ -240,7 +242,9 @@ import SpImage02 from '@/images/img_sp02.png';
       :global(.Button) {
         --_shadow-color: #053385;
         --_main-color: var(--color-primary);
+        grid-template-columns: auto auto var(--_icon-size);
         min-width: 296px;
+        padding-block: 12px;
         box-shadow: 0 3px 0 0 var(--_shadow-color);
         span:not(.speechbubble) {
           display: flex;
@@ -274,18 +278,16 @@ import SpImage02 from '@/images/img_sp02.png';
             transform: translateX(-50%);
           }
         }
+        // svgには疑似要素が付かないため outline で外側に円枠を描き、その分を margin で確保する（9px + 1px = 直径40px）。
+        // border-radius は outline を丸めるためのもの。svgは既定で overflow: hidden なので visible にしないとアイコンの角が切れる
         :global(.Icon) {
-          position: relative;
-          &::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
-            width: 40px;
-            height: 40px;
-            content: '';
-            border: solid 1px #fff;
-          }
+          width: 20px;
+          height: 20px;
+          margin: 10px;
+          overflow: visible;
+          outline: solid 1px var(--color-white);
+          outline-offset: 9px;
+          border-radius: var(--rounded-full);
         }
         &[data-variant='secondary'] {
           --_main-color: var(--color-secondary);

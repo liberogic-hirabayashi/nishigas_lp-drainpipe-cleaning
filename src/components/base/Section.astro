@@ -19,7 +19,9 @@ const Tag = tag;
     .Section {
       position: relative;
       padding-block: var(--spacing-3xl);
-      padding-top: var(--spacing-3xl);
+      @include mq-down(md) {
+        padding-bottom: var(--spacing-lg);
+      }
       &:last-of-type {
         padding-bottom: var(--spacing-3xl);
       }
@@ -37,6 +39,9 @@ const Tag = tag;
         position: relative;
         padding-block: var(--spacing-3xl);
         background: var(--color-bg-section);
+        @include mq-down(md) {
+          padding-block: var(--spacing-xl);
+        }
         &:not(:first-of-type) {
           &::before {
             position: absolute;

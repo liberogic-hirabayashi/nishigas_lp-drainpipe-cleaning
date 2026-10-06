@@ -39,6 +39,10 @@ const { open, name, class: className, ...rest } = Astro.props;
         cursor: pointer;
         background-color: var(--color-white);
         border-radius: 28px;
+        @include mq-down(md) {
+          padding: 16px;
+          padding-right: 60px;
+        }
         &::-webkit-details-marker {
           display: none;
         }
@@ -48,6 +52,9 @@ const { open, name, class: className, ...rest } = Astro.props;
           align-items: center;
           font-size: rem(18);
           font-weight: bold;
+          @include mq-down(md) {
+            font-size: rem(15);
+          }
           &::after {
             position: absolute;
             top: 50%;
@@ -59,9 +66,13 @@ const { open, name, class: className, ...rest } = Astro.props;
             background-color: #e8f3ff;
             border-radius: var(--rounded-full);
             transform: translateY(-50%);
+            @include mq-down(md) {
+              right: -42px;
+            }
           }
           > span {
             display: flex;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
             width: 44px;
@@ -104,9 +115,14 @@ const { open, name, class: className, ...rest } = Astro.props;
           background-color: var(--color-white);
           border-radius: 0 0 28px 28px;
           transition: scale var(--default-duration);
+          @include mq-down(md) {
+            padding: 16px;
+            font-size: rem(14);
+          }
 
           > span {
             display: flex;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
             width: 44px;

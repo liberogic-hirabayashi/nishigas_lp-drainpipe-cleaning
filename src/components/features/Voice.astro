@@ -1,10 +1,12 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import IconButton from '@/components/base/IconButton.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import BgBox from '../base/BgBox.astro';
 import Heading from '../base/Heading.astro';
+import arrow from '@/images/icon_arrow_blue.png';
 import face from '@/images/img_face.png';
 ---
 
@@ -16,56 +18,69 @@ import face from '@/images/img_face.png';
         <span class="-orange">2,000件</span>の施工実績</Heading
       >
     </SecTitle>
-    <BgBox>
-      <div class="Voice__contents">
-        <div class="heading">
-          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
-          <span>春日部市 Y/S様</span>
+    {/* SPの横スクロール領域をキーボードでも操作できるようにするため */}
+    {/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}
+    <div class="Voice__slider" role="region" aria-label="お客様の声一覧" tabindex="0">
+      <BgBox>
+        <div class="Voice__contents">
+          <div class="heading">
+            <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+            <span>春日部市 Y/S様</span>
+          </div>
+          <div class="body">
+            <Heading lv="h3" tag="h3">築20年で初の高圧洗浄、臭いも排水も解消 </Heading>
+            <p>
+              築20年目にして、初めて高圧洗浄を依頼しました。きっかけは、台所の異臭や洗濯機の漏水、浴室の排水不良といったトラブルが重なったことでした。依頼先を検討する中で、日頃からガスと電気を契約している「ニチガス」のホームページが目に留まりました。以前、コンロや給湯器の交換をお願いした際に、営業担当者の方や作業員の皆様の対応に大変満足していたため、今回も安心して依頼することができました。<br
+              />
+              当日は時間通りの訪問と丁寧な事前説明があり、非常に信頼できる対応でした。作業中に立ち会って実際の汚れを確認できたほか、日常のお手入れについてのアドバイスをいただいたり、作業動画を見せていただいたりと、終始安心して任せることができました。土日も作業に対応していただける点も大変助かりました。おかげさまで、臭いも解消され、排水もスムーズになり快適に過ごしております。ありがとうございました。
+            </p>
+          </div>
         </div>
-        <div class="body">
-          <Heading lv="h3" tag="h3">築20年で初の高圧洗浄、臭いも排水も解消 </Heading>
-          <p>
-            築20年目にして、初めて高圧洗浄を依頼しました。きっかけは、台所の異臭や洗濯機の漏水、浴室の排水不良といったトラブルが重なったことでした。依頼先を検討する中で、日頃からガスと電気を契約している「ニチガス」のホームページが目に留まりました。以前、コンロや給湯器の交換をお願いした際に、営業担当者の方や作業員の皆様の対応に大変満足していたため、今回も安心して依頼することができました。<br
-            />
-            当日は時間通りの訪問と丁寧な事前説明があり、非常に信頼できる対応でした。作業中に立ち会って実際の汚れを確認できたほか、日常のお手入れについてのアドバイスをいただいたり、作業動画を見せていただいたりと、終始安心して任せることができました。土日も作業に対応していただける点も大変助かりました。おかげさまで、臭いも解消され、排水もスムーズになり快適に過ごしております。ありがとうございました。
-          </p>
+      </BgBox>
+      <BgBox>
+        <div class="Voice__contents">
+          <div class="heading">
+            <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+            <span>埼玉県 O様</span>
+          </div>
+          <div class="body">
+            <Heading lv="h3" tag="h3">業者選びに迷ったけどニチガスで安心できた </Heading>
+            <p>
+              キッチンの流れが悪くなり、時折生臭いニオイが気になっていたため、ニチガスさんに相談しました。<br />
+              いろんな業者がある中でどこに頼んだらいいか迷っていましたが今回ニチガスさんで排水管サービスを行っている提案を受け安心してお願いできました。<br
+              />
+              清掃後は一瞬で水が流れるようになりニオイも気にならずスッキリ解消できました。作業も丁寧に行ってもらい大変満足しニチガスさんに頼んでよかったです。
+            </p>
+          </div>
         </div>
-      </div>
-    </BgBox>
-    <BgBox>
-      <div class="Voice__contents">
-        <div class="heading">
-          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
-          <span>埼玉県 O様</span>
+      </BgBox>
+      <BgBox>
+        <div class="Voice__contents">
+          <div class="heading">
+            <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+            <span>〇〇市 〇〇様</span>
+          </div>
+          <div class="body">
+            <Heading lv="h3" tag="h3">他社で断られた築40年の家にも快く対応！ </Heading>
+            <p>
+              築40年以上の戸建てってだけで作業を断られるなか、
+              相談のときから気持ちよく迅速に対応してくださいました。作業内容は、洗濯排水口と台所排水口の2箇所と、外の枡や排水管を掃除していただき、油脂・汚物をしっかり除去してくださいました。
+              作業後も画像を見ながら丁寧な説明をしてくださり、アドバイスなどもいただき、問題だった洗濯排水口からの悪臭も解決でき助かりました。作業を依頼して良かったです。
+              有り難うございました。
+            </p>
+          </div>
         </div>
-        <div class="body">
-          <Heading lv="h3" tag="h3">業者選びに迷ったけどニチガスで安心できた </Heading>
-          <p>
-            キッチンの流れが悪くなり、時折生臭いニオイが気になっていたため、ニチガスさんに相談しました。<br />
-            いろんな業者がある中でどこに頼んだらいいか迷っていましたが今回ニチガスさんで排水管サービスを行っている提案を受け安心してお願いできました。<br
-            />
-            清掃後は一瞬で水が流れるようになりニオイも気にならずスッキリ解消できました。作業も丁寧に行ってもらい大変満足しニチガスさんに頼んでよかったです。
-          </p>
-        </div>
-      </div>
-    </BgBox>
-    <BgBox>
-      <div class="Voice__contents">
-        <div class="heading">
-          <Image src={face} alt="" width={88} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
-          <span>〇〇市 〇〇様</span>
-        </div>
-        <div class="body">
-          <Heading lv="h3" tag="h3">他社で断られた築40年の家にも快く対応！ </Heading>
-          <p>
-            築40年以上の戸建てってだけで作業を断られるなか、
-            相談のときから気持ちよく迅速に対応してくださいました。作業内容は、洗濯排水口と台所排水口の2箇所と、外の枡や排水管を掃除していただき、油脂・汚物をしっかり除去してくださいました。
-            作業後も画像を見ながら丁寧な説明をしてくださり、アドバイスなどもいただき、問題だった洗濯排水口からの悪臭も解決でき助かりました。作業を依頼して良かったです。
-            有り難うございました。
-          </p>
-        </div>
-      </div>
-    </BgBox>
+      </BgBox>
+    </div>
+    <div class="Voice__nav hide-up-md">
+      <IconButton class="prev" variant="outline" shape="circle" aria-label="前のお客様の声" disabled>
+        <Image src={arrow} alt="" width={16} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      </IconButton>
+      <div class="dots"></div>
+      <IconButton class="next" variant="outline" shape="circle" aria-label="次のお客様の声">
+        <Image src={arrow} alt="" width={16} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+      </IconButton>
+    </div>
   </SectionInner>
 </Section>
 
@@ -82,11 +97,72 @@ import face from '@/images/img_face.png';
     }
     :global(.BgBox + .BgBox) {
       margin-top: 12px;
+      @include mq-down(md) {
+        margin-top: 0;
+      }
     }
-
+    &__slider {
+      @include mq-down(md) {
+        display: grid;
+        grid-auto-columns: 100%;
+        grid-auto-flow: column;
+        gap: 12px;
+        // 画面端までスワイプ領域を広げる。下paddingはBgBoxのbox-shadowが切れないための余白
+        padding-block: 8px 32px;
+        padding-inline: var(--side-gutter);
+        margin-inline: calc(var(--side-gutter) * -1);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--side-gutter);
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        > :global(.BgBox) {
+          scroll-snap-align: start;
+        }
+      }
+    }
+    &__nav {
+      display: grid;
+      grid-template-columns: 44px auto 44px;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      .prev,
+      .next {
+        --_bg-color: var(--color-white);
+        img {
+          width: 16px;
+          height: auto;
+        }
+      }
+      .prev img {
+        scale: -1 1;
+      }
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        // ドットはJSで生成するためスコープ属性が付かない
+        > :global(button) {
+          width: 8px;
+          height: 8px;
+          background-color: rgb(from var(--color-primary) r g b / 25%);
+          border-radius: var(--rounded-full);
+          transition: background-color var(--default-duration);
+          &:global([aria-current='true']) {
+            background-color: var(--color-primary);
+          }
+        }
+      }
+    }
     &__contents {
       display: flex;
       align-items: center;
+      @include mq-down(md) {
+        flex-direction: column;
+      }
       .heading {
         flex-shrink: 0;
         padding-inline: 56px;
@@ -101,7 +177,76 @@ import face from '@/images/img_face.png';
         padding-left: 40px;
         margin-left: 40px;
         border-left: dashed 2px #ffd340;
+        @include mq-down(md) {
+          padding-top: 20px;
+          padding-left: 0;
+          margin-top: 20px;
+          margin-left: 0;
+          border-top: dashed 2px #ffd340;
+          border-left: 0;
+        }
       }
     }
   }
 </style>
+
+<script>
+  const initVoiceSlider = (root: HTMLElement) => {
+    const slider = root.querySelector<HTMLElement>('.Voice__slider');
+    const prev = root.querySelector<HTMLButtonElement>('.Voice__nav .prev');
+    const next = root.querySelector<HTMLButtonElement>('.Voice__nav .next');
+    const dotsWrap = root.querySelector<HTMLElement>('.Voice__nav .dots');
+    if (!slider || !prev || !next || !dotsWrap) return;
+
+    const slides = Array.from(slider.children) as HTMLElement[];
+    if (slides.length === 0) return;
+
+    const dots = slides.map((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `${i + 1}件目のお客様の声を表示`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.append(dot);
+      return dot;
+    });
+
+    // offsetLeft は offsetParent 基準なので、先頭スライドとの差分でスクロール位置を求める
+    const getStep = () => (slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : slider.clientWidth);
+    const getIndex = () => Math.min(slides.length - 1, Math.max(0, Math.round(slider.scrollLeft / getStep())));
+
+    const goTo = (index: number) => {
+      const isPrefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      slider.scrollTo({
+        left: slides[index].offsetLeft - slides[0].offsetLeft,
+        behavior: isPrefersReduced ? 'auto' : 'smooth',
+      });
+    };
+
+    const update = () => {
+      const index = getIndex();
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+    };
+
+    let ticking = false;
+    slider.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
+    prev.addEventListener('click', () => goTo(getIndex() - 1));
+    next.addEventListener('click', () => goTo(getIndex() + 1));
+
+    update();
+  };
+
+  document.querySelectorAll<HTMLElement>('.Voice').forEach(initVoiceSlider);
+</script>

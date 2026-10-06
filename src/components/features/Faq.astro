@@ -1,15 +1,15 @@
 ---
-import { Image, Picture } from 'astro:assets';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import Accordion from '@/components/features/Accordion.astro';
 import Heading from '../base/Heading.astro';
+import { basicPackPrice } from '@/config/price';
 
 const FaqList = [
   {
-    Q: '料金は38,500円だけで済みますか？',
-    A: '一般戸建住宅で基本の作業範囲であれば38,500円（税込）です。トイレの屋内高圧洗浄、キッチン排水トラップがS管の場合、基本範囲を超える追加箇所がある場合は追加料金となります。事前調査のうえ正式にお見積りします。',
+    Q: `料金は${basicPackPrice}円だけで済みますか？`,
+    A: `一般戸建住宅で基本の作業範囲であれば${basicPackPrice}円（税込）です。トイレの屋内高圧洗浄、キッチン排水トラップがS管の場合、基本範囲を超える追加箇所がある場合は追加料金となります。事前調査のうえ正式にお見積りします。`,
   },
   {
     Q: 'どのくらいの頻度で洗浄すればよいですか？',
@@ -71,6 +71,9 @@ const FaqList = [
   .Faq {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: var(--color-white);
     }

@@ -4,6 +4,7 @@ import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
+import arrow from '@/images/img_flow_arrow.png';
 ---
 
 <Section class="Flow" bg="blue">
@@ -71,6 +72,9 @@ import Heading from '../base/Heading.astro';
   .Flow {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: var(--color-white);
     }
@@ -89,8 +93,12 @@ import Heading from '../base/Heading.astro';
         background-color: var(--color-white);
         border-radius: var(--rounded-full);
         box-shadow: 0 8px 24px 0 #1a4d9914;
+        @include mq-down(md) {
+          border-radius: var(--rounded-lg);
+        }
         .num {
           display: flex;
+          flex-shrink: 0;
           flex-direction: column;
           align-items: center;
           justify-content: center;
@@ -102,23 +110,50 @@ import Heading from '../base/Heading.astro';
           color: var(--color-white);
           background-color: var(--_color);
           border-radius: var(--rounded-full);
+          @include mq-down(md) {
+            margin-right: 16px;
+          }
           > span {
             font-size: rem(30);
             line-height: 1;
+            @include mq-down(md) {
+              font-size: rem(21);
+            }
           }
         }
         > div {
           .h3 {
             margin-bottom: 0;
+            @include mq-down(md) {
+              font-size: rem(17);
+            }
           }
           p {
             font-size: rem(15);
             color: #6b788c;
+            @include mq-down(md) {
+              font-size: rem(14);
+            }
           }
         }
         &:last-child {
           .num {
             --_color: var(--color-secondary);
+          }
+        }
+        + div {
+          position: relative;
+          &::before {
+            position: absolute;
+            top: -26px;
+            left: 50%;
+            width: 24px;
+            height: 14px;
+            content: '';
+            background-image: url('/src/images/img_flow_arrow.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            transform: translateX(-50%);
           }
         }
       }

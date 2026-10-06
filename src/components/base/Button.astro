@@ -99,7 +99,7 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
   @use '@/styles/global' as *;
   @layer components {
     .Button {
-      --_icon-size: 1em;
+      --_icon-size: 1.2em;
       --_fit-space: calc(var(--_icon-size) / 2);
       --_pad-x: var(--spacing-sm);
       --_pad-y: 8px;
@@ -125,6 +125,7 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
       box-shadow: 0 4px 2px 0 #fff6 inset;
       transition: background var(--default-duration);
       span {
+        font-size: rem(18);
         text-shadow: 0 2px 0 0 #05338580;
       }
       &::after {
@@ -133,7 +134,7 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
         height: var(--_icon-size);
         content: '';
         background: currentcolor;
-        mask: var(--icon-arrow-right) center / contain;
+        mask: var(--icon-arrow-circle) center / contain;
       }
       &[data-icon='blank'] {
         &::after {

@@ -1,5 +1,4 @@
 ---
-import { Image, Picture } from 'astro:assets';
 import Icon from '@/components/base/Icon.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
@@ -24,7 +23,7 @@ const TelArea = [
       <Heading lv="h2" tag="h2"><span>お電話</span>でのお問い合わせ</Heading>
     </SecTitle>
     <BgBox>
-      <p>【受付時間】平日9:00〜17:00（土日・祝日休み）</p>
+      <p>【受付時間】<br class="pc-hide" />平日9:00〜17:00<br class="pc-hide" />（土日・祝日休み）</p>
       <div class="Tel__area">
         {
           TelArea.map((area) => (
@@ -47,6 +46,9 @@ const TelArea = [
   .Tel {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: var(--color-white);
     }
@@ -54,7 +56,9 @@ const TelArea = [
       background-color: var(--color-white);
     }
     :global(.BgBox) {
-      padding: 56px;
+      @include mq-up(md) {
+        padding: 56px;
+      }
     }
     p {
       font-size: rem(18);
@@ -66,6 +70,9 @@ const TelArea = [
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-top: 28px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+      }
       > div {
         display: flex;
         gap: 16px;
@@ -75,14 +82,26 @@ const TelArea = [
         color: var(--color-primary);
         background-color: #e8f3ff;
         border-radius: 20px;
+        @include mq-down(md) {
+          gap: 10px;
+          padding: 14px 18px;
+        }
         span {
+          flex-shrink: 0;
           padding: 1px 10px;
           color: var(--color-white);
           background-color: var(--color-primary);
           border-radius: var(--rounded-full);
+          @include mq-down(md) {
+            min-width: 76px;
+            text-align: center;
+          }
         }
         > div {
           font-size: rem(20);
+          @include mq-down(md) {
+            font-size: rem(17);
+          }
         }
       }
     }

@@ -232,4 +232,17 @@
       animation-iteration-count: 1 !important;
     }
   }
+.sp-hide {
+  display: block;
+
+  @include mq-down(md) {
+    display: none;
+  }
+}
+
+.pc-hide {
+  @include mq-up(md) {
+    display: none;
+  }
+}
 }

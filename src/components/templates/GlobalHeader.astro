@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Button from '@/components/base/Button.astro';
 import ButtonWrap from '@/components/base/ButtonWrap.astro';
 import Icon from '@/components/base/Icon.astro';
+import IconButton from '@/components/base/IconButton.astro';
 import NavigationMenu from '@/components/features/NavigationMenu.astro';
 import Logo from '@/images/logo.svg';
 
@@ -18,13 +19,14 @@ const { current, sticky = false } = Astro.props;
   <a href="/" class="logo">
     <Logo />
   </a>
-  <NavigationMenu class="hide-down-md" aria-label="メインメニュー">
-    <p>【受付時間】平日9:00〜17:00（土日祝休）</p>
-    <ButtonWrap justify="start">
+  <NavigationMenu aria-label="メインメニュー">
+    <p class="hide-down-md">【受付時間】平日9:00〜17:00（土日祝休）</p>
+    <ButtonWrap justify="start" class="hide-down-md">
       <Button href="#" size="lg" icon="none">
         <Fragment slot="icon-left">
           <Icon name="tel" aria-hidden />
-        </Fragment><span> お電話で相談する </span>
+        </Fragment>
+        お電話で相談する
       </Button>
       <Button href="#" variant="secondary" size="lg" icon="none">
         <Fragment slot="icon-left">
@@ -33,6 +35,14 @@ const { current, sticky = false } = Astro.props;
         お問い合わせフォーム
       </Button>
     </ButtonWrap>
+    <div class="spButtons hide-up-md">
+      <IconButton href="#" class="tel" variant="primary" shape="circle" aria-label="お電話で相談する">
+        <Icon name="tel" aria-hidden />
+      </IconButton>
+      <IconButton href="#" class="mail" variant="secondary" shape="circle" aria-label="お問い合わせフォーム">
+        <Icon name="mail" aria-hidden />
+      </IconButton>
+    </div>
   </NavigationMenu>
   {/* ハンバーガーメニューがオーバーレイの場合は、overlayをtrueにするか削除する */}
 </header>
@@ -68,6 +78,28 @@ const { current, sticky = false } = Astro.props;
       // spanはButtonコンポーネント内の要素のため、:global() で囲まないとscopeが付いて当たらない
       :global(.Button[data-variant] span) {
         text-shadow: none;
+      }
+      .spButtons {
+        display: flex;
+        gap: 8px;
+        .tel,
+        .mail {
+          --_icon-size: 20px;
+          // IconButton側は height: auto のため、縦横比の違うmailアイコンも20×20の枠に収める
+          :global(.Icon) {
+            height: 20px;
+          }
+        }
+        .tel {
+          --_bg-color: #1b6fd9;
+          --_color: var(--color-white);
+          box-shadow: 0 3px 0 0 #0f4a99;
+        }
+        .mail {
+          --_bg-color: #eb7800;
+          --_color: var(--color-white);
+          box-shadow: 0 3px 0 0 #cc610d;
+        }
       }
       p {
         font-size: rem(13);

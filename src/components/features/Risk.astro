@@ -17,11 +17,13 @@ import img_risk_before from '@/images/img_risk_before.png';
     <SecTitle tag="risk">
       <Heading lv="h2" tag="h2"
         >詰まってからでは手遅れ。<br />
-        <span class="-orange">害虫や悪臭の発生原因になります</span></Heading
+        <span class="-orange">害虫や悪臭の発生原因</span>になります</Heading
       >
       <p>
-        排水管には油汚れや髪の毛などの細かいごみが少しずつ蓄積します。<br />
-        流れが遅くなる → ニオイ・害虫の発生 → 逆流・あふれ、と段階的に悪化し、詰まってからでは対処が大掛かりになります。詰まる前の定期的な洗浄が有効です。
+        排水管には油汚れや髪の毛などの<br class="pc-hide" />細かいごみが少しずつ蓄積します。<br />
+        流れが遅くなる → ニオイ・害虫の発生 → 逆流・あふれ、と段階的に悪化し、<br
+          class="pc-hide"
+        />詰まってからでは対処が大掛かりになります。<br class="pc-hide" />詰まる前の定期的な洗浄が有効です。
       </p>
     </SecTitle>
     <div class="Risk__flow">
@@ -97,7 +99,9 @@ import img_risk_before from '@/images/img_risk_before.png';
 <style lang="scss">
   @use '@/styles/global' as *;
   .Risk {
-    padding-bottom: 80px;
+    @include mq-up(md) {
+      padding-bottom: 80px;
+    }
     margin-top: 40px;
     &::before {
       background-color: #e8f3ff;
@@ -121,6 +125,10 @@ import img_risk_before from '@/images/img_risk_before.png';
         padding: 18px;
         background-color: var(--bg_color);
         border-radius: 32px;
+        @include mq-down(md) {
+          gap: 6px;
+          height: auto;
+        }
         &__tag {
           span {
             padding: 4px 12px;
@@ -135,6 +143,9 @@ import img_risk_before from '@/images/img_risk_before.png';
           font-size: rem(18);
           font-weight: bold;
           text-align: center;
+          @include mq-down(md) {
+            font-size: rem(15);
+          }
         }
         &:last-child {
           --_color: #e55454;
@@ -154,6 +165,11 @@ import img_risk_before from '@/images/img_risk_before.png';
             height: 24px;
             content: '';
             background-image: url('/src/images/icon_arrow.png');
+            @include mq-down(md) {
+              top: -34px;
+              left: 50%;
+              transform: rotate(90deg) translateY(50%);
+            }
           }
         }
       }
@@ -164,11 +180,22 @@ import img_risk_before from '@/images/img_risk_before.png';
       text-align: center;
       background-color: #e8f3ff;
       border-radius: 40px;
+      @include mq-down(md) {
+        padding: 24px;
+        margin-top: 28px;
+        .h3 {
+          font-size: rem(22);
+        }
+      }
       > div {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 88px;
         margin-top: 40px;
+        @include mq-down(md) {
+          grid-template-columns: auto;
+          gap: 60px;
+        }
         > div {
           position: relative;
           span {
@@ -197,6 +224,11 @@ import img_risk_before from '@/images/img_risk_before.png';
               height: 32px;
               content: '';
               background-image: url('/src/images/icon_arrow_blue.png');
+              @include mq-down(md) {
+                top: -56px;
+                left: 50%;
+                transform: rotate(90deg) translateY(50%);
+              }
             }
           }
         }

@@ -6,6 +6,7 @@ import SecTitle from '@/components/base/SecTitle.astro';
 import Annotation from '../base/Annotation.astro';
 import BgBox from '../base/BgBox.astro';
 import Heading from '../base/Heading.astro';
+import { basicPackPrice } from '@/config/price';
 import img_additional01 from '@/images/img_additional01.png';
 import img_additional02 from '@/images/img_additional02.png';
 import img_additional03 from '@/images/img_additional03.png';
@@ -22,7 +23,7 @@ import img_price05 from '@/images/img_price05.png';
   <SectionInner>
     <SecTitle tag="price">
       <Heading lv="h2" tag="h2">料金</Heading>
-      <div class="price">基本パック<span>38,500</span>円（税込）</div>
+      <div class="price">基本パック<span>{basicPackPrice}</span>円（税込）</div>
     </SecTitle>
     <BgBox>
       <Heading lv="h3" tag="h3"
@@ -172,7 +173,7 @@ import img_price05 from '@/images/img_price05.png';
             />
           </div>
           <div>
-            <b>集合住宅の場合は別途お見積りいたします。</b>
+            <b>集合住宅の場合は<br class="pc-hide" />別途お見積りいたします。</b>
           </div>
         </div>
       </div>
@@ -218,13 +219,21 @@ import img_price05 from '@/images/img_price05.png';
       background-color: #ffd340;
       border-radius: var(--rounded-full);
       @include mq-down(md) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
+        padding: 14px;
+        font-size: rem(15);
       }
       span {
         margin-inline: 10px;
         font-size: rem(72);
         font-weight: 900;
         color: #cc610d;
+        @include mq-down(md) {
+          font-size: rem(32);
+        }
       }
     }
     :global(.h3) {
@@ -234,17 +243,36 @@ import img_price05 from '@/images/img_price05.png';
       }
     }
     :global(.BgBox) {
+      @include mq-down(md) {
+        padding: 32px !important;
+      }
       > div {
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 32px;
+        @include mq-down(md) {
+          flex-direction: column;
+          margin-bottom: 16px;
+        }
         > img {
           margin-inline: 24px;
+          @include mq-down(md) {
+            margin-block: 12px;
+            margin-inline: auto;
+          }
         }
         .Item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           padding: 32px;
           border-radius: 32px;
+          @include mq-down(md) {
+            width: 100%;
+            padding: 16px;
+          }
           &__tag {
             justify-content: center;
             margin-bottom: 20px;
@@ -255,12 +283,16 @@ import img_price05 from '@/images/img_price05.png';
               font-weight: bold;
               color: var(--color-white);
               border-radius: var(--rounded-full);
+              @include mq-down(md) {
+                font-size: rem(15);
+              }
             }
           }
           p {
             margin-top: 12px;
             font-size: rem(15);
             font-weight: bold;
+            text-align: center;
           }
 
           &:first-child {
@@ -274,21 +306,35 @@ import img_price05 from '@/images/img_price05.png';
             .Item__tag span {
               background-color: var(--color-primary);
             }
-            > div {
+            > div:not(.Item__tag) {
               display: flex;
               gap: 20px;
+              @include mq-down(md) {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                justify-items: center;
+                width: 100%;
+              }
             }
           }
         }
       }
       :global(.Annotation) {
         justify-content: center;
+        @include mq-down(md) {
+          font-size: rem(14);
+          text-align: center;
+        }
       }
       h4 {
         display: flex;
         align-items: center;
         font-size: rem(26);
         font-weight: bold;
+        @include mq-down(md) {
+          font-size: rem(20);
+        }
 
         &::before {
           left: 0;
@@ -306,6 +352,9 @@ import img_price05 from '@/images/img_price05.png';
         grid-template-columns: auto;
         gap: 28px;
         margin: 28px 0 0;
+        @include mq-down(md) {
+          gap: 14px;
+        }
         > div {
           display: flex;
           gap: 20px;
@@ -313,6 +362,15 @@ import img_price05 from '@/images/img_price05.png';
           padding: 16px 20px;
           background-color: #fff8e5;
           border-radius: var(--rounded-lg);
+          @include mq-down(md) {
+            flex-direction: column;
+            text-align: center;
+            .pc-hide {
+              @include mq-up(md) {
+                display: none;
+              }
+            }
+          }
         }
       }
     }
@@ -321,6 +379,11 @@ import img_price05 from '@/images/img_price05.png';
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
       margin-top: 40px;
+      @include mq-down(md) {
+        grid-template-columns: auto;
+        gap: 12px;
+        margin-top: 20px;
+      }
       :global(.BgBox) {
         > div {
           justify-content: flex-start;
@@ -328,9 +391,17 @@ import img_price05 from '@/images/img_price05.png';
           font-size: rem(24);
           font-weight: bold;
           color: var(--color-primary);
+          @include mq-down(md) {
+            margin-bottom: 16px;
+            font-size: rem(19);
+            text-align: center;
+          }
         }
         p {
           font-size: rem(15);
+          @include mq-down(md) {
+            font-size: rem(14);
+          }
         }
       }
       :global(.BgBox + .BgBox) {

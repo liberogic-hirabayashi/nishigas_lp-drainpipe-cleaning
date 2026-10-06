@@ -29,8 +29,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check01} alt="" width={151} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
         <p>
-          排水口から<br />
-          嫌なニオイが上がってくる
+          排水口から<br class="sp-hide" />嫌なニオイが上がってくる
         </p>
       </div>
       <div class="Card">
@@ -50,8 +49,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check03} alt="" width={236} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
         <p>
-          水の流れが悪く、<br />
-          シンクや浴室に水が溜まる
+          水の流れが悪く、<br class="sp-hide" />シンクや浴室に水が溜まる
         </p>
       </div>
       <div class="Card">
@@ -62,8 +60,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check04} alt="" width={208} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
         <p>
-          入居してから一度も<br />
-          排水管を洗浄したことがない
+          入居してから一度も<br class="sp-hide" />排水管を洗浄したことがない
         </p>
       </div>
       <div class="Card">
@@ -74,8 +71,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check05} alt="" width={208} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
         <p>
-          屋外の排水枡（外枡）から<br />
-          水があふれている
+          屋外の<br class="pc-hide" />排水枡（外枡）から<br class="sp-hide" />水があふれている
         </p>
       </div>
       <div class="Card">
@@ -86,8 +82,7 @@ import img_check06 from '@/images/img_check06.png';
           <Image src={img_check06} alt="" width={194} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
         <p>
-          業者ごとに料金がバラバラで、<br />
-          どこに頼めばよいか分からない
+          業者ごとに料金が<br class="pc-hide" />バラバラで、<br class="sp-hide" />どこに頼めばよいか分からない
         </p>
       </div>
     </div>
@@ -103,6 +98,7 @@ import img_check06 from '@/images/img_check06.png';
       gap: 24px;
       @include mq-down(md) {
         grid-template-columns: repeat(2, 1fr);
+        gap: 11px;
       }
 
       .Card {
@@ -113,20 +109,45 @@ import img_check06 from '@/images/img_check06.png';
         padding: 28px;
         background-color: #fff;
         border-radius: 32px;
+        @include mq-down(md) {
+          padding: 10px;
+        }
         &__tag {
           span {
-            padding: 6px 12px;
+            padding: 4px 12px;
             font-size: rem(12);
             font-weight: bold;
             color: var(--color-white);
             background-color: var(--color-primary);
             border-radius: 32px;
+            @include mq-down(md) {
+              font-size: rem(10);
+            }
           }
         }
         p {
           font-size: rem(20);
           font-weight: bold;
           text-align: center;
+          @include mq-down(md) {
+            font-size: rem(12);
+          }
+          .sp-hide {
+            @include mq-down(md) {
+              display: none;
+            }
+          }
+          .pc-hide {
+            @include mq-up(md) {
+              display: none;
+            }
+          }
+        }
+        img {
+          @include mq-down(md) {
+            width: auto;
+            height: 64px;
+          }
         }
       }
     }

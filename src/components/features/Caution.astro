@@ -27,7 +27,7 @@ import Heading from '../base/Heading.astro';
         <span>不審な業者</span>
         <div>こんな訪問にご注意</div>
         <ul>
-          <li>「近所で工事をしている」と声をかけられる</li>
+          <li>「近所で工事をしている」と<br class="pc-hide" />声をかけられる</li>
           <li>「無料で点検します」と勧誘される</li>
         </ul>
       </div>
@@ -35,7 +35,7 @@ import Heading from '../base/Heading.astro';
     <div class="Caution__list">
       <p>
         こうした飛び込み訪問をきっかけに、高額な作業を契約させられる事例が報告されています。<br />
-        ご依頼前に、以下の3点をご確認ください。
+        ご依頼前に、以下の3点を<br class="pc-hide" />ご確認ください。
       </p>
       <div>
         <ol>
@@ -53,6 +53,9 @@ import Heading from '../base/Heading.astro';
   .Caution {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: #fff8e5;
     }
@@ -65,6 +68,7 @@ import Heading from '../base/Heading.astro';
       gap: 48px;
       @include mq-down(md) {
         grid-template-columns: auto;
+        gap: 24px;
       }
       > div {
         --_color: var(--color-primary);
@@ -77,6 +81,9 @@ import Heading from '../base/Heading.astro';
         background-color: var(--bg_color);
         border: solid 3px var(--_color);
         border-radius: 40px;
+        @include mq-down(md) {
+          padding: 28px;
+        }
         span {
           position: absolute;
           top: -20px;
@@ -86,11 +93,17 @@ import Heading from '../base/Heading.astro';
           color: var(--color-white);
           background-color: var(--_color);
           border-radius: 40px;
+          @include mq-down(md) {
+            font-size: rem(17);
+          }
         }
         > div {
           font-size: rem(28);
           font-weight: bold;
           color: var(--_color);
+          @include mq-down(md) {
+            font-size: rem(22);
+          }
         }
         ul {
           display: inline-block;
@@ -100,8 +113,12 @@ import Heading from '../base/Heading.astro';
             align-items: center;
             font-size: rem(17);
             font-weight: bold;
+            @include mq-down(md) {
+              font-size: rem(15);
+            }
             &::before {
               display: block;
+              flex-shrink: 0;
               width: 20px;
               height: 20px;
               margin-right: 10px;
@@ -111,6 +128,11 @@ import Heading from '../base/Heading.astro';
             }
             + li {
               margin-top: 10px;
+            }
+            .pc-hide {
+              @include mq-up(md) {
+                display: none;
+              }
             }
           }
         }
@@ -125,8 +147,15 @@ import Heading from '../base/Heading.astro';
       margin-top: 56px;
       background-color: #fff2c7;
       border-radius: 40px;
+      @include mq-down(md) {
+        padding: 20px 32px;
+        margin-top: 28px;
+      }
       p {
         text-align: center;
+        @include mq-down(md) {
+          font-size: rem(15);
+        }
       }
       > div {
         width: 620px;
@@ -137,6 +166,7 @@ import Heading from '../base/Heading.astro';
         border-radius: 28px;
         @include mq-down(md) {
           width: 100%;
+          padding: 16px 20px;
         }
         ol {
           li {
@@ -144,8 +174,13 @@ import Heading from '../base/Heading.astro';
             align-items: center;
             font-size: rem(19);
             font-weight: bold;
+            line-height: 1.5;
+            @include mq-down(md) {
+              font-size: rem(17);
+            }
             span {
               display: flex;
+              flex-shrink: 0;
               align-items: center;
               justify-content: center;
               width: 32px;
@@ -155,6 +190,9 @@ import Heading from '../base/Heading.astro';
               color: var(--color-white);
               background-color: var(--color-secondary);
               border-radius: var(--rounded-full);
+              @include mq-down(md) {
+                margin-right: 10px;
+              }
             }
             + li {
               margin-top: 13px;

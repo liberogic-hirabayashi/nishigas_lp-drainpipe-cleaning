@@ -5,6 +5,20 @@ import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
 import Heading from '../base/Heading.astro';
+
+// Googleフォームの「事前入力したURLを取得」で各設問の entry ID を確認して設定する
+const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/【FORM_ID】/formResponse';
+const ENTRY = {
+  houseType: 'entry.【ご住宅タイプ】',
+  name: 'entry.1700126369',
+  kana: 'entry.1827714625',
+  email: 'entry.1079469528',
+  tel: 'entry.1863385176',
+  zip: 'entry.【郵便番号】',
+  address: 'entry.【住所】',
+  building: 'entry.【アパート・マンション名】',
+  message: 'entry.8158703',
+};
 ---
 
 <Section class="Contact" id="contact">
@@ -14,17 +28,17 @@ import Heading from '../base/Heading.astro';
       <p>ご登録後、ニチガスホームアシスト作業員よりご連絡させていただきます。</p>
     </SecTitle>
     <div class="Contact__formWrap">
-      <form action="">
+      <form class="form" action={GOOGLE_FORM_ACTION} method="post" data-contact-form>
         <div class="form-area">
           <dl class="form-area__item">
             <dt>ご住宅タイプ<span class="icn-require">必須</span></dt>
             <dd>
               <ul class="form-radio-list">
                 <li>
-                  <label><input type="radio" name="entry." value="戸建て" required />戸建て</label>
+                  <label><input type="radio" name={ENTRY.houseType} value="戸建て" required />戸建て</label>
                 </li>
                 <li>
-                  <label><input type="radio" name="entry." value="集合住宅" />集合住宅</label>
+                  <label><input type="radio" name={ENTRY.houseType} value="集合住宅" />集合住宅</label>
                 </li>
               </ul>
             </dd>
@@ -32,34 +46,44 @@ import Heading from '../base/Heading.astro';
           <dl class="form-area__item">
             <dt>お名前<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="text" name="entry.1700126369" required placeholder="例）佐藤　太郎" />
+              <input type="text" name={ENTRY.name} autocomplete="name" required placeholder="例）佐藤　太郎" />
             </dd>
           </dl>
-
           <dl class="form-area__item">
             <dt>カタカナ（フリガナ）<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="text" name="entry.1827714625" required placeholder="例）サトウ　タロウ" />
+              <input type="text" name={ENTRY.kana} required placeholder="例）サトウ　タロウ" />
             </dd>
           </dl>
-
           <dl class="form-area__item">
             <dt>メールアドレス<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="email" name="entry.1079469528" required placeholder="例）sample@example.com" />
+              <input
+                type="email"
+                name={ENTRY.email}
+                autocomplete="email"
+                required
+                placeholder="例）sample@example.com"
+              />
             </dd>
           </dl>
-
           <dl class="form-area__item">
             <dt>電話番号（携帯）<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="text" name="entry.1863385176" inputmode="numeric" required placeholder="例）090-1234-5678" />
+              <input type="tel" name={ENTRY.tel} autocomplete="tel" required placeholder="例）090-1234-5678" />
             </dd>
           </dl>
           <dl class="form-area__item">
             <dt>郵便番号<span class="icn-require">必須</span></dt>
             <dd>
-              <input type="text" name="entry.1863385176" inputmode="numeric" required placeholder="例）123-4567" />
+              <input
+                type="text"
+                name={ENTRY.zip}
+                inputmode="numeric"
+                autocomplete="postal-code"
+                required
+                placeholder="例）123-4567"
+              />
             </dd>
           </dl>
           <dl class="form-area__item">
@@ -67,8 +91,8 @@ import Heading from '../base/Heading.astro';
             <dd>
               <input
                 type="text"
-                name="entry.1863385176"
-                inputmode="numeric"
+                name={ENTRY.address}
+                autocomplete="street-address"
                 required
                 placeholder="例）東京都渋谷区〇〇1-2-3"
               />
@@ -77,29 +101,35 @@ import Heading from '../base/Heading.astro';
           <dl class="form-area__item">
             <dt>アパート・マンション名<span class="icn-any">任意</span></dt>
             <dd>
-              <input type="text" name="entry.1863385176" inputmode="numeric" placeholder="例）〇〇マンション101号室" />
+              <input type="text" name={ENTRY.building} placeholder="例）〇〇マンション101号室" />
             </dd>
           </dl>
           <dl class="form-area__item">
             <dt>その他お問い合わせ内容<span class="icn-any">任意</span></dt>
             <dd>
-              <textarea name="entry.8158703" placeholder="ご質問・ご要望などございましたらご記入ください"></textarea>
+              <textarea name={ENTRY.message} placeholder="ご質問・ご要望などございましたらご記入ください"></textarea>
             </dd>
           </dl>
           <div class="form-area__checkbox">
-            <input type="checkbox" /><label for="scales"><a href="/">個人情報の取り扱い</a>への同意（必須）</label>
+            <input type="checkbox" id="contact-agree" required data-contact-agree /><label for="contact-agree"
+              ><a href="/">個人情報の取り扱い</a>への同意（必須）</label
+            >
           </div>
-
           <div class="form-area__btn-box">
-            <button type="submit" disabled>
-              <Fragment slot="icon-left">
-                <Icon name="mail" aria-hidden />
-              </Fragment>
+            <button type="submit" data-contact-submit>
+              <Icon name="mail" aria-hidden />
               この内容で送る
             </button>
           </div>
+          <p class="form-error" role="alert" hidden data-contact-error>
+            送信に失敗しました。時間をおいて再度お試しください。
+          </p>
         </div>
       </form>
+      <div class="thanks" tabindex="-1" hidden data-contact-thanks>
+        <p class="thanks__title">お問い合わせありがとうございました。</p>
+        <p>内容を確認のうえ、ニチガスホームアシスト作業員よりご連絡させていただきます。</p>
+      </div>
     </div>
   </SectionInner>
 </Section>
@@ -109,6 +139,9 @@ import Heading from '../base/Heading.astro';
   .Contact {
     padding-bottom: 80px;
     margin-top: 40px;
+    @include mq-down(md) {
+      padding-bottom: 40px;
+    }
     &::before {
       background-color: #ffe038;
     }
@@ -117,6 +150,10 @@ import Heading from '../base/Heading.astro';
       margin-top: 48px;
       background-color: #e8f3ff;
       border-radius: 40px;
+      @include mq-down(md) {
+        padding: 28px;
+        margin-top: 24px;
+      }
       .form-area {
         &__item {
           display: grid;
@@ -124,11 +161,14 @@ import Heading from '../base/Heading.astro';
           gap: 24px;
           @include mq-down(md) {
             grid-template-columns: auto;
+            gap: 12px;
           }
           &:has(textarea) {
             align-items: flex-start;
             dt {
-              margin-top: 18px;
+              @include mq-up(md) {
+                margin-top: 18px;
+              }
             }
           }
           dt {
@@ -158,7 +198,7 @@ import Heading from '../base/Heading.astro';
               width: 100%;
               padding: 16px 20px;
               background-color: var(--color-white);
-              border: solid 1px #d6e3f2;
+              border: solid 2px #d6e3f2;
               border-radius: 16px;
             }
             textarea {
@@ -218,12 +258,65 @@ import Heading from '../base/Heading.astro';
             --_pad-y: 20px;
             --_gap: var(--spacing-xs);
             --_color: var(--color-white);
+            @include mq-down(md) {
+              font-size: rem(17);
+            }
             &:disabled {
               opacity: 0.6;
             }
           }
         }
       }
+      .form-error {
+        margin-block-start: var(--spacing-sm);
+        font-weight: bold;
+        color: var(--color-attention);
+        text-align: center;
+      }
+      .thanks {
+        text-align: center;
+        &__title {
+          font-size: var(--text-xl);
+          font-weight: bold;
+        }
+      }
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const agree = form.querySelector<HTMLInputElement>('[data-contact-agree]');
+    const submit = form.querySelector<HTMLButtonElement>('[data-contact-submit]');
+    const error = form.querySelector<HTMLElement>('[data-contact-error]');
+    const thanks = form.parentElement?.querySelector<HTMLElement>('[data-contact-thanks]');
+    if (!agree || !submit) return;
+
+    // JS無効時は送信できるよう、disabled はHTMLに書かずJSで付与する
+    const syncDisabled = () => (submit.disabled = !agree.checked);
+    syncDisabled();
+    agree.addEventListener('change', syncDisabled);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submit.disabled = true;
+      if (error) error.hidden = true;
+      try {
+        // Googleフォームは CORS 非対応のため no-cors で送信（レスポンスは読めないので通信失敗のみ検知できる）
+        await fetch(form.action, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>),
+        });
+        form.hidden = true;
+        if (thanks) {
+          thanks.hidden = false;
+          thanks.focus();
+        }
+      } catch {
+        if (error) error.hidden = false;
+        syncDisabled();
+      }
+    });
+  });
+</script>
