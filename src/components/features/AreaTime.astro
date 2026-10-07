@@ -67,6 +67,9 @@ import map_sp from '@/images/img_map_sp.png';
         grid-template-columns: auto;
       }
       .img {
+        :global(img) {
+          border-radius: 24px;
+        }
         @include mq-up(md) {
           grid-row: 1/3;
           grid-column: 1/2;

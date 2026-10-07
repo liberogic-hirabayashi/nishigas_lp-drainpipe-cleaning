@@ -8,7 +8,7 @@ import path, { dirname } from 'path';
 import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from './src/lib/i18nLocales';
 
 const url = 'https://www.nichigas.co.jp/';
-const base = '/drainpipe-cleaning';
+const base = '/for-home/drainpipe-cleaning';
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
@@ -47,7 +47,7 @@ export default defineConfig({
     },
   },
   site: url,
-  base, // https://www.nichigas.co.jp/drainpipe-cleaning/ に設置する
+  base, // https://www.nichigas.co.jp/for-home/drainpipe-cleaning/ に設置する
   compressHTML: false, // HTMLを圧縮する場合 'jsx' にする
   integrations: [
     sitemap({
@@ -61,7 +61,7 @@ export default defineConfig({
   ],
   server: {
     host: true,
-    open: '/drainpipe-cleaning/',
+    open: '/for-home/drainpipe-cleaning/',
   },
   build: {
     // format: 'preserve', // pagesの構造のまま出力（ファイル名.htmlを使いたい時）

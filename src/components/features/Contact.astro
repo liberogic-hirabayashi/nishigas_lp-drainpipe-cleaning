@@ -1,5 +1,6 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import Annotation from '@/components/base/Annotation.astro';
 import Icon from '@/components/base/Icon.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
@@ -87,7 +88,7 @@ const ENTRY = {
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt><label for="contact-tel">電話番号（携帯）</label><span class="icn-require">必須</span></dt>
+            <dt><label for="contact-tel">電話番号</label><span class="icn-require">必須</span></dt>
             <dd>
               <input
                 type="tel"
@@ -99,6 +100,7 @@ const ENTRY = {
                 title="ハイフンなしの半角数字10〜11桁で入力してください"
                 placeholder="例）09012345678"
               />
+              <Annotation>担当者よりご連絡いたします。連絡のつきやすいお電話番号をご記入ください。</Annotation>
             </dd>
           </dl>
           <dl class="form-area__item">
@@ -129,12 +131,18 @@ const ENTRY = {
                 required
                 placeholder="例）東京都渋谷区〇〇1-2-3"
               />
+              <Annotation>番地までご入力をお願いいたします。</Annotation>
             </dd>
           </dl>
           <dl class="form-area__item">
-            <dt><label for="contact-building">アパート・マンション名</label><span class="icn-any">任意</span></dt>
+            <dt>
+              <label for="contact-building">アパート・マンション名、<br />部屋番号</label><span class="icn-any"
+                >任意</span
+              >
+            </dt>
             <dd>
               <input type="text" id="contact-building" name={ENTRY.building} placeholder="例）〇〇マンション101号室" />
+              <Annotation>集合住宅のお客さまはお部屋番号までご入力ください。</Annotation>
             </dd>
           </dl>
           <dl class="form-area__item">
@@ -271,6 +279,9 @@ const ENTRY = {
             @include mq-down(md) {
               margin-top: 12px;
             }
+          }
+          :global(.Annotation) {
+            font-size: rem(12);
           }
         }
         &__checkbox {

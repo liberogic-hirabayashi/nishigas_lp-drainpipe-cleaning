@@ -92,6 +92,9 @@ import img_check06 from '@/images/img_check06.png';
 <style lang="scss">
   @use '@/styles/global' as *;
   .Check {
+    &::before {
+      display: none;
+    }
     &__items {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

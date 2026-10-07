@@ -32,7 +32,7 @@ const TelArea = [
               <Fragment slot="icon-left">
                 <Icon name="tel" aria-hidden />
               </Fragment>
-              <div>{area.tel}</div>
+              <a href={`tel:${area.tel.replaceAll('-', '')}`}>{area.tel}</a>
             </div>
           ))
         }
@@ -101,8 +101,10 @@ const TelArea = [
           background-color: var(--color-primary);
           border-radius: var(--rounded-full);
         }
-        > div {
+        > a {
           font-size: rem(20);
+          color: inherit;
+          text-decoration: none;
           @include mq-down(md) {
             font-size: rem(17);
           }

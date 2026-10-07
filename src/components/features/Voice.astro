@@ -14,13 +14,13 @@ import face from '@/images/img_face.png';
   <SectionInner>
     <SecTitle tag="Voice">
       <Heading lv="h2" tag="h2"
-        >お客様の声<br />
+        >お客さまの声<br />
         <span class="-orange">2,000件</span>の施工実績</Heading
       >
     </SecTitle>
     {/* SPの横スクロール領域をキーボードでも操作できるようにするため */}
     {/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}
-    <div class="Voice__slider" role="region" aria-label="お客様の声一覧" tabindex="0">
+    <div class="Voice__slider" role="region" aria-label="お客さまの声一覧" tabindex="0">
       <BgBox>
         <div class="Voice__contents">
           <div class="heading">
@@ -73,11 +73,11 @@ import face from '@/images/img_face.png';
       </BgBox>
     </div>
     <div class="Voice__nav hide-up-md">
-      <IconButton class="prev" variant="outline" shape="circle" aria-label="前のお客様の声" disabled>
+      <IconButton class="prev" variant="outline" shape="circle" aria-label="前のお客さまの声" disabled>
         <Image src={arrow} alt="" width={16} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
       </IconButton>
       <div class="dots"></div>
-      <IconButton class="next" variant="outline" shape="circle" aria-label="次のお客様の声">
+      <IconButton class="next" variant="outline" shape="circle" aria-label="次のお客さまの声">
         <Image src={arrow} alt="" width={16} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
       </IconButton>
     </div>
@@ -223,7 +223,7 @@ import face from '@/images/img_face.png';
     const dots = slides.map((_, i) => {
       const dot = document.createElement('button');
       dot.type = 'button';
-      dot.setAttribute('aria-label', `${i + 1}件目のお客様の声を表示`);
+      dot.setAttribute('aria-label', `${i + 1}件目のお客さまの声を表示`);
       dot.addEventListener('click', () => goTo(i));
       dotsWrap.append(dot);
       return dot;

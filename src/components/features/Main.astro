@@ -16,86 +16,133 @@ import SpImage02 from '@/images/img_sp02.png';
 ---
 
 <Section class="Main" tag="div">
-  <SectionInner>
-    <div class="Main__contents">
-      <div class="Main__copy"><span>屋内からも屋外からも、まるごと高圧洗浄</span></div>
-      <Heading lv="h1" tag="h1">
-        <Image
-          src={Title}
-          alt="排水管高圧洗浄"
-          width={720}
-          densities={[1.5, 2]}
-          format="avif"
-          quality={50}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </Heading>
-      <div class="Main__lead">
-        キッチン・洗面台・浴室・洗濯排水の屋内4箇所と、<br />
-        屋外の外枡10枡まで。
-      </div>
-      <div class="Main__spImage">
-        <Image src={SpImage01} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
-        <Image src={SpImage02} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
-      </div>
-      <div class="Main__features">
-        <div>
-          基本パック
-          <span class="num">{basicPackPrice}</span>円（税込）
+  <div class="Main__wrapper">
+    <SectionInner>
+      <div class="Main__contents">
+        <div class="Main__copy"><span>屋内からも屋外からも、まるごと高圧洗浄</span></div>
+        <Heading lv="h1" tag="h1">
+          <Image
+            src={Title}
+            alt="排水管高圧洗浄"
+            width={720}
+            densities={[1.5, 2]}
+            format="avif"
+            quality={50}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </Heading>
+        <div class="Main__lead">
+          キッチン・洗面台・浴室・洗濯排水の屋内4箇所と、<br />
+          屋外の外枡10枡まで。
         </div>
-        <div>
-          電話ですぐに
-          <span class="">お見積もり</span>
+        <div class="Main__spImage">
+          <Image src={SpImage01} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
+          <Image src={SpImage02} alt="" width={160} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         </div>
-        <div>
-          累計
-          <span class="num">2,000</span>件以上
-          <Annotation mark="※">2026年〇月末時点</Annotation>
+        <div class="Main__features">
+          <div>
+            基本パック
+            <span class="num">{basicPackPrice}</span>円（税込）
+          </div>
+          <div>
+            電話ですぐに
+            <span class="">お見積もり</span>
+          </div>
+          <div>
+            累計
+            <span class="num">2,000</span>件以上
+            <Annotation mark="※">2026年9月末時点</Annotation>
+          </div>
         </div>
+        <p>施工は安心のニチガスホームアシスト株式会社が行います</p>
+        <ButtonWrap justify="start">
+          <Button href="#tel">
+            <span class="speechbubble">平日9:00〜17:00</span>
+            <Fragment slot="icon-left">
+              <Icon name="tel" aria-hidden />
+            </Fragment>
+            <span>＼ 電話ですぐにお見積もり ／</span>
+            お電話で相談する
+          </Button>
+          <Button href="#contact" variant="secondary">
+            <span class="speechbubble">24時間受付</span>
+            <Fragment slot="icon-left">
+              <Icon name="mail" aria-hidden />
+            </Fragment>
+            <span>＼ 見積もり・キャンセル料無料 ／</span>お問い合わせフォーム
+          </Button>
+        </ButtonWrap>
+        <ButtonWrap justify="start">
+          <a href="/" class="Button -outline">
+            <Fragment slot="icon-left">
+              <IconMovie />
+            </Fragment>
+            <span>動画で確認する</span>
+          </a>
+        </ButtonWrap>
       </div>
-      <p>施工は安心のニチガスホームアシスト株式会社が行います</p>
-      <ButtonWrap justify="start">
-        <Button href="#tel">
-          <span class="speechbubble">平日9:00〜17:00</span>
-          <Fragment slot="icon-left">
-            <Icon name="tel" aria-hidden />
-          </Fragment>
-          <span>＼ 電話ですぐにお見積もり ／</span>
-          お電話で相談する
-        </Button>
-        <Button href="#contact" variant="secondary">
-          <span class="speechbubble">24時間受付</span>
-          <Fragment slot="icon-left">
-            <Icon name="mail" aria-hidden />
-          </Fragment>
-          <span>＼ 見積もり・キャンセル料無料 ／</span>お問い合わせフォーム
-        </Button>
-      </ButtonWrap>
-      <ButtonWrap justify="start">
-        <a href="/" class="Button -outline">
-          <Fragment slot="icon-left">
-            <IconMovie />
-          </Fragment>
-          <span>動画で確認する</span>
-        </a>
-      </ButtonWrap>
-    </div>
-  </SectionInner>
+    </SectionInner>
+  </div>
 </Section>
 
 <style lang="scss">
   @use '@/styles/global' as *;
   .Main {
-    padding-bottom: 80px;
+    padding-block: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, #dbedff 0%, var(--color-bg-orange) 100%);
 
     $this: &;
-    overflow: hidden;
-    background-image: url('@/images/bg.png');
-    background-size: cover;
-    @include mq-down(md) {
-      padding: 24px 0 40px;
-      background-image: url('@/images/bg_sp.png');
+    &::before,
+    &::after {
+      position: absolute;
+      z-index: 1;
+      content: '';
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include mq-down(md) {
+        display: none;
+      }
+    }
+    &::before {
+      top: 80px;
+      left: -16px;
+      width: vw(340, 1280);
+      min-width: 240px;
+      max-width: 440px;
+      height: auto;
+      aspect-ratio: 636 / 810;
+      background-image: url('@/images/main01.png');
+    }
+    &::after {
+      top: 133px;
+      right: -120px;
+      width: vw(462, 1280);
+      min-width: 362px;
+      max-width: 562px;
+      height: auto;
+      aspect-ratio: 1020 / 1176;
+      background-image: url('@/images/main02.png');
+    }
+
+    &__wrapper {
+      max-width: 1500px;
+      padding-block: 80px;
+      margin-inline: auto;
+      background-image: url('@/images/bg.png');
+      background-repeat: no-repeat;
+      background-position: 50% -80px;
+      background-size: 1480px 840px;
+      @include mq-down(md) {
+        padding: 24px 0 40px;
+        // 画像の下端が線に見えないよう、画像の下30%を Check の背景色へなじませる（233.2vw = bg_sp.png の縦横比 1749 / 750）
+        background-image: linear-gradient(transparent 70%, var(--color-bg-orange)), url('@/images/bg_sp.png');
+        background-position: 50% 0;
+        background-size:
+          100% 233.2vw,
+          100% auto;
+      }
     }
     &__contents {
       position: relative;
@@ -103,31 +150,7 @@ import SpImage02 from '@/images/img_sp02.png';
       display: flex;
       flex-direction: column;
       align-items: center;
-      &::before,
-      &::after {
-        position: absolute;
-        z-index: -1;
-        content: '';
-        background-repeat: no-repeat;
-        background-size: contain;
-        @include mq-down(md) {
-          display: none;
-        }
-      }
-      &::before {
-        top: 0;
-        left: -150px;
-        width: 340px;
-        height: 405px;
-        background-image: url('@/images/main01.png');
-      }
-      &::after {
-        top: 53px;
-        right: -200px;
-        width: 462px;
-        height: 540px;
-        background-image: url('@/images/main02.png');
-      }
+
       .h1 {
         margin-block: 16px;
         line-height: 1;
@@ -266,6 +289,7 @@ import SpImage02 from '@/images/img_sp02.png';
           flex-direction: column;
           font-size: rem(12);
           color: #ffe566;
+          text-shadow: none;
         }
         .speechbubble {
           position: absolute;

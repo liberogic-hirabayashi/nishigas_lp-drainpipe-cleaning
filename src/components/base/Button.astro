@@ -137,6 +137,7 @@ const isPdf = icon === 'pdf' || (typeof href === 'string' && /\.pdf(?:$|[?#])/i.
         height: var(--_icon-size);
         content: '';
         background: currentcolor;
+        background-repeat: no-repeat;
         mask: var(--icon-arrow-circle) center / contain;
       }
       &[data-icon='blank'] {
