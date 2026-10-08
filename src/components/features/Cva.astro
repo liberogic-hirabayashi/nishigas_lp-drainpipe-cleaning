@@ -109,7 +109,13 @@ void illust.src;
       background-image: url('@/images/cva_illust.png');
       background-size: contain;
       @include mq-down(lg) {
-        display: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        content: '';
+        background-image: url('@/images/cva_deco_sp.png');
+        background-size: cover;
       }
     }
 
@@ -125,6 +131,9 @@ void illust.src;
         z-index: -1;
         content: '';
         background-size: cover;
+        @include mq-down(md) {
+          display: none;
+        }
       }
       &::before {
         top: 0;

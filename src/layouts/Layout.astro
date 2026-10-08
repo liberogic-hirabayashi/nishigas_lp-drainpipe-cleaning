@@ -12,6 +12,7 @@ import MainContent from '@/components/templates/MainContent.astro';
 import MetaHead from '@/components/templates/MetaHead.astro';
 
 import SkipLink from '@/components/base/SkipLink.astro';
+import ProductionOnly from '@/components/utils/ProductionOnly.astro';
 
 interface Props {
   title?: string;
@@ -30,6 +31,23 @@ const locale = Astro.currentLocale ?? DEFAULT_LOCALE;
 <!doctype html>
 <html lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}>
   <head>
+    <meta charset="utf-8" />
+    <ProductionOnly>
+      <!-- Google Tag Manager -->
+      <script is:inline>
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WLPCFWT');
+      </script>
+      <!-- End Google Tag Manager -->
+    </ProductionOnly>
     <MetaHead title={title} description={description} url={url} ogimage={ogimage} metakey={metakey} noindex={noindex} />
     {/* <ClientRouter /> */}
     <script>
@@ -38,6 +56,18 @@ const locale = Astro.currentLocale ?? DEFAULT_LOCALE;
     <slot name="head" />
   </head>
   <body>
+    <ProductionOnly>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript
+        ><iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-WLPCFWT"
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager"></iframe></noscript
+      >
+      <!-- End Google Tag Manager (noscript) -->
+    </ProductionOnly>
     <SkipLink href="#main" />
     <GlobalHeader current={current} />
     <slot name="mainBefore" />
