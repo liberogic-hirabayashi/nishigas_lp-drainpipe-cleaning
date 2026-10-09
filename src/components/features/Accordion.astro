@@ -11,8 +11,8 @@ const { open, name, class: className, ...rest } = Astro.props;
 <details class:list={['Accordion', className]} open={open} name={name} {...rest}>
   <summary class="summary">
     <span>
-      <span>Q</span>
-      <slot name="summary" />
+      <span class="icon">Q</span>
+      <span class="text"><slot name="summary" /></span>
     </span>
   </summary>
   <div class="panel">
@@ -70,7 +70,7 @@ const { open, name, class: className, ...rest } = Astro.props;
               right: -42px;
             }
           }
-          > span {
+          > .icon {
             display: flex;
             flex-shrink: 0;
             align-items: center;

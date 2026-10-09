@@ -17,7 +17,8 @@ for (let key in _default) {
 
 const ogImageURL = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/img/${meta.ogImage}`, Astro.site);
 
-const canonicalURL = url ? url : new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname.endsWith('/') ? `${Astro.url.pathname}index.html` : Astro.url.pathname;
+const canonicalURL = url ? url : new URL(pathname, Astro.site);
 ---
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />

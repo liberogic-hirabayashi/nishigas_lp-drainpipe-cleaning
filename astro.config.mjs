@@ -53,9 +53,15 @@ export default defineConfig({
     sitemap({
       // sitemap.xmlから除外するページを指定
       filter: (page) => {
-        const isExcluded = page === `${url}/[directory]/` || page.includes('/preview/') || page.endsWith('/404.html');
+        const isExcluded =
+          page === `${url}/[directory]/` ||
+          page.includes('/preview/') ||
+          page.includes('/demo/') ||
+          page.endsWith('/404.html');
         return !isExcluded;
       },
+      // canonical（MetaHead.astro）と揃えるため、ディレクトリURLには index.html を付ける
+      serialize: (item) => ({ ...item, url: item.url.endsWith('/') ? `${item.url}index.html` : item.url }),
     }),
     htmlBeautifier(beautifierOption),
   ],
@@ -74,7 +80,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     build: {
       assetsInlineLimit: 0, // 常にアセットファイルとして出力
-       cssCodeSplit: false, // falseでcssを分割しないで出力
+      cssCodeSplit: false, // falseでcssを分割しないで出力
       rollupOptions: {
         output: {
           assetFileNames: (assetInfo) => {
