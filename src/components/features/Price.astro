@@ -174,7 +174,7 @@ import img_price05 from '@/images/img_price05.png';
         display: flex;
         align-items: center;
         justify-content: center;
-        width: calc(100% - 40px);
+        width: calc(100% - 0px);
         padding: 12px;
         font-size: rem(15);
       }
@@ -190,6 +190,9 @@ import img_price05 from '@/images/img_price05.png';
       }
       sup {
         top: -32px;
+        @include mq-down(md) {
+          top: -10px;
+        }
       }
     }
     :global(.h3) {

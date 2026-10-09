@@ -35,8 +35,8 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
     <div class="Contact__formWrap">
       <form class="form" action={GOOGLE_FORM_ACTION} method="post" data-contact-form>
         <div class="form-area">
-          <fieldset class="form-area__item">
-            <legend>ご住宅タイプ<span class="icn-require">必須</span></legend>
+          <div class="form-area__item" role="group" aria-labelledby="contact-house-type-label">
+            <p class="legend" id="contact-house-type-label">ご住宅タイプ<span class="icn-require">必須</span></p>
             <div class="field">
               <ul class="form-radio-list">
                 <li>
@@ -47,7 +47,7 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
                 </li>
               </ul>
             </div>
-          </fieldset>
+          </div>
           <dl class="form-area__item">
             <dt><label for="contact-name">お名前</label><span class="icn-require">必須</span></dt>
             <dd>
@@ -148,8 +148,8 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
               <Annotation>集合住宅のお客さまはお部屋番号までご入力ください。</Annotation>
             </dd>
           </dl>
-          <fieldset class="form-area__item">
-            <legend>日程調整の連絡希望時間<span class="icn-require">必須</span></legend>
+          <div class="form-area__item" role="group" aria-labelledby="contact-time-label">
+            <p class="legend" id="contact-time-label">日程調整の連絡希望時間<span class="icn-require">必須</span></p>
             <div class="field">
               <ul class="form-radio-list">
                 {
@@ -164,7 +164,7 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
                 }
               </ul>
             </div>
-          </fieldset>
+          </div>
           <dl class="form-area__item">
             <dt><label for="contact-message">その他お問い合わせ内容</label><span class="icn-any">任意</span></dt>
             <dd>
@@ -223,10 +223,6 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
           display: grid;
           grid-template-columns: 300px 1fr;
           gap: 24px;
-          min-inline-size: 0;
-          padding: 0;
-          margin-inline: 0;
-          border: 0;
           @include mq-down(md) {
             grid-template-columns: auto;
             gap: 8px;
@@ -240,7 +236,7 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
             }
           }
           dt,
-          legend {
+          .legend {
             display: flex;
             gap: 10px;
             align-items: center;
@@ -263,11 +259,6 @@ const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
                 background-color: #6b788c;
               }
             }
-          }
-          // float させると rendered legend 扱いが外れ、fieldset の grid アイテムとして dt と同じ位置に並ぶ
-          legend {
-            float: left;
-            padding: 0;
           }
           dd,
           .field {
