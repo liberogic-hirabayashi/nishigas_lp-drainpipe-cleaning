@@ -8,8 +8,8 @@ import { basicPackPrice } from '@/config/price';
 
 const FaqList = [
   {
-    Q: `料金は${basicPackPrice}円だけで済みますか？`,
-    A: `一般戸建住宅で基本の作業範囲であれば${basicPackPrice}円（税込）です。トイレの屋内高圧洗浄、キッチン排水トラップがS管の場合、基本範囲を超える追加箇所がある場合は追加料金となります。事前調査のうえ正式にお見積もりいたします。`,
+    Q: `料金は${basicPackPrice}円<sup>※1</sup>だけで済みますか？`,
+    A: `一般戸建住宅で基本の作業範囲であれば${basicPackPrice}円（税込）<sup>※1</sup>です。トイレの屋内高圧洗浄、キッチン排水トラップがS管の場合、基本範囲を超える追加箇所がある場合は追加料金となります。事前調査のうえ正式にお見積もりいたします。`,
   },
   {
     Q: 'どのくらいの頻度で洗浄すればよいですか？',
@@ -67,8 +67,8 @@ const FaqList = [
     {
       FaqList.map((faq) => (
         <Accordion>
-          <Fragment slot="summary">{faq.Q}</Fragment>
-          {faq.A}
+          <Fragment slot="summary" set:html={faq.Q} />
+          <p set:html={faq.A} />
         </Accordion>
       ))
     }
