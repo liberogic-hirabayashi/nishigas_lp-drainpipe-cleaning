@@ -43,11 +43,11 @@ import SpImage02 from '@/images/img_sp02.png';
         <div class="Main__features">
           <div>
             基本パック
-            <span class="num">{basicPackPrice}</span>円（税込）
+            <span class="num">{basicPackPrice}</span>円（税込）<sup>※</sup>
           </div>
           <div>
             電話ですぐに
-            <span class="">お見積もり</span>
+            <span>お見積もり</span>
           </div>
           <div>
             累計
@@ -74,7 +74,7 @@ import SpImage02 from '@/images/img_sp02.png';
           </Button>
         </ButtonWrap>
         <ButtonWrap justify="start">
-          <a href="/" class="Button -outline">
+          <a href="https://youtu.be/efdYyW4ldS4" target="_blank" class="Button -outline">
             <Fragment slot="icon-left">
               <IconMovie aria-hidden />
             </Fragment>
@@ -209,6 +209,10 @@ import SpImage02 from '@/images/img_sp02.png';
             width: vw(109, 375);
             height: vw(109, 375);
             font-size: rem(10);
+          }
+          sup {
+            top: -16px;
+            right: -34px;
           }
           > span {
             display: block;

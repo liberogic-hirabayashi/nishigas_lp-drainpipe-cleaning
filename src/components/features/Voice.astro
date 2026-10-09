@@ -4,6 +4,7 @@ import IconButton from '@/components/base/IconButton.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
+import Annotation from '../base/Annotation.astro';
 import BgBox from '../base/BgBox.astro';
 import Heading from '../base/Heading.astro';
 import arrow from '@/images/icon_arrow_blue.png';
@@ -15,8 +16,9 @@ import face from '@/images/img_face.png';
     <SecTitle tag="Voice">
       <Heading lv="h2" tag="h2"
         >お客さまの声<br />
-        <span class="-orange">2,000件</span>の施工実績</Heading
+        <span class="-orange">2,000件<sup>※</sup></span>の施工実績</Heading
       >
+      <Annotation mark="※" tag="div" justify="center">2026年9月末時点</Annotation>
     </SecTitle>
     {/* SPの横スクロール領域をキーボードでも操作できるようにするため */}
     {/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}

@@ -3,6 +3,7 @@ import { Image, Picture } from 'astro:assets';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
+import Annotation from '../base/Annotation.astro';
 import Heading from '../base/Heading.astro';
 import img_reason01 from '@/images/img_reason01.png';
 import img_reason02 from '@/images/img_reason02.png';
@@ -56,12 +57,13 @@ import img_reason04 from '@/images/img_reason04.png';
             Reason<span>03</span>
           </div>
           <Heading tag="h3" lv="h3">
-            ガス・電気のご契約数200万件超。<br />
+            ガス・電気のご契約数200万件超。<sup>※</sup><br />
             エネルギー事業で培った<br />
             地域に根ざした対応力</Heading
           >
           <p>
             私たちは現場経験豊富な職人ネットワークを活かし、関東圏を中心に水まわりのトラブルを未然に防ぎ、安心な暮らしを守ってまいります。
+            <Annotation mark="※">2026年9月末現在</Annotation>
           </p>
         </div>
         <div class="Card__img">
@@ -75,7 +77,7 @@ import img_reason04 from '@/images/img_reason04.png';
           </div>
           <Heading tag="h3" lv="h3">
             給湯器交換やリフォームなど、<br />
-            住まいのお困りごとも<br />
+            お住まいのお困りごとも<br />
             まとめて相談できます</Heading
           >
           <p>ガス機器からリフォーム、住まいに関するサービスまで幅広く提供し、お客さまの暮らしをトータルでサポート。</p>

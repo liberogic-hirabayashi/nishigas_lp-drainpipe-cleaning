@@ -23,7 +23,7 @@ import img_price05 from '@/images/img_price05.png';
   <SectionInner>
     <SecTitle tag="price">
       <Heading lv="h2" tag="h2">料金</Heading>
-      <div class="price">基本パック<span>{basicPackPrice}</span>円（税込）</div>
+      <div class="price">基本パック<span>{basicPackPrice}</span>円（税込）<sup>※</sup></div>
     </SecTitle>
     <BgBox>
       <Heading lv="h3" tag="h3">基本の作業範囲</Heading>
@@ -110,65 +110,21 @@ import img_price05 from '@/images/img_price05.png';
       <div class="Price__additional">
         <div>
           <div>
-            <Image
-              src={img_additional01}
-              alt=""
-              width={56}
-              densities={[1.5, 2]}
-              format="avif"
-              quality={80}
-              loading="lazy"
-            />
-          </div>
-          <div>
             <p>トイレの屋内高圧洗浄は追加オプションとなります（便器内からの高圧洗浄はできません）。</p>
             <p>トイレを脱着せずに行うオプションは薬剤洗浄・空気圧縮ポンプによる作業です。</p>
           </div>
         </div>
         <div>
           <div>
-            <Image
-              src={img_additional02}
-              alt=""
-              width={56}
-              densities={[1.5, 2]}
-              format="avif"
-              quality={80}
-              loading="lazy"
-            />
-          </div>
-          <div>
             <p>キッチン排水トラップがS管の場合は追加料金が発生します。</p>
           </div>
         </div>
         <div>
           <div>
-            <Image
-              src={img_additional03}
-              alt=""
-              width={56}
-              densities={[1.5, 2]}
-              format="avif"
-              quality={80}
-              loading="lazy"
-            />
-          </div>
-          <div>
             <p>基本の作業範囲を超える追加箇所がある場合は追加料金が発生します。</p>
           </div>
         </div>
         <div>
-          <div>
-            <Image
-              src={img_additional04}
-              alt=""
-              width={56}
-              densities={[1.5, 2]}
-              format="avif"
-              quality={80}
-              loading="lazy"
-            />
-          </div>
           <div>
             <p>集合住宅の場合は<br class="hide-up-md" />別途お見積もりいたします。</p>
           </div>
@@ -231,6 +187,9 @@ import img_price05 from '@/images/img_price05.png';
           margin-inline: 4px;
           font-size: rem(32);
         }
+      }
+      sup {
+        top: -32px;
       }
     }
     :global(.h3) {

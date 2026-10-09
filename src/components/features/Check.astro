@@ -1,5 +1,6 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import Annotation from '@/components/base/Annotation.astro';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
@@ -57,7 +58,7 @@ import img_check06 from '@/images/img_check06.png';
           <span>CHECK 04</span>
         </div>
         <div>
-          <Image src={img_check04} alt="" width={208} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
+          <Image src={img_check06} alt="" width={208} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
           入居してから一度も<br class="hide-down-md" />排水管を洗浄したことがない
@@ -79,13 +80,14 @@ import img_check06 from '@/images/img_check06.png';
           <span>CHECK 06</span>
         </div>
         <div>
-          <Image src={img_check06} alt="" width={194} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
+          <Image src={img_check04} alt="" width={194} densities={[1.5, 2]} format="avif" quality={80} loading="lazy" />
         </div>
         <p>
           業者ごとに料金が<br class="hide-up-md" />バラバラで、<br class="hide-down-md" />どこに頼めばよいか分からない
         </p>
       </div>
     </div>
+    <Annotation mark="※イラストはイメージです。" justify="center" class="mt-4" />
   </SectionInner>
 </Section>
 

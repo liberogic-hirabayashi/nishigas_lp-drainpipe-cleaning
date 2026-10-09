@@ -40,7 +40,7 @@ const { tag } = Astro.props;
           font-size: rem(21);
         }
       }
-      :global(span) {
+      :global(span:not(.mark)) {
         color: var(--color-primary);
 
         &.-orange {

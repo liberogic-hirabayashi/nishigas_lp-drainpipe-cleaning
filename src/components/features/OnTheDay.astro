@@ -3,8 +3,8 @@ import { Image, Picture } from 'astro:assets';
 import Section from '@/components/base/Section.astro';
 import SectionInner from '@/components/base/SectionInner.astro';
 import SecTitle from '@/components/base/SecTitle.astro';
+import Annotation from '../base/Annotation.astro';
 import Heading from '../base/Heading.astro';
-
 import BeforeAfterBlock from './BeforeAfterBlock.astro';
 ---
 
@@ -24,6 +24,7 @@ import BeforeAfterBlock from './BeforeAfterBlock.astro';
         <div>所要時間</div>
         <p><b>作業時間の目安は</b></p>
         <span>約90分</span>
+        <p class="mt-2"><Annotation mark="※" tag="span">基本パックの場合</Annotation></p>
       </div>
       <div class="item">
         <span class="num">2</span>

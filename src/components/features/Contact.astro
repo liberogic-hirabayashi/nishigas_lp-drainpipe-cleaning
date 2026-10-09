@@ -19,8 +19,11 @@ const ENTRY = {
   zip: 'entry.682620208',
   address: 'entry.822879137',
   building: 'entry.1259925314',
+  contactTime: 'entry.637669045',
   message: 'entry.1081246126',
 };
+// value は Googleフォームの選択肢と完全一致させる（「～」は全角）
+const CONTACT_TIMES = ['午前中（9～12時）', '13～15時', '15～17時'];
 ---
 
 <Section class="Contact" id="contact">
@@ -145,6 +148,23 @@ const ENTRY = {
               <Annotation>集合住宅のお客さまはお部屋番号までご入力ください。</Annotation>
             </dd>
           </dl>
+          <fieldset class="form-area__item">
+            <legend>日程調整の連絡希望時間<span class="icn-require">必須</span></legend>
+            <div class="field">
+              <ul class="form-radio-list">
+                {
+                  CONTACT_TIMES.map((time) => (
+                    <li>
+                      <label>
+                        <input type="radio" name={ENTRY.contactTime} value={time} required />
+                        {time}
+                      </label>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </fieldset>
           <dl class="form-area__item">
             <dt><label for="contact-message">その他お問い合わせ内容</label><span class="icn-any">任意</span></dt>
             <dd>
@@ -267,7 +287,8 @@ const ENTRY = {
             }
             .form-radio-list {
               display: flex;
-              gap: 32px;
+              flex-wrap: wrap;
+              gap: 12px 32px;
               input {
                 width: auto;
                 margin-right: 10px;

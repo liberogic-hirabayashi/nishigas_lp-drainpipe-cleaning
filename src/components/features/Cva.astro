@@ -43,8 +43,7 @@ void illust.src;
       <div class="text">
         <Image src={illust} alt="" width={87} densities={[1.5, 2]} format="avif" quality={50} loading="lazy" />
         <p>
-          基本パック<span>{basicPackPrice}円<span>（税込）</span></span
-          >電話ですぐにお見積もり。お見積もり後の追加費用はいただきません
+          基本パック<span>{basicPackPrice}円<span>（税込）</span><sup>※</sup></span>電話ですぐにお見積もり。
         </p>
       </div>
       <ButtonWrap justify="start">
@@ -210,7 +209,11 @@ void illust.src;
             font-size: rem(17);
             line-height: 1.5;
             letter-spacing: -0.04rem;
-            > span {
+          }
+          > span {
+            margin-inline: -4px;
+            font-size: rem(17);
+            @include mq-down(md) {
               font-size: rem(10);
             }
           }
