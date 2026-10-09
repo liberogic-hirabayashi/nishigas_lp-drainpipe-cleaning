@@ -1,9 +1,22 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import List from '@/components/base/List.astro';
+import Annotation from '../base/Annotation.astro';
 import Logo from '@/images/footer_logo.svg';
 ---
 
 <footer class="GlobalFooter">
+  <div class="GlobalFooter__notice">
+    <Annotation mark="※1">基本パック38,500円（税抜）について</Annotation>
+    <List tag="ul" type="disc">
+      <li>金額は、一般戸建住宅が対象で屋外は、外枡10枡以下。</li>
+      <li>室内はキッチン、洗面台、浴室、洗濯排水の4箇所が基本となります。</li>
+      <li>現場状況にて作業内容は異なる場合があり、別の個所などに変更となる場合があります。</li>
+      <li>トイレ屋内高圧洗浄については、追加オプションです。</li>
+      <li>追加箇所やキッチン排水トラップがS管の場合には追加料金が発生します。</li>
+      <li>集合住宅の場合は、別途お見積もりをさせていただきます。</li>
+    </List>
+  </div>
   <div>
     <a href="/"> <Logo aria-label="ロゴ：ニチガス" /></a>
   </div>
@@ -28,7 +41,7 @@ import Logo from '@/images/footer_logo.svg';
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 80px 40px 48px;
+      padding: 72px 40px 48px;
       margin-top: 40px;
       background: #213354;
       @include mq-down(md) {
@@ -78,6 +91,18 @@ import Logo from '@/images/footer_logo.svg';
         font-weight: bold;
         color: var(--color-white);
         text-align: center;
+      }
+      &__notice {
+        margin-bottom: 72px;
+        font-size: rem(14);
+        color: var(--color-white);
+        @include mq-down(md) {
+          margin-bottom: 56px;
+        }
+        :global(.Annotation) {
+          font-size: rem(14);
+          color: var(--color-white);
+        }
       }
     }
   }
